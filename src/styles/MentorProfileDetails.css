@@ -1,0 +1,633 @@
+/* ===================================================
+   StartupArena — Mentor Profile Details
+   Aesthetic: Dark Editorial · Review Command · Refined
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.055);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(108, 71, 255, 0.6);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --green: #22c55e;
+  --green-dim: rgba(34, 197, 94, 0.1);
+  --green-border: rgba(34, 197, 94, 0.25);
+  --red: #ef4444;
+  --red-dim: rgba(239, 68, 68, 0.1);
+  --red-border: rgba(239, 68, 68, 0.25);
+  --amber: #f59e0b;
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --navbar-height: 84px;
+}
+
+/* ── Page wrapper ── */
+.mentor-details-container {
+  min-height: 100vh;
+  padding: calc(var(--navbar-height) + 2.5rem) 2rem 6rem;
+  background: var(--bg);
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+/* Ambient blobs */
+.mentor-details-container::before,
+.mentor-details-container::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mentor-details-container::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.12) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+
+.mentor-details-container::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ── Page Title ── */
+.mentor-details-container h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 2rem;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+.mentor-details-container h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin-top: 0.65rem;
+}
+
+/* ── Cards ── */
+.mentor-details-container .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 4px 24px rgba(0, 0, 0, 0.3);
+
+  animation: fadeUp 0.45s var(--transition) both;
+}
+
+.mentor-details-container .card:nth-child(2) { animation-delay: 0.08s; }
+.mentor-details-container .card:nth-child(3) { animation-delay: 0.14s; }
+.mentor-details-container .card:nth-child(4) { animation-delay: 0.20s; }
+.mentor-details-container .card:nth-child(5) { animation-delay: 0.26s; }
+.mentor-details-container .card:nth-child(6) { animation-delay: 0.32s; }
+
+/* Shimmer top line */
+.mentor-details-container .card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Card Section Headings ── */
+.mentor-details-container .card h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Info paragraphs ── */
+.mentor-details-container .card p {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  color: #ffffff;
+  margin: 0 0 0.65rem;
+  line-height: 1.6;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.mentor-details-container .card p:last-of-type {
+  margin-bottom: 0;
+}
+
+.mentor-details-container .card p b {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+/* ── TRL Badge ── */
+.trl-badge {
+  display: inline-flex !important;
+  align-items: center;
+  padding: 0.5rem 1.25rem !important;
+  border-radius: 999px !important;
+  font-family: 'Cabinet Grotesk', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.02em;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
+  box-shadow: 0 4px 20px rgba(108, 71, 255, 0.4);
+  width: fit-content !important;
+}
+
+/* ── Matrix Items ── */
+.matrix-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.6rem;
+  border-left: 3px solid transparent;
+  transition: background 0.2s ease;
+}
+
+.matrix-item.matrix-true {
+  background: var(--green-dim);
+  border-left-color: var(--green);
+}
+
+.matrix-item.matrix-false {
+  background: var(--red-dim);
+  border-left-color: var(--red);
+}
+
+.matrix-item strong {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
+}
+
+/* ── Matrix result text ── */
+.matrix-result {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.matrix-true .matrix-result { color: var(--green); }
+.matrix-false .matrix-result { color: var(--red); }
+
+/* ── Matrix edit wrapper ── */
+.matrix-edit {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Toggle buttons ── */
+.toggle-btn {
+  padding: 0.3rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: transform 0.15s var(--transition), box-shadow 0.2s ease;
+}
+
+.toggle-btn.btn-green {
+  background: var(--green-dim);
+  border-color: var(--green-border);
+  color: var(--green);
+}
+
+.toggle-btn.btn-red {
+  background: var(--red-dim);
+  border-color: var(--red-border);
+  color: var(--red);
+}
+
+.toggle-btn:hover {
+  transform: scale(1.06);
+}
+
+/* ── Matrix Actions ── */
+.matrix-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* ── Primary Button ── */
+.mentor-details-container .primary-btn {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 20px rgba(108, 71, 255, 0.35);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+}
+
+.mentor-details-container .primary-btn:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(108, 71, 255, 0.5);
+}
+
+.mentor-details-container .primary-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Secondary / Cancel Button ── */
+.mentor-details-container .secondary-btn {
+  padding: 0.7rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.18s var(--transition);
+}
+
+.mentor-details-container .secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ── Already reviewed text ── */
+.reviewed-text {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.1rem !important;
+  background: var(--green-dim) !important;
+  border: 1px solid var(--green-border) !important;
+  border-radius: 999px !important;
+  font-family: 'Cabinet Grotesk', sans-serif !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--green) !important;
+  width: fit-content !important;
+}
+
+/* ── Message text ── */
+.message-text {
+  font-family: 'Figtree', sans-serif !important;
+  font-size: 0.88rem !important;
+  color: #ffffff !important;
+  margin-top: 0.85rem !important;
+  padding: 0.55rem 0.9rem !important;
+  background: rgba(108, 71, 255, 0.1) !important;
+  border: 1px solid rgba(108, 71, 255, 0.2) !important;
+  border-radius: 8px !important;
+  animation: fadeUp 0.2s var(--transition) both;
+  width: 100%;
+  display: block !important;
+}
+
+/* ── Loading ── */
+.mentor-loading {
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  text-align: center;
+  padding: calc(var(--navbar-height) + 4rem) 2rem 4rem;
+  background: var(--bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Modal Overlay ── */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  animation: overlayIn 0.2s ease both;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal Box ── */
+.modal {
+  width: 100%;
+  max-width: 460px;
+  background: #0e0e1f;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 2rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 24px 80px rgba(0, 0, 0, 0.7);
+
+  animation: modalPop 0.3s var(--transition) both;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.93) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Shimmer on modal top */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+.modal h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 1.5rem;
+}
+
+.modal label {
+  display: block;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.modal label b {
+  font-family: inherit;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+
+/* ── Review Textarea ── */
+.review-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  color: #ffffff;
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 1.1rem;
+  display: block;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.review-textarea::placeholder {
+  color: #ffffff;
+  font-style: italic;
+}
+
+.review-textarea:focus {
+  border-color: var(--border-focus);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12);
+}
+
+/* ── Review Select ── */
+.review-select {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 2.5rem 0.85rem 1rem;
+  color: #ffffff;
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  margin-bottom: 1.5rem;
+  display: block;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.review-select:focus {
+  border-color: var(--border-focus);
+  background-color: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12);
+}
+
+.review-select option {
+  background: #0f0f1e;
+  color: #ffffff;
+}
+
+/* ── Modal Buttons ── */
+.modal-buttons {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+/* primary/secondary inside modal inherit from container scope above */
+.modal .primary-btn {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  box-shadow: 0 4px 20px rgba(108, 71, 255, 0.35);
+  transition: background-position 0.4s ease, transform 0.18s var(--transition), box-shadow 0.22s ease;
+}
+
+.modal .primary-btn:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(108, 71, 255, 0.5);
+}
+
+.modal .secondary-btn {
+  padding: 0.7rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s var(--transition);
+}
+
+.modal .secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  :root { --navbar-height: 76px; }
+
+  .mentor-details-container {
+    padding: calc(var(--navbar-height) + 1.75rem) 1.25rem 4rem;
+  }
+
+  .mentor-details-container .card {
+    padding: 1.35rem 1.25rem;
+  }
+
+  .modal {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .matrix-actions,
+  .modal-buttons {
+    flex-direction: column;
+  }
+
+  .mentor-details-container .primary-btn,
+  .mentor-details-container .secondary-btn,
+  .modal .primary-btn,
+  .modal .secondary-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  :root { --navbar-height: 68px; }
+}

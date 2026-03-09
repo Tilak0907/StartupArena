@@ -1,0 +1,164 @@
+[
+  {
+    "problem": "Hospitals face delays and medical errors due to manual patient record management and inefficient appointment scheduling systems.",
+    "solution": "A cloud-based AI powered hospital management platform automating records, analytics and workflow optimization.",
+    "market": "Large and mid-sized hospitals across India and Southeast Asia.",
+    "revenue": "Subscription based SaaS model with annual enterprise licensing.",
+    "userId": "seed_strong_1",
+    "successLabel": 1
+  },
+  {
+    "problem": "Farmers experience crop loss due to lack of real-time weather intelligence and predictive analytics.",
+    "solution": "AI driven agriculture advisory platform using satellite data and machine learning forecasting.",
+    "market": "Millions of small and mid-scale farmers globally.",
+    "revenue": "Freemium model with premium subscription plans.",
+    "userId": "seed_strong_2",
+    "successLabel": 1
+  },
+  {
+    "problem": "Small businesses struggle to access affordable credit because traditional banks rely on outdated credit scoring methods.",
+    "solution": "Fintech platform using machine learning and alternative data for real-time credit assessment.",
+    "market": "Small and medium enterprises worldwide.",
+    "revenue": "Commission on approved loans and transaction based fees.",
+    "userId": "seed_strong_3",
+    "successLabel": 1
+  },
+  {
+    "problem": "Rural patients lack access to specialized doctors and diagnostic facilities.",
+    "solution": "Telemedicine platform with AI assisted diagnosis and cloud based consultation system.",
+    "market": "Rural and semi-urban populations in developing countries.",
+    "revenue": "Consultation commission and hospital subscription model.",
+    "userId": "seed_strong_4",
+    "successLabel": 1
+  },
+  {
+    "problem": "E-commerce sellers face delivery delays and rising logistics costs due to poor route optimization.",
+    "solution": "AI powered logistics optimization system with real-time route analytics.",
+    "market": "E-commerce companies operating nationally and internationally.",
+    "revenue": "Subscription plus per-transaction logistics fee.",
+    "userId": "seed_strong_5",
+    "successLabel": 1
+  },
+  {
+    "problem": "Schools lack personalized learning analytics leading to poor academic performance tracking.",
+    "solution": "AI-based adaptive learning platform with performance dashboards.",
+    "market": "Private and public schools globally.",
+    "revenue": "Annual subscription per student licensing.",
+    "userId": "seed_strong_6",
+    "successLabel": 1
+  },
+  {
+    "problem": "Manufacturing companies experience production downtime due to lack of predictive maintenance systems.",
+    "solution": "Industrial IoT platform providing predictive maintenance using machine learning models.",
+    "market": "Large manufacturing units worldwide.",
+    "revenue": "Enterprise SaaS licensing and yearly contracts.",
+    "userId": "seed_strong_7",
+    "successLabel": 1
+  },
+
+  {
+    "problem": "Students find it difficult to get internship opportunities.",
+    "solution": "Online platform connecting students with companies.",
+    "market": "College students in urban areas.",
+    "revenue": "Subscription from companies.",
+    "userId": "seed_medium_1",
+    "successLabel": 1
+  },
+  {
+    "problem": "Restaurants waste food due to poor planning.",
+    "solution": "Software to track sales and predict demand.",
+    "market": "Local restaurants and cafes.",
+    "revenue": "Monthly subscription.",
+    "userId": "seed_medium_2",
+    "successLabel": 1
+  },
+  {
+    "problem": "Freelancers face payment delays.",
+    "solution": "Digital contract and payment platform.",
+    "market": "Freelancers working online.",
+    "revenue": "Transaction fees.",
+    "userId": "seed_medium_3",
+    "successLabel": 1
+  },
+  {
+    "problem": "Urban commuters face traffic delays.",
+    "solution": "Mobile app showing best routes.",
+    "market": "City commuters.",
+    "revenue": "Advertisements in the app.",
+    "userId": "seed_medium_4",
+    "successLabel": 1
+  },
+  {
+    "problem": "Retail shops have inventory management issues.",
+    "solution": "Inventory tracking mobile application.",
+    "market": "Small retail stores.",
+    "revenue": "Subscription pricing.",
+    "userId": "seed_medium_5",
+    "successLabel": 1
+  },
+  {
+    "problem": "Employees lack productivity tracking in remote work.",
+    "solution": "Cloud dashboard for tracking tasks.",
+    "market": "Remote teams and startups.",
+    "revenue": "Per user monthly subscription.",
+    "userId": "seed_medium_6",
+    "successLabel": 1
+  },
+  {
+    "problem": "People want better personal finance tracking.",
+    "solution": "Budget management app.",
+    "market": "Young professionals.",
+    "revenue": "Freemium subscription.",
+    "userId": "seed_medium_7",
+    "successLabel": 1
+  },
+
+  {
+    "problem": "People feel bored sometimes.",
+    "solution": "An app for fun.",
+    "market": "Everyone.",
+    "revenue": "",
+    "userId": "seed_weak_1",
+    "successLabel": 0
+  },
+  {
+    "problem": "Students have problems.",
+    "solution": "Platform to help them.",
+    "market": "",
+    "revenue": "",
+    "userId": "seed_weak_2",
+    "successLabel": 0
+  },
+  {
+    "problem": "Businesses face issues.",
+    "solution": "AI system.",
+    "market": "Global.",
+    "revenue": "",
+    "userId": "seed_weak_3",
+    "successLabel": 0
+  },
+  {
+    "problem": "Farmers struggle.",
+    "solution": "Technology solution.",
+    "market": "",
+    "revenue": "Subscription.",
+    "userId": "seed_weak_4",
+    "successLabel": 0
+  },
+  {
+    "problem": "",
+    "solution": "Blockchain platform.",
+    "market": "Worldwide.",
+    "revenue": "",
+    "userId": "seed_weak_5",
+    "successLabel": 0
+  },
+  {
+    "problem": "People need improvement.",
+    "solution": "Software system.",
+    "market": "Large.",
+    "revenue": "",
+    "userId": "seed_weak_6",
+    "successLabel": 0
+  }
+]

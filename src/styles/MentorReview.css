@@ -1,0 +1,430 @@
+/* ===================================================
+   StartupArena — Mentor Review Page
+   Aesthetic: Dark Editorial · Review Cards · Refined
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --green: #22c55e;
+  --green-dim: rgba(34, 197, 94, 0.1);
+  --green-border: rgba(34, 197, 94, 0.25);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245, 158, 11, 0.1);
+  --amber-border: rgba(245, 158, 11, 0.25);
+  --red: #ef4444;
+  --red-dim: rgba(239, 68, 68, 0.1);
+  --red-border: rgba(239, 68, 68, 0.25);
+  --text-primary: #eeeeff;
+  --text-secondary: rgba(200, 198, 230, 0.75);
+  --text-muted: rgba(160, 158, 200, 0.5);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+
+/* ── Page ── */
+.container {
+  min-height: 100vh;
+  padding: 3.5rem 2.5rem 6rem;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+/* Ambient blobs */
+.container::before,
+.container::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.11) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+
+.container::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ── Card ── */
+.card {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.75rem 3rem 3rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 6px 60px rgba(0, 0, 0, 0.5);
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+/* Shimmer top line */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Page Title ── */
+.card h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin: 0.7rem auto 2rem;
+}
+
+/* ── Mentor Select ── */
+.mentor-select-wrapper {
+  position: relative;
+  margin-bottom: 1.25rem;
+  z-index: 1;
+  animation: fadeUp 0.5s 0.1s var(--transition) both;
+}
+
+.mentor-select-wrapper label {
+  display: block;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.55rem;
+}
+
+/* ── Select Dropdown ── */
+.card select,
+select {
+  width: 100% !important;
+  padding: 0.9rem 2.5rem 0.9rem 1.1rem !important;
+  margin-bottom: 0 !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Figtree', sans-serif !important;
+  font-size: 0.95rem !important;
+  outline: none !important;
+  cursor: pointer;
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(160,158,200,0.5)' d='M6 8L1 3h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease !important;
+
+  /* ✅ KEY FIX: removes the giant empty space in the native dropdown */
+  overflow-y: auto !important;
+}
+
+.card select:focus,
+select:focus {
+  border-color: rgba(108, 71, 255, 0.6) !important;
+  background-color: rgba(108, 71, 255, 0.06) !important;
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12) !important;
+}
+
+/* ✅ Option styles — compact, no extra padding or empty lines */
+.card select option,
+select option {
+  background-color: #0f0f1e !important;
+  color: var(--text-primary) !important;
+  font-family: 'Figtree', sans-serif !important;
+  font-size: 0.95rem !important;
+  padding: 8px 12px !important;
+  line-height: 1.4 !important;
+  /* Removes empty space between options in some browsers */
+  border: none !important;
+  margin: 0 !important;
+}
+
+/* Disabled/placeholder option */
+.card select option[value=""],
+select option[value=""],
+.card select option:disabled,
+select option:disabled {
+  color: var(--text-muted) !important;
+  font-style: italic !important;
+}
+
+/* ── Submit Button ── */
+.card > button,
+button:not(.secondary) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.95rem 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+
+  font-family: 'Cabinet Grotesk', sans-serif !important;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 24px rgba(108, 71, 255, 0.4);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease,
+    opacity 0.2s ease;
+
+  animation: fadeUp 0.5s 0.18s var(--transition) both;
+}
+
+.card > button:hover:not(:disabled),
+button:not(.secondary):hover:not(:disabled) {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(108, 71, 255, 0.55);
+}
+
+.card > button:active,
+button:not(.secondary):active {
+  transform: scale(0.97);
+}
+
+.card > button:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  animation: btnPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.75; }
+}
+
+/* ── Status / Feedback Message ── */
+.card > p[style],
+.submit-message {
+  font-family: 'Figtree', sans-serif !important;
+  font-size: 0.9rem !important;
+  margin-top: 1rem !important;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.card p[style*="green"] {
+  color: var(--green) !important;
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+}
+
+.card p[style*="red"] {
+  color: var(--red) !important;
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+}
+
+/* ── Divider ── */
+.card hr,
+hr {
+  border: none !important;
+  border-top: 1px solid var(--border) !important;
+  margin: 2.25rem 0 !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Reviews Section Title ── */
+.card h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin: 0 0 1.25rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card h3::before {
+  content: '✦';
+  font-size: 0.65rem;
+  color: var(--accent-2);
+  opacity: 0.8;
+}
+
+/* ── Empty Reviews ── */
+.card > p:not([style]) {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Review Cards ── */
+.review-card,
+.card > div[style*="border"] {
+  background: rgba(255, 255, 255, 0.025) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 1.35rem 1.5rem !important;
+  margin-bottom: 1rem !important;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.18s var(--transition);
+  z-index: 1;
+}
+
+.card > div[style*="border"]:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  transform: translateX(3px);
+}
+
+.card > div[style*="border"]:has(span[style*="green"]) {
+  border-left: 3px solid var(--green) !important;
+  background: var(--green-dim) !important;
+}
+
+.card > div[style*="border"]:has(span[style*="red"]) {
+  border-left: 3px solid var(--red) !important;
+  background: var(--red-dim) !important;
+}
+
+.card > div[style*="border"]:has(span[style*="orange"]) {
+  border-left: 3px solid var(--amber) !important;
+  background: var(--amber-dim) !important;
+}
+
+.card > div[style*="border"] p {
+  font-family: 'Figtree', sans-serif !important;
+  font-size: 0.92rem !important;
+  color: var(--text-secondary) !important;
+  margin: 0 0 0.55rem !important;
+  line-height: 1.65 !important;
+}
+
+.card > div[style*="border"] p:last-child {
+  margin-bottom: 0 !important;
+  font-size: 0.78rem !important;
+  color: var(--text-muted) !important;
+}
+
+.card > div[style*="border"] b {
+  color: var(--text-primary) !important;
+  font-family: 'Cabinet Grotesk', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.card > div[style*="border"] span[style*="green"] { color: var(--green) !important; font-weight: 700 !important; }
+.card > div[style*="border"] span[style*="red"]   { color: var(--red) !important;   font-weight: 700 !important; }
+.card > div[style*="border"] span[style*="orange"]{ color: var(--amber) !important; font-weight: 700 !important; }
+
+/* Stagger review cards */
+.card > div[style*="border"]:nth-child(1) { animation: fadeUp 0.4s 0.10s var(--transition) both; }
+.card > div[style*="border"]:nth-child(2) { animation: fadeUp 0.4s 0.16s var(--transition) both; }
+.card > div[style*="border"]:nth-child(3) { animation: fadeUp 0.4s 0.22s var(--transition) both; }
+.card > div[style*="border"]:nth-child(4) { animation: fadeUp 0.4s 0.28s var(--transition) both; }
+.card > div[style*="border"]:nth-child(5) { animation: fadeUp 0.4s 0.34s var(--transition) both; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .container { padding: 2rem 1.25rem 4rem; }
+  .card      { padding: 2rem 1.5rem 2.25rem; }
+  .card h2   { font-size: 1.7rem; }
+}
+
+@media (max-width: 420px) {
+  .card    { padding: 1.5rem 1rem 1.75rem; }
+  .card h2 { font-size: 1.45rem; }
+}

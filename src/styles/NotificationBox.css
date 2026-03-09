@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ══════════════════════════════════════
+   NOTIFICATION BOX
+══════════════════════════════════════ */
+
+.notificationBox {
+
+  font-family: 'Plus Jakarta Sans', sans-serif;
+
+  width: 360px;
+  border-radius: 20px;
+  overflow: hidden;
+
+  position: absolute;
+  top: 70px;
+  right: 20px;
+
+  background: linear-gradient(155deg,#2d1b69 0%,#1c1545 45%,#141e40 100%);
+
+  border: 1px solid rgba(139,92,246,0.45);
+
+  box-shadow:
+  0 0 0 1px rgba(255,255,255,0.05) inset,
+  0 24px 60px rgba(0,0,0,0.55),
+  0 0 50px rgba(108,71,255,0.18);
+
+  animation: boxAppear .35s cubic-bezier(.22,1,.36,1) both;
+
+  z-index: 9999;
+}
+
+@keyframes boxAppear{
+  from{opacity:0;transform:translateY(-14px) scale(.95);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* glowing top line */
+
+.notificationBox::before{
+
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+
+  background:linear-gradient(90deg,#6c47ff,#a855f7,#00d4ff,#6c47ff);
+  background-size:300% 100%;
+
+  animation:lineFlow 3s linear infinite;
+}
+
+@keyframes lineFlow{
+  0%{background-position:0% 0;}
+  100%{background-position:300% 0;}
+}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+
+.notificationHeader{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:15px 16px 14px 20px;
+
+  background:rgba(139,92,246,.18);
+  border-bottom:1px solid rgba(139,92,246,.28);
+}
+
+.notificationHeader h3{
+
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+
+  color:#ddd6fe;
+
+  margin:0;
+
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.notificationHeader h3::before{
+  content:'🔔';
+  font-size:.9rem;
+}
+
+/* close entire box */
+
+.notificationCloseAll{
+
+  width:0px !important;
+  height:30px;
+
+  border-radius:9px;
+
+  border:1px solid rgba(239,68,68,.38);
+  background:rgba(239,68,68,.13);
+
+  color:#fca5a5;
+
+  font-size:.72rem;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.2s;
+}
+
+.notificationCloseAll:hover{
+  background:rgba(239,68,68,.3);
+  border-color:#ef4444;
+  color:#fff;
+}
+
+/* EMPTY STATE */
+
+.notificationBox > p{
+
+  text-align:center;
+  font-size:.82rem;
+
+  color:rgba(196,181,253,.45);
+
+  font-style:italic;
+
+  padding:32px 20px 28px;
+}
+
+/* ══════════════════════════════════════
+   NOTIFICATION ITEM
+══════════════════════════════════════ */
+
+.notificationItem{
+
+  position:relative;
+
+  display:flex;
+  align-items:flex-start;
+
+  gap:10px;
+
+  margin:0 12px 9px;
+
+  padding:13px 14px 13px 18px;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,.07);
+
+  border:1px solid rgba(139,92,246,.22);
+
+  transition:.2s;
+}
+
+.notificationItem::before{
+
+  content:'';
+
+  position:absolute;
+
+  left:0;
+  top:10px;
+  bottom:10px;
+
+  width:3px;
+
+  border-radius:0 2px 2px 0;
+
+  background:linear-gradient(180deg,#a855f7,#06b6d4);
+}
+
+.notificationItem:hover{
+  background:rgba(139,92,246,.14);
+  border-color:rgba(139,92,246,.42);
+  transform:translateX(3px);
+}
+
+.notificationContent{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.notificationTitle{
+  font-size:.87rem;
+  font-weight:700;
+  color:#f0ebff;
+}
+
+.notificationMessage{
+  font-size:.78rem;
+  color:rgba(196,181,253,.72);
+}
+
+/* close individual notification */
+
+.notificationClose{
+
+  width:2px !important;
+  height:22px;
+
+  border-radius:7px;
+
+  border:1px solid rgba(255,255,255,.12);
+
+  background:rgba(255,255,255,.06);
+
+  color:rgba(196,181,253,.5);
+
+  font-size:.65rem;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.notificationClose:hover{
+  background:rgba(239,68,68,.22);
+  border-color:rgba(239,68,68,.55);
+  color:#fca5a5;
+}
+
+
+
+
+
+
+/* ══════════════════════════════════════
+   📱 MOBILE FIX
+══════════════════════════════════════ */
+
+@media (max-width:768px){
+
+.notificationBox{
+
+  position:fixed;
+
+  top:65px;
+  left:0;
+  right:0;
+
+  width:92%;
+  margin:auto;
+
+  border-radius:16px;
+
+  z-index:9999;
+}
+
+.notificationItem{
+  margin:0 10px 10px;
+}
+
+.notificationHeader{
+  padding:12px 14px;
+}
+
+.notificationHeader h3{
+  font-size:.72rem;
+}
+
+.notificationTitle{
+  font-size:.82rem;
+}
+
+.notificationMessage{
+  font-size:.74rem;
+}
+
+}
+
+/* small phones */
+
+@media (max-width:480px){
+
+.notificationBox{
+
+  width:94%;
+  top:60px;
+
+}
+
+.notificationHeader h3{
+  font-size:.68rem;
+}
+
+.notificationTitle{
+  font-size:.78rem;
+}
+
+.notificationMessage{
+  font-size:.72rem;
+}
+
+}

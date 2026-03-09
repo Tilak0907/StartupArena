@@ -1,0 +1,339 @@
+/* ===================================================
+   StartupArena — Analytics Page
+   Aesthetic: Dark Data · Neon Metrics · Precision
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(108, 71, 255, 0.6);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --green: #22c55e;
+  --blue: #3b82f6;
+  --amber: #f59e0b;
+  --violet: #8b5cf6;
+  --text-primary: #eeeeff;
+  --text-secondary: rgba(200, 198, 230, 0.72);
+  --text-muted: rgba(160, 158, 200, 0.5);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+
+/* ── Page Container ── */
+.analytics-page {
+  min-height: 100vh;
+  padding: 3.5rem 2.5rem 6rem;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+/* Ambient blobs */
+.analytics-page::before,
+.analytics-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.analytics-page::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.11) 0%, transparent 70%);
+  top: -180px;
+  left: -100px;
+}
+
+.analytics-page::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -50px;
+  right: -80px;
+}
+
+/* ── Inner wrapper to constrain width ── */
+.analytics-page .card {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.75rem 3rem 3rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 6px 60px rgba(0, 0, 0, 0.5);
+
+  animation: fadeUp 0.6s var(--transition) both;
+
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analytics-page .card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Animated gradient top line */
+.analytics-page .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Page Title ── */
+.analytics-page h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.analytics-page h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin: 0.7rem auto 0;
+}
+
+/* ── Subtitle / Score line ── */
+.analytics-page .subtitle {
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 1.2rem 0 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.analytics-page .subtitle strong {
+  font-weight: 700;
+  font-size: 1.45rem;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(135deg, #22c55e, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Score Badge Row ── */
+.score-badge-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.score-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1.1rem 2.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(108, 71, 255, 0.08);
+  border: 1px solid rgba(108, 71, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.score-badge .score-number {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 2.8rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: linear-gradient(135deg, #22c55e 0%, #00d4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.score-badge .score-label {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: white;
+}
+
+/* ── Chart Wrapper ── */
+.chart-wrapper {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem 0.5rem 0.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  animation: fadeUp 0.5s 0.2s var(--transition) both;
+}
+
+/* ── Hint ── */
+.analytics-page .hint {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.875rem;
+  color:white;
+  text-align: center;
+  margin: 1.75rem 0 0;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Loading State ── */
+.analytics-page .card p:only-child {
+  font-family: 'Figtree', sans-serif;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 1rem;
+  padding: 2rem 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1;   }
+}
+
+/* ── No Data State ── */
+.analytics-page .card h2 + p {
+  font-family: 'Figtree', sans-serif;
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.analytics-page .card button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0.85rem 2.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 24px rgba(108, 71, 255, 0.4);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+}
+
+.analytics-page .card button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(108, 71, 255, 0.55);
+}
+
+.analytics-page .card button:active {
+  transform: scale(0.97);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .analytics-page {
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .analytics-page .card {
+    padding: 2rem 1.5rem 2.25rem;
+  }
+
+  .analytics-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .analytics-page .subtitle strong {
+    font-size: 1.2rem;
+  }
+
+  .score-badge .score-number {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .analytics-page .card {
+    padding: 1.5rem 1.1rem 1.75rem;
+  }
+
+  .analytics-page h2 {
+    font-size: 1.5rem;
+  }
+}

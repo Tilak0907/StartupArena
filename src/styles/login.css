@@ -1,0 +1,451 @@
+/* ===================================================
+   StartupArena — Login Page
+   Aesthetic: Dark Editorial · Auth · Centered
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(108, 71, 255, 0.6);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 22px;
+  --radius-sm: 12px;
+}
+
+/* ── ✅ Override navbar body padding for login page only ── */
+body:has(.login-wrapper) {
+  padding-top: 0 !important;
+  background: var(--bg) !important;
+}
+
+#root:has(.login-wrapper) {
+  padding-top: 0 !important;
+  background: var(--bg) !important;
+}
+
+/* ── Full-page wrapper ── */
+.login-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 2rem 1.25rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* Ambient blobs */
+.login-wrapper::before,
+.login-wrapper::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(160px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-wrapper::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.15) 0%, transparent 70%);
+  top: -200px;
+  right: -150px;
+}
+
+.login-wrapper::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+  bottom: -100px;
+  left: -100px;
+}
+
+/* ── Login Card ── */
+.login-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3rem 3rem 2.75rem;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 1;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 8px 70px rgba(0, 0, 0, 0.55);
+
+  animation: fadeUp 0.65s var(--transition) both;
+}
+
+/* Shimmer top line */
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Subtle corner glow */
+.login-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Title ── */
+.login-card h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  letter-spacing: -0.04em;
+  margin: 0 0 0.3rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: fadeUp 0.5s 0.08s var(--transition) both;
+}
+
+/* ── Subtitle ── */
+.login-card .subtitle {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 2.25rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.5s 0.12s var(--transition) both;
+}
+
+.login-card .subtitle strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ── Input Group ── */
+.input-group {
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.45s var(--transition) both;
+}
+
+.input-group:nth-child(3) { animation-delay: 0.16s; }
+.input-group:nth-child(4) { animation-delay: 0.22s; }
+
+.input-group label {
+  display: block;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.input-group input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+  color: #ffffff;
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.975rem;
+  outline: none;
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.input-group input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.input-group input:focus {
+  border-color: var(--border-focus);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12);
+}
+
+/* ── Password Wrapper ── */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 3rem 0.9rem 1.1rem;
+  color: #ffffff;
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.975rem;
+  outline: none;
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.password-wrapper input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.password-wrapper input:focus {
+  border-color: var(--border-focus);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12);
+}
+
+/* Toggle eye icon */
+.toggle-password {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  user-select: none;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.15s var(--transition);
+}
+
+.toggle-password:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* ── Auth Actions ── */
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.45s 0.28s var(--transition) both;
+}
+
+/* ── Primary Button ── */
+.primary-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 24px rgba(108, 71, 255, 0.4);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease,
+    opacity 0.2s ease;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(108, 71, 255, 0.55);
+}
+
+.primary-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.primary-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  animation: btnPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.75; }
+}
+
+/* ── Forgot password link ── */
+.auth-link {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-link:hover {
+  color: var(--accent-2);
+}
+
+/* ── Switch auth line ── */
+.switch-auth {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  text-align: center;
+}
+
+.switch-auth a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.switch-auth a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: scaleX(0);
+  transition: transform 0.25s var(--transition);
+}
+
+.switch-auth a:hover {
+  color: var(--accent-2);
+}
+
+.switch-auth a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .login-card {
+    padding: 2.25rem 1.75rem 2.25rem;
+  }
+
+  .login-card h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-card {
+    padding: 1.75rem 1.25rem 2rem;
+  }
+
+  .login-card h2 {
+    font-size: 1.75rem;
+  }
+}
+
+/* ===================================================
+   Toast (react-toastify) Overrides
+   =================================================== */
+
+/* Toast container */
+.Toastify__toast {
+  font-family: 'Figtree', sans-serif !important;
+  font-size: 0.875rem !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1rem !important;
+  min-height: unset !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* ── Close button — smaller & tighter ── */
+.Toastify__close-button {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  padding: 0 !important;
+  align-self: center !important;
+  opacity: 0.55 !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: none !important;
+  margin-left: 6px !important;
+}
+
+.Toastify__close-button > svg {
+  width: 12px !important;
+  height: 12px !important;
+  fill: currentColor !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}

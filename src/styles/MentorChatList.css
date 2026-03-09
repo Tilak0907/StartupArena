@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Variables ──────────────────────────────────────────────── */
+:root {
+  --bg-1:           #0a0f1e;
+  --bg-2:           #0f1729;
+  --glass-bg:       rgba(255, 255, 255, 0.05);
+  --glass-border:   rgba(255, 255, 255, 0.10);
+  --glass-hover:    rgba(255, 255, 255, 0.09);
+  --accent-teal:    #00d4aa;
+  --accent-blue:    #4f8ef7;
+  --accent-purple:  #a78bfa;
+  --text-primary:   #f0f4ff;
+  --text-secondary: #94a3c4;
+  --text-muted:     #55617a;
+  --glow-teal:      rgba(0, 212, 170, 0.18);
+  --glow-blue:      rgba(79, 142, 247, 0.15);
+  --radius:         16px;
+  --navbar-height:  50px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Page wrapper ───────────────────────────────────────────── */
+.mentorChatListPage {
+  min-height: calc(100dvh - var(--navbar-height));
+  margin-top: var(--navbar-height);
+  background: var(--bg-1);
+  font-family: 'Sora', sans-serif;
+  padding: 44px 24px 60px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 100px ;
+}
+
+/* animated mesh gradient background */
+.mentorChatListPage::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(ellipse, rgba(0,212,170,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift1 8s ease-in-out infinite alternate;
+}
+
+.mentorChatListPage::after {
+  content: '';
+  position: fixed;
+  bottom: -10%;
+  right: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(ellipse, rgba(79,142,247,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift2 10s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(4%, 6%) scale(1.1); }
+}
+
+@keyframes drift2 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-5%, -4%) scale(1.08); }
+}
+
+/* ─── Inner container ────────────────────────────────────────── */
+.mentorChatListContainer {
+  max-width: 660px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Page header ────────────────────────────────────────────── */
+.mentorChatListHeading {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* gradient pill badge */
+.mentorChatListHeading::before {
+  content: '💬';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+  border-radius: 12px;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px var(--glow-teal);
+}
+
+.mentorChatListSubtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  padding-left: 56px;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Divider ────────────────────────────────────────────────── */
+.mentorChatListDivider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+  margin-bottom: 24px;
+}
+
+/* ─── Chat list ──────────────────────────────────────────────── */
+.mentorChatList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ─── Individual chat card ───────────────────────────────────── */
+.mentorChatCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+              border-color 0.2s ease, background 0.2s ease;
+  animation: slideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  position: relative;
+  overflow: hidden;
+}
+
+/* shimmer line on top edge */
+.mentorChatCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.mentorChatCard:hover::before { opacity: 1; }
+
+/* staggered entrance */
+.mentorChatCard:nth-child(1) { animation-delay: 0.05s; }
+.mentorChatCard:nth-child(2) { animation-delay: 0.11s; }
+.mentorChatCard:nth-child(3) { animation-delay: 0.17s; }
+.mentorChatCard:nth-child(4) { animation-delay: 0.23s; }
+.mentorChatCard:nth-child(5) { animation-delay: 0.29s; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+.mentorChatCard:hover {
+  transform: translateY(-3px);
+  background: var(--glass-hover);
+  border-color: rgba(0, 212, 170, 0.25);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,212,170,0.1);
+}
+
+.mentorChatCard:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* ─── Avatar ─────────────────────────────────────────────────── */
+.mentorChatAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00d4aa, #4f8ef7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(0,212,170,0.25), 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* online dot */
+.mentorChatAvatar::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 11px;
+  height: 11px;
+  background: #00d4aa;
+  border-radius: 50%;
+  border: 2px solid var(--bg-1);
+  box-shadow: 0 0 6px rgba(0,212,170,0.6);
+}
+
+/* ─── Card body ──────────────────────────────────────────────── */
+.mentorChatCardBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.mentorChatCardTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mentorChatCardMeta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Arrow ──────────────────────────────────────────────────── */
+.mentorChatCardArrow {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,212,170,0.1);
+  border: 1px solid rgba(0,212,170,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-teal);
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.mentorChatCard:hover .mentorChatCardArrow {
+  background: var(--accent-teal);
+  color: var(--bg-1);
+  transform: translateX(3px);
+  box-shadow: 0 0 12px var(--glow-teal);
+}
+
+/* ─── Empty state ────────────────────────────────────────────── */
+.mentorChatEmpty {
+  text-align: center;
+  padding: 70px 24px;
+  animation: slideIn 0.4s ease both;
+}
+
+.mentorChatEmptyIcon {
+  font-size: 3.5rem;
+  margin-bottom: 18px;
+  display: block;
+  opacity: 0.35;
+  filter: grayscale(0.3);
+}
+
+.mentorChatEmptyText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.mentorChatEmptySubtext {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Loading skeleton ───────────────────────────────────────── */
+.mentorChatLoading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.mentorChatSkeleton {
+  height: 84px;
+  border-radius: var(--radius);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  border: 1px solid var(--glass-border);
+  animation: shimmer 1.6s infinite;
+}
+
+.mentorChatDeleteBtn{
+  width:20px !important;
+}
+
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .mentorChatListPage    { padding: 24px 14px 40px; }
+  .mentorChatListHeading { font-size: 1.4rem; }
+  .mentorChatAvatar      { width: 44px; height: 44px; }
+}

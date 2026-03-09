@@ -1,0 +1,304 @@
+/* ===================================================
+   StartupArena — Mentor Dashboard
+   Aesthetic: Dark Editorial · Command Center · Refined
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.058);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --text-primary: #ffffff;
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --navbar-height: 84px;              /* ✅ matches Navbar.css */
+}
+
+
+
+/* ── Page ── */
+.mentor-dashboard {
+  min-height: 100vh;
+  padding: calc(var(--navbar-height) + 2.5rem) 2.5rem 6rem; /* ✅ top clears navbar */
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+/* Ambient blobs */
+.mentor-dashboard::before,
+.mentor-dashboard::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mentor-dashboard::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.11) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+
+.mentor-dashboard::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ── Page Title ── */
+.mentor-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 2.5rem;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+.mentor-title::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin-top: 0.7rem;
+}
+
+/* ── Loading ── */
+.mentor-loading {
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  text-align: center;
+  padding: calc(var(--navbar-height) + 4rem) 2.5rem 4rem;
+  background: var(--bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Empty State ── */
+.mentor-empty {
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  text-align: center;
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.5s 0.1s var(--transition) both;
+}
+
+/* ── Profile Card ── */
+.mentor-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 4px 24px rgba(0, 0, 0, 0.3);
+
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+
+  animation: fadeUp 0.45s var(--transition) both;
+}
+
+/* Stagger cards */
+.mentor-card:nth-child(1) { animation-delay: 0.12s; }
+.mentor-card:nth-child(2) { animation-delay: 0.18s; }
+.mentor-card:nth-child(3) { animation-delay: 0.24s; }
+.mentor-card:nth-child(4) { animation-delay: 0.30s; }
+.mentor-card:nth-child(5) { animation-delay: 0.36s; }
+.mentor-card:nth-child(6) { animation-delay: 0.42s; }
+
+/* Shimmer top line — reveals on hover */
+.mentor-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  animation: shimmer 3.5s linear infinite;
+  transition: opacity 0.25s ease;
+}
+
+.mentor-card:hover::before {
+  opacity: 1;
+}
+
+.mentor-card:hover {
+  background: var(--surface-hover);
+  border-color: rgba(108, 71, 255, 0.35);
+  transform: translateY(-3px) translateX(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(108, 71, 255, 0.15);
+}
+
+.mentor-card:active {
+  transform: scale(0.99);
+}
+
+/* ── Card: Startup Name ── */
+.mentor-card h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Avatar letter prefix before name */
+.mentor-card h3::before {
+  content: attr(data-initial);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(108, 71, 255, 0.35);
+}
+
+/* ── Card: Paragraph rows ── */
+.mentor-card p {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  color: #ffffff;
+  margin: 0 0 0.55rem;
+  line-height: 1.6;
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.mentor-card p:last-child {
+  margin-bottom: 0;
+}
+
+.mentor-card p b {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+/* Status row divider */
+.mentor-card p:last-child {
+  padding-top: 0.85rem;
+  margin-top: 0.35rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .mentor-dashboard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --navbar-height: 76px;            /* ✅ matches Navbar.css tablet breakpoint */
+  }
+
+  .mentor-dashboard {
+    padding: calc(var(--navbar-height) + 2rem) 1.25rem 4rem;
+  }
+
+  .mentor-title {
+    font-size: 1.85rem;
+  }
+
+  .mentor-card {
+    padding: 1.35rem 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --navbar-height: 68px;            /* ✅ matches Navbar.css mobile breakpoint */
+  }
+}
+
+@media (max-width: 420px) {
+  .mentor-title {
+    font-size: 1.6rem;
+  }
+}

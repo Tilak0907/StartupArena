@@ -1,0 +1,341 @@
+/* ===================================================
+   StartupArena — Profile Page
+   Aesthetic: Dark Editorial · Identity · Refined
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(108, 71, 255, 0.6);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --text-primary: #ffffff;           /* ✅ pure white */
+  --text-secondary: #ffffff;         /* ✅ pure white */
+  --text-muted: #ffffff;             /* ✅ was muted, now white */
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+
+/* ── Page ── */
+.profile-page {
+  min-height: 100vh;
+  padding: 3.5rem 2.5rem 6rem;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Ambient blobs */
+.profile-page::before,
+.profile-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.profile-page::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.11) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+
+.profile-page::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ── Card ── */
+.profile-page .card {
+  max-width: 620px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.75rem 3rem 3rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 6px 60px rgba(0, 0, 0, 0.5);
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+/* Shimmer top line */
+.profile-page .card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Avatar Initials Circle ── */
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #fff;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 0 0 4px rgba(108, 71, 255, 0.2), 0 8px 28px rgba(108, 71, 255, 0.35);
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.5s 0.05s var(--transition) both;
+}
+
+/* ── Page Title ── */
+.profile-page h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: fadeUp 0.5s 0.08s var(--transition) both;
+}
+
+.profile-page h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin: 0.7rem auto 0;
+}
+
+/* ── Subtitle ── */
+.profile-page .subtitle {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.88rem;
+  color: #ffffff;                    /* ✅ white */
+  text-align: center;
+  margin: 0.85rem 0 2rem;
+  padding: 0.55rem 1rem;
+  background: rgba(108, 71, 255, 0.06);
+  border: 1px solid rgba(108, 71, 255, 0.14);
+  border-radius: 999px;
+  display: inline-block;
+  width: auto;
+  position: relative;
+  z-index: 1;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  animation: fadeUp 0.5s 0.1s var(--transition) both;
+}
+
+/* ── Form Fields ── */
+.profile-page .card label {
+  display: block;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #ffffff;                    /* ✅ was text-muted, now white */
+  margin-bottom: 0.55rem;
+  margin-top: 1.6rem;
+  position: relative;
+  z-index: 1;
+  transition: color 0.2s ease;
+}
+
+.profile-page .card label:first-of-type {
+  margin-top: 0;
+}
+
+.profile-page .card input,
+.profile-page .card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+  color: #ffffff;                    /* ✅ white text inside fields */
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.975rem;
+  font-weight: 400;
+  line-height: 1.6;
+  outline: none;
+  position: relative;
+  z-index: 1;
+
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.profile-page .card input::placeholder,
+.profile-page .card textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);  /* ✅ white placeholder, slightly transparent */
+  font-style: italic;
+}
+
+.profile-page .card input:focus,
+.profile-page .card textarea:focus {
+  border-color: var(--border-focus);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12);
+}
+
+.profile-page .card textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Field stagger animation */
+.profile-page .card label:nth-of-type(1),
+.profile-page .card input:nth-of-type(1)  { animation: fadeUp 0.4s 0.14s var(--transition) both; }
+.profile-page .card label:nth-of-type(2),
+.profile-page .card input:nth-of-type(2)  { animation: fadeUp 0.4s 0.20s var(--transition) both; }
+.profile-page .card label:nth-of-type(3),
+.profile-page .card textarea              { animation: fadeUp 0.4s 0.26s var(--transition) both; }
+
+/* ── Save / Update Button ── */
+.profile-page .card button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 24px rgba(108, 71, 255, 0.4);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+
+  animation: fadeUp 0.4s 0.32s var(--transition) both;
+}
+
+.profile-page .card button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(108, 71, 255, 0.55);
+}
+
+.profile-page .card button:active {
+  transform: scale(0.97);
+}
+
+/* ── Loading State ── */
+.profile-page .card > p:only-child,
+.container .card > p:only-child {
+  font-family: 'Figtree', sans-serif;
+  color: #ffffff;                    /* ✅ white */
+  text-align: center;
+  font-size: 1rem;
+  padding: 2rem 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .profile-page {
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .profile-page .card {
+    padding: 2rem 1.5rem 2.25rem;
+  }
+
+  .profile-page h2 {
+    font-size: 1.75rem;
+  }
+
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .profile-page .card {
+    padding: 1.5rem 1.1rem 1.75rem;
+  }
+
+  .profile-page h2 {
+    font-size: 1.5rem;
+  }
+}

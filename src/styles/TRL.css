@@ -1,0 +1,418 @@
+/* ===================================================
+   StartupArena — TRL Page
+   Aesthetic: Dark Tech · Level Progression · Precise
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --accent-glow: rgba(108, 71, 255, 0.3);
+  --green: #22c55e;
+  --text-primary: #eeeeff;
+  --text-secondary: rgba(200, 198, 230, 0.75);
+  --text-muted: rgba(160, 158, 200, 0.5);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+
+  /* TRL level colours — low to high */
+  --trl-1: #6366f1;
+  --trl-2: #8b5cf6;
+  --trl-3: #a855f7;
+  --trl-4: #3b82f6;
+  --trl-5: #06b6d4;
+  --trl-6: #10b981;
+  --trl-7: #22c55e;
+  --trl-8: #84cc16;
+  --trl-9: #f59e0b;
+}
+
+/* ── Page ── */
+.trl-page {
+  min-height: 100vh;
+  padding: 3.5rem 2.5rem 6rem;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+/* Ambient blobs */
+.trl-page::before,
+.trl-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.trl-page::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.11) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+
+.trl-page::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ── Card ── */
+.trl-page .card {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.75rem 3rem 3rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 6px 60px rgba(0, 0, 0, 0.5);
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+/* Shimmer top line */
+.trl-page .card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Page Title ── */
+.trl-page h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trl-page h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin: 0.7rem auto 1.75rem;
+}
+
+/* ── Current Level Hero Box ── */
+.current-level-box {
+  background: rgba(108, 71, 255, 0.07);
+  border: 1px solid rgba(108, 71, 255, 0.22);
+  border-radius: var(--radius-sm);
+  padding: 1.6rem 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  animation: fadeUp 0.5s 0.1s var(--transition) both;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+/* Glow sweep on hover */
+.current-level-box:hover {
+  border-color: rgba(108, 71, 255, 0.4);
+  background: rgba(108, 71, 255, 0.1);
+}
+
+.current-level-box h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: -0.04em;
+  margin: 0 0 0.6rem;
+
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.current-level-box p {
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Progress Track ── */
+.trl-progress-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0 0 2.25rem;
+  position: relative;
+  z-index: 1;
+
+  animation: fadeUp 0.5s 0.15s var(--transition) both;
+}
+
+.trl-progress-step {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 0;
+  transition: background 0.3s ease;
+}
+
+.trl-progress-step:first-child { border-radius: 999px 0 0 999px; }
+.trl-progress-step:last-child  { border-radius: 0 999px 999px 0; }
+
+.trl-progress-step.active-1  { background: var(--trl-1); }
+.trl-progress-step.active-2  { background: var(--trl-2); }
+.trl-progress-step.active-3  { background: var(--trl-3); }
+.trl-progress-step.active-4  { background: var(--trl-4); }
+.trl-progress-step.active-5  { background: var(--trl-5); }
+.trl-progress-step.active-6  { background: var(--trl-6); }
+.trl-progress-step.active-7  { background: var(--trl-7); }
+.trl-progress-step.active-8  { background: var(--trl-8); }
+.trl-progress-step.active-9  { background: var(--trl-9); }
+
+/* ── TRL Grid ── */
+.trl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 2.25rem;
+  position: relative;
+  z-index: 1;
+
+  animation: fadeUp 0.5s 0.2s var(--transition) both;
+}
+
+/* ── TRL Item Card ── */
+.trl-item {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.2rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+}
+
+.trl-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Level-specific selected colors */
+.trl-item[data-level="1"].selected  { --sel: var(--trl-1); }
+.trl-item[data-level="2"].selected  { --sel: var(--trl-2); }
+.trl-item[data-level="3"].selected  { --sel: var(--trl-3); }
+.trl-item[data-level="4"].selected  { --sel: var(--trl-4); }
+.trl-item[data-level="5"].selected  { --sel: var(--trl-5); }
+.trl-item[data-level="6"].selected  { --sel: var(--trl-6); }
+.trl-item[data-level="7"].selected  { --sel: var(--trl-7); }
+.trl-item[data-level="8"].selected  { --sel: var(--trl-8); }
+.trl-item[data-level="9"].selected  { --sel: var(--trl-9); }
+
+.trl-item.selected {
+  background: rgba(108, 71, 255, 0.1);
+  border-color: rgba(108, 71, 255, 0.45);
+  box-shadow: 0 0 0 1px rgba(108, 71, 255, 0.2), 0 6px 28px rgba(108, 71, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Glowing top edge on selected */
+.trl-item.selected::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px 2px 0 0;
+}
+
+/* TRL number badge */
+.trl-number {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+  transition: color 0.2s ease;
+}
+
+.trl-item.selected .trl-number {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* TRL description */
+.trl-text {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  transition: color 0.2s ease;
+}
+
+.trl-item:hover .trl-text,
+.trl-item.selected .trl-text {
+  color: var(--text-secondary);
+}
+
+/* ── Update Button ── */
+.trl-page .card > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 24px rgba(108, 71, 255, 0.4);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+
+  animation: fadeUp 0.5s 0.28s var(--transition) both;
+}
+
+.trl-page .card > button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(108, 71, 255, 0.55);
+}
+
+.trl-page .card > button:active {
+  transform: scale(0.97);
+}
+
+/* ── Loading State ── */
+.trl-page > p {
+  font-family: 'Figtree', sans-serif;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 1rem;
+  padding: 4rem 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 1; }
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .trl-page {
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .trl-page .card {
+    padding: 2rem 1.5rem 2.25rem;
+  }
+
+  .trl-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trl-page h2 {
+    font-size: 1.75rem;
+  }
+
+  .current-level-box {
+    padding: 1.25rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trl-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trl-page .card {
+    padding: 1.5rem 1.1rem 1.75rem;
+  }
+
+  .trl-page h2 {
+    font-size: 1.5rem;
+  }
+}

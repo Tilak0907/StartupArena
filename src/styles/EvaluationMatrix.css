@@ -1,0 +1,451 @@
+/* ===================================================
+   StartupArena — Evaluation Matrix Page
+   Aesthetic: Dark Editorial · Checklist · Precise
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --green: #22c55e;
+  --green-dim: rgba(34, 197, 94, 0.1);
+  --green-border: rgba(34, 197, 94, 0.25);
+  --text-primary: #eeeeff;
+  --text-secondary: rgba(200, 198, 230, 0.75);
+  --text-muted: rgba(160, 158, 200, 0.5);
+  --row-hover: rgba(108, 71, 255, 0.06);
+  --row-checked: rgba(34, 197, 94, 0.06);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+
+/* ── Page ── */
+.matrix-page {
+  min-height: 100vh;
+  padding: 3.5rem 2.5rem 6rem;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+/* Ambient blobs */
+.matrix-page::before,
+.matrix-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.matrix-page::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.11) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+
+.matrix-page::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ── Card ── */
+.matrix-page .card {
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.75rem 3rem 3rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 6px 60px rgba(0, 0, 0, 0.5);
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+/* Shimmer top line */
+.matrix-page .card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 65%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Page Title ── */
+.matrix-page h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.matrix-page h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin: 0.7rem auto 2rem;
+}
+
+/* ── Progress Counter ── */
+.matrix-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  background: rgba(108, 71, 255, 0.07);
+  border: 1px solid rgba(108, 71, 255, 0.18);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+
+  animation: fadeUp 0.5s 0.1s var(--transition) both;
+}
+
+.matrix-counter span {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+.matrix-counter strong {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Table ── */
+.matrix-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 2rem;
+
+  animation: fadeUp 0.5s 0.15s var(--transition) both;
+}
+
+/* ── Table Head ── */
+.matrix-table thead tr {
+  background: transparent;
+}
+
+.matrix-table thead th {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 1.25rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.matrix-table thead th:last-child {
+  text-align: center;
+  width: 100px;
+}
+
+/* ── Table Body Rows ── */
+.matrix-table tbody tr {
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s ease, transform 0.18s var(--transition);
+  cursor: pointer;
+}
+
+.matrix-table tbody tr:hover {
+  background: var(--row-hover);
+  transform: translateX(3px);
+}
+
+/* Checked row goes green */
+.matrix-table tbody tr.checked-row {
+  background: var(--row-checked);
+}
+
+.matrix-table tbody tr.checked-row:hover {
+  background: rgba(34, 197, 94, 0.1);
+}
+
+/* Round left/right edges on rows */
+.matrix-table tbody td:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.matrix-table tbody tr.checked-row td:first-child {
+  border-left-color: var(--green);
+}
+
+.matrix-table tbody tr:not(.checked-row):hover td:first-child {
+  border-left-color: rgba(108, 71, 255, 0.5);
+}
+
+.matrix-table tbody td:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* ── Table Cells ── */
+.matrix-table tbody td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+}
+
+/* Criteria text */
+.matrix-table tbody td:first-child {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.matrix-table tbody tr.checked-row td:first-child {
+  color: var(--text-primary);
+}
+
+/* Status cell */
+.matrix-table tbody td:last-child {
+  text-align: center;
+}
+
+/* ── Custom Checkbox ── */
+.matrix-table input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s var(--transition);
+  vertical-align: middle;
+}
+
+.matrix-table input[type="checkbox"]:hover {
+  border-color: rgba(108, 71, 255, 0.6);
+  background: rgba(108, 71, 255, 0.08);
+  transform: scale(1.1);
+}
+
+.matrix-table input[type="checkbox"]:checked {
+  background: var(--green);
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+/* Custom checkmark */
+.matrix-table input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* Row index number */
+.row-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.matrix-table tbody tr.checked-row .row-index {
+  background: var(--green-dim);
+  border-color: var(--green-border);
+  color: var(--green);
+}
+
+.criteria-cell {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Save Button ── */
+.save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 24px rgba(108, 71, 255, 0.4);
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+
+  animation: fadeUp 0.5s 0.25s var(--transition) both;
+}
+
+.save-btn:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(108, 71, 255, 0.55);
+}
+
+.save-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Loading State ── */
+.matrix-page .card > p:only-child {
+  font-family: 'Figtree', sans-serif;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 1rem;
+  padding: 2rem 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 1; }
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger rows */
+.matrix-table tbody tr:nth-child(1) { animation: fadeUp 0.4s 0.18s var(--transition) both; }
+.matrix-table tbody tr:nth-child(2) { animation: fadeUp 0.4s 0.22s var(--transition) both; }
+.matrix-table tbody tr:nth-child(3) { animation: fadeUp 0.4s 0.26s var(--transition) both; }
+.matrix-table tbody tr:nth-child(4) { animation: fadeUp 0.4s 0.30s var(--transition) both; }
+.matrix-table tbody tr:nth-child(5) { animation: fadeUp 0.4s 0.34s var(--transition) both; }
+.matrix-table tbody tr:nth-child(6) { animation: fadeUp 0.4s 0.38s var(--transition) both; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .matrix-page {
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .matrix-page .card {
+    padding: 2rem 1.25rem 2.25rem;
+  }
+
+  .matrix-page h2 {
+    font-size: 1.7rem;
+  }
+
+  .matrix-table tbody td {
+    padding: 0.85rem 0.85rem;
+  }
+
+  .matrix-table tbody td:first-child {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .matrix-page .card {
+    padding: 1.5rem 1rem 1.75rem;
+  }
+
+  .matrix-page h2 {
+    font-size: 1.45rem;
+  }
+
+  .row-index {
+    display: none;
+  }
+}

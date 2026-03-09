@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Variables ──────────────────────────────────────────────── */
+:root {
+  --bg:             #0d0d1a;
+  --panel-bg:       #12121f;
+  --glass-border:   rgba(255, 255, 255, 0.08);
+  --sent-from:      #6c47ff;
+  --sent-to:        #8b5cf6;
+  --sent-text:      #ffffff;
+  --recv-bg:        rgba(255, 255, 255, 0.06);
+  --recv-border:    rgba(255, 255, 255, 0.10);
+  --recv-text:      #c8cde8;
+  --text-primary:   #f0f4ff;
+  --text-muted:     #55617a;
+  --footer-bg:      #0d0d1a;
+  --input-bg:       rgba(255, 255, 255, 0.05);
+  --accent:         #6c47ff;
+  --accent-2:       #00d4ff;
+  --btn-from:       #6c47ff;
+  --btn-to:         #8b5cf6;
+  --glow-purple:    rgba(108, 71, 255, 0.3);
+  --navbar-height:  180px;
+  --radius-bubble:  18px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Page container ─────────────────────────────────────────── */
+.mentorChatMainContainer {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - var(--navbar-height));
+  max-height: calc(100dvh - var(--navbar-height));
+  margin-top: 100px;
+  max-width: 1000px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--bg);
+  font-family: 'Sora', sans-serif;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+}
+
+/* ambient glow — top right purple */
+.mentorChatMainContainer::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(ellipse, rgba(108,71,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift1 9s ease-in-out infinite alternate;
+}
+
+/* ambient glow — bottom left blue */
+.mentorChatMainContainer::after {
+  content: '';
+  position: absolute;
+  bottom: -8%;
+  left: -5%;
+  width: 35%;
+  height: 35%;
+  background: radial-gradient(ellipse, rgba(0,212,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift2 11s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(-4%, 6%) scale(1.1); }
+}
+
+@keyframes drift2 {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(5%, -4%) scale(1.08); }
+}
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.mentorChatHeader {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0 24px;
+  height: 58px;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 3;
+}
+
+/* shimmer top line */
+/*
+.mentorChatHeader::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* avatar circle 
+.mentorChatHeader::after {
+  content: '';
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--sent-from), var(--accent-2));
+  border-radius: ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  order: -1;
+  box-shadow: 0 0 10px rgba(108,71,255,0.35);
+}
+*/
+/* ─── Messages area ──────────────────────────────────────────── */
+.mentorChatMessagesArea {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+.mentorChatMessagesArea::-webkit-scrollbar       { width: 4px; }
+.mentorChatMessagesArea::-webkit-scrollbar-track  { background: transparent; }
+.mentorChatMessagesArea::-webkit-scrollbar-thumb  { background: rgba(108,71,255,0.3); border-radius: 4px; }
+
+/* ─── Message rows ───────────────────────────────────────────── */
+.mentorChatRow {
+  display: flex;
+  animation: msgIn 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+
+.mentorChatRowLeft  { justify-content: flex-start; }
+.mentorChatRowRight { justify-content: flex-end;   }
+
+/* ─── Bubbles ────────────────────────────────────────────────── */
+.mentorChatBubble {
+  max-width: 62%;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  word-break: break-word;
+  border-radius: var(--radius-bubble);
+  position: relative;
+}
+
+/* ✅ Sent — purple gradient matching screenshot */
+.mentorChatBubbleSent {
+  background: linear-gradient(135deg, var(--sent-from), var(--sent-to));
+  color: var(--sent-text);
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 18px rgba(108, 71, 255, 0.35);
+}
+
+/* ✅ Received — dark glass matching screenshot */
+.mentorChatBubbleReceived {
+  background: var(--recv-bg);
+  color: var(--recv-text);
+  border: 1px solid var(--recv-border);
+  border-bottom-left-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Input footer ───────────────────────────────────────────── */
+.mentorChatInputSection {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--footer-bg);
+  border-top: 1px solid var(--glass-border);
+  min-height: 72px;
+}
+
+/* ─── Text input ─────────────────────────────────────────────── */
+.mentorChatTextInput {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 86px;
+  padding: 0 20px;
+  padding-top: 10px;
+  background: var(--input-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.mentorChatTextInput::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.mentorChatTextInput:focus {
+  border-color: rgba(108, 71, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ─── Send button — matches screenshot style ─────────────────── */
+.mentorChatSendButton {
+  flex: 0 0 auto;
+  height: 66px;
+  width : 100px !important;
+  padding: 0 22px;
+  background: linear-gradient(135deg, var(--btn-from), var(--btn-to));
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 18px rgba(108, 71, 255, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  white-space: nowrap;
+  /* show "Send →" text */
+  font-size: 0.88rem;
+}
+
+.mentorChatSendButton::after {
+  content: '';
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* hide any child text node — label comes from ::after */
+.mentorChatSendButton {
+  font-size: 0;
+}
+
+.mentorChatSendButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(108, 71, 255, 0.55);
+}
+
+.mentorChatSendButton:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+
+
+
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .mentorChatMainContainer { border-radius: 0; border-left: none; border-right: none; }
+  .mentorChatMessagesArea  { padding: 16px 4%; }
+  .mentorChatBubble        { max-width: 82%; }
+  .mentorChatInputSection  { padding: 10px 12px; }
+  .mentorChatSendButton    { padding: 0 14px; }
+}

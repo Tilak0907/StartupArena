@@ -1,0 +1,328 @@
+/* ===================================================
+   StartupArena Navbar — Dark Glassmorphic Tech Theme
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --nav-bg: rgba(8, 8, 18, 0.85);
+  --nav-border: rgba(255, 255, 255, 0.07);
+  --nav-blur: 24px;
+  --accent: #6c47ff;
+  --accent-glow: rgba(108, 71, 255, 0.45);
+  --accent-2: #00d4ff;
+  --text-primary: #f0efff;
+  --text-muted: rgba(220, 218, 255, 0.82);
+  --link-hover-bg: rgba(108, 71, 255, 0.12);
+  --logout-bg: rgba(255, 60, 100, 0.1);
+  --logout-border: rgba(255, 60, 100, 0.35);
+  --logout-text: #ff6b8a;
+  --logout-hover-bg: rgba(255, 60, 100, 0.22);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --navbar-height: 0px; /* ✅ big, bold navbar */
+}
+
+/* ── Push page content below fixed navbar ── */
+body {
+  padding-top: var(--navbar-height);
+  margin-top: 0;
+}
+
+#root {
+  padding-top: 0;
+ 
+}
+
+/* ── Base Navbar ── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 3rem;
+  height: 80px;
+
+  background: var(--nav-bg);
+  backdrop-filter: blur(var(--nav-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--nav-blur)) saturate(180%);
+
+  border-bottom: 1px solid var(--nav-border);
+
+  box-shadow:
+    0 1px 0 0 rgba(108, 71, 255, 0.25),
+    0 16px 60px rgba(0, 0, 0, 0.6);
+
+  font-family: 'DM Sans', sans-serif;
+  overflow: visible;
+
+  animation: navSlideDown 0.5s var(--transition) both;
+}
+
+@keyframes navSlideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animated shimmer line on top */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    var(--accent-2) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Left: Logo + Title ── */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* ✅ Logo fills the tall navbar with generous breathing room */
+.navbar-logo {
+  width: auto;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  background: transparent;
+  filter:
+    drop-shadow(0 0 12px rgba(108, 71, 255, 0.95))
+    drop-shadow(0 0 28px rgba(0, 212, 255, 0.6))
+    brightness(1.2)
+    contrast(1.1);
+  transition: transform 0.3s var(--transition), filter 0.3s ease;
+}
+
+.navbar-left:hover .navbar-logo {
+  transform: scale(1.06);
+  filter:
+    drop-shadow(0 0 18px rgba(108, 71, 255, 1))
+    drop-shadow(0 0 38px rgba(0, 212, 255, 0.8))
+    brightness(1.4)
+    contrast(1.15);
+}
+
+.navbar-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  user-select: none;
+}
+
+/* ── Right: Nav Links + Logout ── */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.navbar-right::-webkit-scrollbar { display: none; }
+
+/* ── Nav Links ── */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.6rem 0.5rem;
+  border-radius: 10px;
+
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition:
+    color 0.22s ease,
+    background 0.22s ease,
+    transform 0.18s var(--transition);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: transform 0.25s var(--transition), opacity 0.25s ease;
+  opacity: 0;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background: var(--link-hover-bg);
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after {
+  transform: translateX(-50%) scaleX(1);
+  opacity: 1;
+}
+
+.nav-link.active {
+  color: #fff;
+  background: rgba(108, 71, 255, 0.16);
+}
+
+.nav-link.active::after {
+  transform: translateX(-50%) scaleX(1);
+  opacity: 1;
+  background: var(--accent-2);
+}
+
+/* Staggered fade-in */
+.navbar-right .nav-link:nth-child(1)  { animation: fadeInRight 0.4s 0.15s var(--transition) both; }
+.navbar-right .nav-link:nth-child(2)  { animation: fadeInRight 0.4s 0.20s var(--transition) both; }
+.navbar-right .nav-link:nth-child(3)  { animation: fadeInRight 0.4s 0.25s var(--transition) both; }
+.navbar-right .nav-link:nth-child(4)  { animation: fadeInRight 0.4s 0.30s var(--transition) both; }
+.navbar-right .nav-link:nth-child(5)  { animation: fadeInRight 0.4s 0.35s var(--transition) both; }
+.navbar-right .nav-link:nth-child(6)  { animation: fadeInRight 0.4s 0.40s var(--transition) both; }
+.navbar-right .nav-link:nth-child(7)  { animation: fadeInRight 0.4s 0.45s var(--transition) both; }
+.navbar-right .nav-link:nth-child(8)  { animation: fadeInRight 0.4s 0.50s var(--transition) both; }
+.navbar-right .nav-link:nth-child(9)  { animation: fadeInRight 0.4s 0.55s var(--transition) both; }
+.navbar-right .nav-link:nth-child(10) { animation: fadeInRight 0.4s 0.60s var(--transition) both; }
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.hamburger {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-right {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #0b1d3a;
+    flex-direction: column;
+    width: 220px;
+    padding: 20px;
+    display: none;
+  }
+
+  .navbar-right.active {
+    display: flex;
+  }
+}
+
+/* ── Logout Button ── */
+.navbar-right .logout-btn { margin-left: 1rem; }
+
+.logout-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 40px;
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  border: 1px solid var(--logout-border);
+
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--logout-text);
+  background: var(--logout-bg);
+  cursor: pointer;
+  white-space: nowrap;
+
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease;
+
+  animation: fadeInRight 0.4s 0.65s var(--transition) both;
+}
+
+.logout-btn::before {
+  content: '→';
+  display: inline-block;
+  transition: transform 0.2s var(--transition);
+  font-size: 0.95rem;
+}
+
+.logout-btn:hover {
+  background: var(--logout-hover-bg);
+  border-color: rgba(255, 60, 100, 0.6);
+  color: #ff8fa8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(255, 60, 100, 0.22);
+}
+
+.logout-btn:hover::before { transform: translateX(3px); }
+.logout-btn:active        { transform: translateY(0) scale(0.97); }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  :root { --navbar-height: 140px; }
+  .navbar-logo  { height: 110px; }
+  .navbar-title { font-size: 1.6rem; }
+}
+
+@media (max-width: 900px) {
+  :root { --navbar-height: 110px; }
+  .navbar        { padding: 0 1.5rem; }
+  .navbar-logo   { height: 86px; }
+  .navbar-title  { font-size: 1.35rem; }
+  .nav-link      { font-size: 0.9rem; padding: 0.45rem 0.75rem; }
+}
+
+@media (max-width: 640px) {
+  :root { --navbar-height: 80px; }
+  
+  .navbar-logo  { height: 62px; }
+  .nav-link     { font-size: 0.82rem; padding: 0.38rem 0.6rem; }
+}

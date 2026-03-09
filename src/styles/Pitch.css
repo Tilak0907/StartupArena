@@ -1,0 +1,469 @@
+/* ===================================================
+   StartupArena — Pitch Page
+   Aesthetic: Dark Editorial · Neon Ink · Structured
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Figtree:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg: #06060f;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(108, 71, 255, 0.6);
+  --accent: #6c47ff;
+  --accent-2: #00d4ff;
+  --accent-glow: rgba(108, 71, 255, 0.25);
+  --green: #00e5a0;
+  --green-glow: rgba(0, 229, 160, 0.2);
+  --text-primary: #eeeeff;
+  --text-secondary: rgba(200, 198, 230, 0.7);
+  --text-muted: rgba(160, 158, 200, 0.55);
+  --error: #ff5e7d;
+  --error-bg: rgba(255, 94, 125, 0.08);
+  --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+
+/* ── Page Container ── */
+.pitch-page {
+  min-height: 100vh;
+  padding: 3.5rem 2.5rem 6rem;             /* ✅ more padding all around */
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+/* Ambient background blobs */
+.pitch-page::before,
+.pitch-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pitch-page::before {
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.13) 0%, transparent 70%);
+  top: -150px;
+  right: -150px;
+}
+
+.pitch-page::after {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+  bottom: 0;
+  left: -100px;
+}
+
+/* ── Page Title ── */
+.pitch-page h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);   /* ✅ bigger title */
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: fadeUp 0.6s var(--transition) both;
+}
+
+.pitch-page h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin: 0.75rem auto 0;
+}
+
+/* ── Layout: Form + Tips ── */
+.pitch-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;        /* ✅ wider tips panel */
+  gap: 2rem;
+  max-width: 1200px;                       /* ✅ wider overall layout */
+  width: 100%;
+  margin: 3rem auto 0;
+  position: relative;
+  z-index: 1;
+  align-items: start;
+  box-sizing: border-box;
+
+  animation: fadeUp 0.6s 0.1s var(--transition) both;
+}
+
+/* ── Card Base ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem 2.5rem 2.75rem;         /* ✅ bigger internal padding */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;                            /* ✅ critical grid fix */
+  box-sizing: border-box;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 4px 40px rgba(0, 0, 0, 0.4);
+
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Gradient top edge on form card */
+.card:first-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+  opacity: 0.6;
+}
+
+/* ── Labels ── */
+.card label {
+  display: block;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 0.85rem;                      /* ✅ slightly bigger labels */
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  margin-top: 1.75rem;                     /* ✅ more space between fields */
+  transition: color 0.2s ease;
+}
+
+.card label:first-of-type {
+  margin-top: 0;
+}
+
+/* ── Inputs & Textareas ── */
+.card input,
+.card textarea {
+  width: 100%;
+  min-width: 0;                            /* ✅ grid fix */
+  box-sizing: border-box;
+  display: block;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;                   /* ✅ taller, more comfortable fields */
+  color: var(--text-primary);
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;                         /* ✅ bigger text inside fields */
+  font-weight: 400;
+  line-height: 1.65;
+  outline: none;
+  resize: vertical;
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.card input::placeholder,
+.card textarea::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.card input:focus,
+.card textarea:focus {
+  border-color: var(--border-focus);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 4px rgba(108, 71, 255, 0.12);
+}
+
+.card textarea {
+  min-height: 140px;                       /* ✅ taller textareas */
+}
+
+/* ── Submit Button ── */
+.card button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 2.25rem;                     /* ✅ more space above button */
+  padding: 1rem 2rem;                      /* ✅ taller button */
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1.05rem;                      /* ✅ bigger button text */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  transition:
+    background-position 0.4s ease,
+    transform 0.18s var(--transition),
+    box-shadow 0.22s ease,
+    opacity 0.2s ease;
+
+  box-shadow:
+    0 4px 24px rgba(108, 71, 255, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+
+.card button:hover:not(:disabled) {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 36px rgba(108, 71, 255, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.15) inset;
+}
+
+.card button:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  animation: buttonPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.7; }
+}
+
+/* ── Error Message ── */
+.error {
+  background: var(--error-bg);
+  border: 1px solid rgba(255, 94, 125, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  color: var(--error);
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.error::before {
+  content: '⚠';
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ── Tips Panel ── */
+.card.tips {
+  height: fit-content;
+  position: sticky;
+  top: calc(var(--navbar-height, 84px) + 1.5rem);
+  background: rgba(0, 229, 160, 0.03);
+  border-color: rgba(0, 229, 160, 0.12);
+}
+
+.card.tips::before {
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0.4;
+}
+
+.card.tips:hover {
+  border-color: rgba(0, 229, 160, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(0, 229, 160, 0.08),
+    0 8px 40px rgba(0, 229, 160, 0.06);
+}
+
+.card.tips h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;                      /* ✅ bigger tips heading */
+  color: var(--green);
+  margin: 0 0 1.4rem;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card.tips h3::before {
+  content: '✦';
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.card.tips p {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.92rem;                      /* ✅ bigger tip text */
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0 0 0.9rem;
+  padding: 0.75rem 1rem;                   /* ✅ more padding in tip rows */
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.025);
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.card.tips p:hover {
+  background: rgba(255, 255, 255, 0.045);
+  border-left-color: var(--green);
+}
+
+.card.tips p strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.card.tips hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.4rem 0;
+}
+
+.card.tips .hint {
+  background: rgba(0, 229, 160, 0.07);
+  border: 1px solid rgba(0, 229, 160, 0.18);
+  border-left: 2px solid var(--green);
+  border-radius: 10px;
+  color: rgba(0, 229, 160, 0.85);
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  font-style: normal;
+  line-height: 1.6;
+  padding: 0.8rem 1rem;
+  margin: 0;
+  transition: background 0.2s ease;
+}
+
+.card.tips .hint:hover {
+  background: rgba(0, 229, 160, 0.11);
+}
+
+/* ── Page Enter Animations ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pitch-layout .card:nth-child(1) { animation: fadeUp 0.5s 0.15s var(--transition) both; }
+.pitch-layout .card:nth-child(2) { animation: fadeUp 0.5s 0.28s var(--transition) both; }
+
+/* ── Container utility (if used) ── */
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Responsive ── */
+
+/* Large screens — even more room */
+@media (min-width: 1400px) {
+  .pitch-layout {
+    grid-template-columns: 1fr 420px;
+    max-width: 1340px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 960px) {
+  .pitch-layout {
+    grid-template-columns: 1fr;
+    max-width: 700px;
+  }
+
+  .card.tips {
+    position: static;
+    order: -1;
+  }
+
+  .pitch-page {
+    padding: 2.5rem 1.75rem 5rem;
+  }
+}
+
+/* Small tablet / large mobile */
+@media (max-width: 600px) {
+  .pitch-page {
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .card {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+
+  .pitch-page h2 {
+    font-size: 2rem;
+  }
+
+  .card button {
+    font-size: 1rem;
+    padding: 0.9rem 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 400px) {
+  .pitch-page {
+    padding: 1.5rem 1rem 3.5rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.1rem 1.75rem;
+  }
+
+  .card input,
+  .card textarea {
+    font-size: 0.95rem;
+    padding: 0.85rem 1rem;
+  }
+}

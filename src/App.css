@@ -1,0 +1,21 @@
+/* ── Make pages respect footer space ── */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* All page wrappers should grow, not force full viewport height */
+.dashboard-page,
+.mentor-dashboard,
+.profile-page,
+.pitch-page,
+.evaluation-page,
+.feedback-page,
+.analytics-page,
+.chat-page,
+.trl-page,
+.matrix-page {
+  flex: 1;                        /* fills remaining space */
+  min-height: unset;              /* removes the 100vh override */
+}
