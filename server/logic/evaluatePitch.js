@@ -4,7 +4,6 @@ const { runRandomForest } = require("./randomForest");
 
 async function evaluatePitch(newPitch, previousPitches) {
 
-  // 🔹 create firestore instance
   const db = admin.firestore();
 
   /* STEP 1: FEATURE VECTOR */
@@ -21,11 +20,8 @@ async function evaluatePitch(newPitch, previousPitches) {
     await db.collection("featureVectors").add({
 
       userId: newPitch.userId || "unknown",
-
       features: features,
-
       label: newPitch.successLabel || null,
-
       createdAt: admin.firestore.FieldValue.serverTimestamp()
 
     });
@@ -44,18 +40,9 @@ async function evaluatePitch(newPitch, previousPitches) {
   );
 
   const prediction = modelResult.prediction;
-  const probability = modelResult.probability;
+  const probability = modelResult.probability || 0;
 
-  /* STEP 4: SCORE */
-
-  let score = Math.round(probability * 100);
-
-  score = Math.max(20, Math.min(score, 95));
-
-  /* STEP 5: STRENGTHS / WEAKNESSES */
-
-  const strengths = [];
-  const weaknesses = [];
+  /* STEP 4: FEATURE CONTRIBUTION */
 
   const [
     problemScore,
@@ -63,6 +50,30 @@ async function evaluatePitch(newPitch, previousPitches) {
     marketScore,
     revenueScore
   ] = features;
+
+  const featureAverage =
+    (problemScore +
+      solutionScore +
+      marketScore +
+      revenueScore) / 4;
+
+  /* STEP 5: FINAL SCORE CALCULATION */
+
+  const modelScore = probability * 100;
+  const featureScore = (featureAverage / 3) * 100;
+
+  let score =
+    (modelScore * 0.7) +
+    (featureScore * 0.3);
+
+  score = Math.round(score);
+
+  score = Math.max(20, Math.min(score, 100));
+
+  /* STEP 6: STRENGTHS / WEAKNESSES */
+
+  const strengths = [];
+  const weaknesses = [];
 
   if (problemScore >= 2)
     strengths.push("Strong problem definition.");
@@ -83,6 +94,8 @@ async function evaluatePitch(newPitch, previousPitches) {
     strengths.push("Clear revenue model.");
   else
     weaknesses.push("Revenue model needs improvement.");
+
+  /* STEP 7: RETURN RESULT */
 
   return {
 
