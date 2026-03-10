@@ -8,7 +8,8 @@ const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
 const sgMail = require("@sendgrid/mail"); // ✅ Added
-const serviceAccount = require("./firebaseKey.json");
+//const serviceAccount = require("./firebaseKey.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_KEY)
 
 const { evaluatePitch } = require("./logic/evaluatePitch");
 
