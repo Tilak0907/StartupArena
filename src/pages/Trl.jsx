@@ -27,7 +27,7 @@ export default function TRL() {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/getTrl", {
+      const response = await fetch("https://startuparena.onrender.com/getTrl", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -44,7 +44,7 @@ export default function TRL() {
   }, [navigate]);
 
   const saveTRL = async () => {
-    await fetch("http://localhost:5000/saveTrl", {
+    await fetch("https://startuparena.onrender.com/saveTrl", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

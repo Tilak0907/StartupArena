@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ══════════════════════════════════════
+   VARIABLES
+══════════════════════════════════════ */
+:root {
+  --bg:             #07080f;
+  --surface:        rgba(255, 255, 255, 0.045);
+  --surface-input:  rgba(255, 255, 255, 0.03);
+  --border:         rgba(255, 255, 255, 0.08);
+  --border-focus:   rgba(108, 71, 255, 0.6);
+  --accent:         #6c47ff;
+  --accent-cyan:    #00d4ff;
+  --accent-green:   #22c55e;
+  --text-primary:   #eeeeff;
+  --text-secondary: rgba(196, 190, 240, 0.75);
+  --text-muted:     rgba(140, 138, 180, 0.55);
+  --radius:         22px;
+  --radius-sm:      13px;
+  --navbar-height:  180px;
+  --ease:           cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════════════════
+   PAGE
+══════════════════════════════════════ */
+.funding-page {
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Sora', sans-serif;
+  padding: 52px 20px 100px;
+  margin-top: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ambient glow blobs */
+.funding-page::before {
+  content: '';
+  position: fixed;
+  top: -18%; right: -10%;
+  width: 60%; height: 60%;
+  background: radial-gradient(ellipse, rgba(108,71,255,0.11) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+  animation: blob1 11s ease-in-out infinite alternate;
+}
+.funding-page::after {
+  content: '';
+  position: fixed;
+  bottom: -12%; left: -10%;
+  width: 52%; height: 52%;
+  background: radial-gradient(ellipse, rgba(0,212,255,0.08) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+  animation: blob2 13s ease-in-out infinite alternate;
+}
+@keyframes blob1 {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(-5%,8%) scale(1.12); }
+}
+@keyframes blob2 {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(6%,-5%) scale(1.1); }
+}
+
+/* ══════════════════════════════════════
+   CARD
+══════════════════════════════════════ */
+.funding-card {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3rem 3.25rem 3.5rem;
+
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.065),
+    0 4px 80px rgba(0,0,0,0.55),
+    0 0 60px rgba(108,71,255,0.08);
+
+  overflow: hidden;
+  animation: cardIn 0.5s var(--ease) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)     scale(1); }
+}
+
+/* animated shimmer top line */
+.funding-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-cyan), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3.5s linear infinite;
+  z-index: 2;
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Heading ── */
+.funding-card h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  background: linear-gradient(130deg, #ffffff 0%, #c4b5fd 55%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+/* underline accent bar */
+.funding-card h2::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
+  margin-top: 0.6rem;
+  box-shadow: 0 0 10px rgba(108,71,255,0.5);
+}
+
+/* ── Subtitle ── */
+.subtitle {
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0.2rem 0 2.5rem;
+}
+
+/* ══════════════════════════════════════
+   FORM
+══════════════════════════════════════ */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Labels ── */
+form label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  margin-bottom: 0.55rem;
+}
+
+form label:first-of-type { margin-top: 0; }
+
+/* ── Inputs ── */
+form input,
+form textarea {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  background: var(--surface-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  outline: none;
+  transition:
+    border-color 0.22s ease,
+    background   0.22s ease,
+    box-shadow   0.22s ease;
+  resize: none;
+  -moz-appearance: textfield;
+}
+
+form input::-webkit-inner-spin-button,
+form input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+form input::placeholder,
+form textarea::placeholder {
+  color: var(--text-muted);
+  font-size: 0.83rem;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: var(--border-focus);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow:
+    0 0 0 3px rgba(108, 71, 255, 0.12),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+form textarea { min-height: 96px; }
+
+/* ── Horizontal pair: Available & Required ── */
+.funding-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ── Currency prefix wrapper ── */
+.funding-input-wrap {
+  position: relative;
+}
+
+.funding-input-wrap::before {
+  content: '₹';
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.funding-input-wrap input {
+  padding-left: 2rem;
+}
+
+/* ── Divider between sections ── */
+.funding-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 2rem 0 0;
+}
+
+/* ── Section label chip ── */
+.funding-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-top: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.funding-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 2px;
+  background: var(--accent-cyan);
+  border-radius: 1px;
+  opacity: 0.65;
+}
+
+/* ── Submit button ── */
+form button[type="submit"] {
+  margin-top: 2.5rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--accent), #8b5cf6 50%, var(--accent-cyan));
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  box-shadow: 0 4px 28px rgba(108,71,255,0.42);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition:
+    background-position 0.45s ease,
+    transform   0.18s var(--ease),
+    box-shadow  0.22s ease;
+}
+
+/* arrow icon */
+form button[type="submit"]::after {
+  content: '→';
+  font-size: 1.05rem;
+  transition: transform 0.22s var(--ease);
+}
+
+form button[type="submit"]:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(108,71,255,0.58);
+}
+
+form button[type="submit"]:hover::after {
+  transform: translateX(5px);
+}
+
+form button[type="submit"]:active {
+  transform: scale(0.98) translateY(0);
+  box-shadow: 0 2px 14px rgba(108,71,255,0.3);
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .funding-page { padding: 32px 14px 70px; }
+  .funding-card { padding: 2rem 1.5rem 2.5rem; border-radius: 18px; }
+  .funding-pair { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 400px) {
+  .funding-card { padding: 1.5rem 1.1rem 2rem; border-radius: 14px; }
+  .funding-card h2 { font-size: 1.35rem; }
+}

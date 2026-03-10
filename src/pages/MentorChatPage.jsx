@@ -34,7 +34,7 @@ export default function MentorChatPage() {
   const sendMessage = async () => {
     if (!text.trim()) return;
 
-    await fetch("http://localhost:5000/api/chat/send", {
+    await fetch("https://startuparena.onrender.com/api/chat/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

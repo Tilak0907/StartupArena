@@ -151,7 +151,7 @@ export default function ChatPage() {
 
     if (!user) return;
 
-    const response = await fetch("http://localhost:5000/api/chat/create", {
+    const response = await fetch("https://startuparena.onrender.com/api/chat/create", {
 
       method: "POST",
 
@@ -179,7 +179,7 @@ export default function ChatPage() {
 
     if (!text.trim() || !chatId) return;
 
-    await fetch("http://localhost:5000/api/chat/send", {
+    await fetch("https://startuparena.onrender.com/api/chat/send", {
 
       method: "POST",
 
@@ -209,7 +209,7 @@ export default function ChatPage() {
 
     try {
 
-      await fetch(`http://localhost:5000/api/chat/delete/${chatIdToDelete}`, {
+      await fetch(`https://startuparena.onrender.com/api/chat/delete/${chatIdToDelete}`, {
         method: "DELETE"
       });
 

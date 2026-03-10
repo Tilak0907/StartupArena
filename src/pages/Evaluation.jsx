@@ -23,7 +23,7 @@ export default function Evaluation() {
 
         setLoading(true);
 
-        const response = await fetch("http://localhost:5000/evaluate", {
+        const response = await fetch("https://startuparena.onrender.com/evaluate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

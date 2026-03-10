@@ -109,7 +109,7 @@ export default function MentorChatList() {
 
     try {
 
-      await fetch(`http://localhost:5000/api/chat/delete/${chatId}`, {
+      await fetch(`https://startuparena.onrender.com/api/chat/delete/${chatId}`, {
         method: "DELETE"
       });
 

@@ -10,6 +10,7 @@ import {
   updateDoc,
   doc
 } from "firebase/firestore";
+import "../styles/Funding.css"
 
 export default function Funding() {
 

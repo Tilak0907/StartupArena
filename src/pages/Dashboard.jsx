@@ -18,7 +18,7 @@ export default function Dashboard() {
 
   if (!alreadyTracked) {
 
-    fetch("http://localhost:5000/track-visit", {
+    fetch("https://startuparena.onrender.com/track-visit", {
       method: "POST"
     });
 

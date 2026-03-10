@@ -29,7 +29,7 @@ export default function EvaluationMatrix() {
 
       try {
         const response = await fetch(
-          "http://localhost:5000/getMatrix",
+          "https://startuparena.onrender.com/getMatrix",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -85,7 +85,7 @@ export default function EvaluationMatrix() {
   ================================= */
   const handleSubmit = async () => {
     try {
-      await fetch("http://localhost:5000/saveMatrix", {
+      await fetch("https://startuparena.onrender.com/saveMatrix", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

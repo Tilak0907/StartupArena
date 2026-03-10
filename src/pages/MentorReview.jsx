@@ -180,7 +180,7 @@ export default function MentorReview() {
       setMessage("");
 
       const response = await fetch(
-        "http://localhost:5000/api/mentor/assign",
+        "https://startuparena.onrender.com/api/mentor/assign",
         {
           method: "POST",
           headers: {
