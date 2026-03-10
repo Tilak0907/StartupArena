@@ -9,18 +9,18 @@ Firebase Admin already initialized in index.js
 
 async function mapPitchToFeatures(pitch, previousPitches = []) {
 
-  const problem = (pitch.problem || "").toLowerCase();
-  const solution = (pitch.solution || "").toLowerCase();
-  const market = (pitch.market || "").toLowerCase();
-  const revenue = (pitch.revenue || "").toLowerCase();
+  const problem = (pitch.problem || "").toLowerCase().trim();
+  const solution = (pitch.solution || "").toLowerCase().trim();
+  const market = (pitch.market || "").toLowerCase().trim();
+  const revenue = (pitch.revenue || "").toLowerCase().trim();
 
   try {
 
     const db = admin.firestore();
 
-    /* =========================================================
-       FETCH KEYWORDS FROM FIRESTORE
-    ========================================================= */
+    /* =====================================
+       FETCH KEYWORD CONFIG
+    ===================================== */
 
     const configSnapshot = await db
       .collection("keywordConfig")
@@ -28,8 +28,11 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
       .get();
 
     if (configSnapshot.empty) {
-      console.log("No keyword configuration found.");
+
+      console.log("Keyword config missing");
+
       return [0,0,0,0,0,0,0,0,0,0];
+
     }
 
     const config = configSnapshot.docs[0].data();
@@ -39,49 +42,73 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
     const marketKeywords = config.market || [];
     const revenueKeywords = config.revenue || [];
 
-    /* =========================================================
-       1️⃣ PROBLEM SCORE (keyword quality)
-    ========================================================= */
+    /* =====================================
+       PROBLEM SCORE
+    ===================================== */
 
-    let problemScore = problemKeywords.filter(word =>
-      problem.includes(word)
-    ).length;
+    let problemScore = 0;
 
-    problemScore = Math.min(problemScore, 2);
+    problemKeywords.forEach(keyword => {
 
-    /* =========================================================
-       2️⃣ SOLUTION SCORE
-    ========================================================= */
+      if (problem.includes(keyword)) {
+        problemScore++;
+      }
 
-    let solutionScore = solutionKeywords.filter(word =>
-      solution.includes(word)
-    ).length;
+    });
 
-    solutionScore = Math.min(solutionScore, 2);
+    problemScore = Math.min(problemScore, 3);
 
-    /* =========================================================
-       3️⃣ MARKET SCORE
-    ========================================================= */
+    /* =====================================
+       SOLUTION SCORE
+    ===================================== */
 
-    let marketScore = marketKeywords.filter(word =>
-      market.includes(word)
-    ).length;
+    let solutionScore = 0;
 
-    marketScore = Math.min(marketScore, 2);
+    solutionKeywords.forEach(keyword => {
 
-    /* =========================================================
-       4️⃣ REVENUE SCORE
-    ========================================================= */
+      if (solution.includes(keyword)) {
+        solutionScore++;
+      }
 
-    let revenueScore = revenueKeywords.filter(word =>
-      revenue.includes(word)
-    ).length;
+    });
 
-    revenueScore = Math.min(revenueScore, 2);
+    solutionScore = Math.min(solutionScore, 3);
 
-    /* =========================================================
-       5️⃣ PITCH LENGTH SCORE
-    ========================================================= */
+    /* =====================================
+       MARKET SCORE
+    ===================================== */
+
+    let marketScore = 0;
+
+    marketKeywords.forEach(keyword => {
+
+      if (market.includes(keyword)) {
+        marketScore++;
+      }
+
+    });
+
+    marketScore = Math.min(marketScore, 3);
+
+    /* =====================================
+       REVENUE SCORE
+    ===================================== */
+
+    let revenueScore = 0;
+
+    revenueKeywords.forEach(keyword => {
+
+      if (revenue.includes(keyword)) {
+        revenueScore++;
+      }
+
+    });
+
+    revenueScore = Math.min(revenueScore, 3);
+
+    /* =====================================
+       PITCH LENGTH SCORE
+    ===================================== */
 
     const fullPitch =
       problem + " " +
@@ -89,16 +116,28 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
       market + " " +
       revenue;
 
-    const wordCount = fullPitch.split(/\s+/).length;
+    const wordCount = fullPitch.split(/\s+/).filter(w => w).length;
 
     let pitchLengthScore = 0;
 
-    if (wordCount > 80) pitchLengthScore = 2;
-    else if (wordCount > 40) pitchLengthScore = 1;
+    if (wordCount > 120) pitchLengthScore = 3;
+    else if (wordCount > 60) pitchLengthScore = 2;
+    else if (wordCount > 25) pitchLengthScore = 1;
+    else pitchLengthScore = 0;
 
-    /* =========================================================
+    /* =====================================
+       PENALTY FOR VERY WEAK TEXT
+    ===================================== */
+
+    if (wordCount < 10) {
+
+      return [0,0,0,0,0,0,0,0,0,0];
+
+    }
+
+    /* =====================================
        TF-IDF FEATURE GENERATION
-    ========================================================= */
+    ===================================== */
 
     const tfidf = new TfIdf();
 
@@ -120,31 +159,39 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
     for (let i = 0; i < 5; i++) {
 
       if (tfidfTerms[i]) {
-        tfidfFeatures.push(Number(tfidfTerms[i].tfidf.toFixed(4)));
+
+        tfidfFeatures.push(
+          Number(tfidfTerms[i].tfidf.toFixed(4))
+        );
+
       } else {
+
         tfidfFeatures.push(0);
+
       }
 
     }
 
-    /* =========================================================
+    /* =====================================
        FINAL FEATURE VECTOR
-    ========================================================= */
+    ===================================== */
 
     const features = [
+
       problemScore,
       solutionScore,
       marketScore,
       revenueScore,
       pitchLengthScore,
       ...tfidfFeatures
+
     ];
 
     return features;
 
   } catch (error) {
 
-    console.error("Keyword fetch error:", error);
+    console.error("Feature mapping error:", error);
 
     return [0,0,0,0,0,0,0,0,0,0];
 

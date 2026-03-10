@@ -6,22 +6,29 @@ async function evaluatePitch(newPitch, previousPitches) {
 
   const db = admin.firestore();
 
-  /* STEP 1: FEATURE VECTOR */
+  /* =====================================
+     STEP 1: FEATURE VECTOR
+  ===================================== */
 
   const features = await mapPitchToFeatures(
     newPitch,
     previousPitches
   );
 
-  /* STEP 2: SAVE FEATURE VECTOR */
+  /* =====================================
+     STEP 2: SAVE FEATURE VECTOR
+  ===================================== */
 
   try {
 
     await db.collection("featureVectors").add({
 
       userId: newPitch.userId || "unknown",
+
       features: features,
+
       label: newPitch.successLabel || null,
+
       createdAt: admin.firestore.FieldValue.serverTimestamp()
 
     });
@@ -32,7 +39,9 @@ async function evaluatePitch(newPitch, previousPitches) {
 
   }
 
-  /* STEP 3: RANDOM FOREST */
+  /* =====================================
+     STEP 3: RANDOM FOREST
+  ===================================== */
 
   const modelResult = await runRandomForest(
     features,
@@ -40,37 +49,63 @@ async function evaluatePitch(newPitch, previousPitches) {
   );
 
   const prediction = modelResult.prediction;
+
   const probability = modelResult.probability || 0;
 
-  /* STEP 4: FEATURE CONTRIBUTION */
+  /* =====================================
+     STEP 4: FEATURE CONTRIBUTION
+  ===================================== */
 
   const [
     problemScore,
     solutionScore,
     marketScore,
-    revenueScore
+    revenueScore,
+    pitchLengthScore
   ] = features;
 
-  const featureAverage =
+  const structuredAverage =
     (problemScore +
       solutionScore +
       marketScore +
-      revenueScore) / 4;
+      revenueScore +
+      pitchLengthScore) / 5;
 
-  /* STEP 5: FINAL SCORE CALCULATION */
+  /* =====================================
+     STEP 5: SCORE CALCULATION
+  ===================================== */
 
   const modelScore = probability * 100;
-  const featureScore = (featureAverage / 3) * 100;
+
+  const featureScore = (structuredAverage / 3) * 100;
 
   let score =
-    (modelScore * 0.7) +
-    (featureScore * 0.3);
+    (modelScore * 0.4) +
+    (featureScore * 0.6);
+
+  /* =====================================
+     STEP 6: PENALTY FOR WEAK PITCH
+  ===================================== */
+
+  if (structuredAverage < 1) {
+
+    score = score * 0.5;
+
+  }
+
+  if (structuredAverage < 0.5) {
+
+    score = score * 0.4;
+
+  }
 
   score = Math.round(score);
 
-  score = Math.max(20, Math.min(score, 100));
+  score = Math.max(10, Math.min(score, 100));
 
-  /* STEP 6: STRENGTHS / WEAKNESSES */
+  /* =====================================
+     STEP 7: STRENGTHS / WEAKNESSES
+  ===================================== */
 
   const strengths = [];
   const weaknesses = [];
@@ -95,7 +130,14 @@ async function evaluatePitch(newPitch, previousPitches) {
   else
     weaknesses.push("Revenue model needs improvement.");
 
-  /* STEP 7: RETURN RESULT */
+  if (pitchLengthScore >= 2)
+    strengths.push("Pitch provides sufficient detail.");
+  else
+    weaknesses.push("Pitch needs more explanation and detail.");
+
+  /* =====================================
+     STEP 8: RETURN RESULT
+  ===================================== */
 
   return {
 
@@ -119,12 +161,16 @@ async function evaluatePitch(newPitch, previousPitches) {
 
 }
 
-/* HELPERS */
+/* =====================================
+   HELPERS
+===================================== */
 
 function getReadiness(score) {
 
   if (score >= 75) return "High";
+
   if (score >= 45) return "Medium";
+
   return "Low";
 
 }
@@ -132,7 +178,9 @@ function getReadiness(score) {
 function getConfidence(score) {
 
   if (score >= 75) return "High";
+
   if (score >= 45) return "Moderate";
+
   return "Low";
 
 }

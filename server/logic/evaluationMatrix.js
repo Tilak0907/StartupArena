@@ -1,89 +1,109 @@
-const { mapPitchToItems } = require("./attributeMapper");
+const { mapPitchToFeatures } = require("./attributeMapper");
 
 /**
  * Structured Evaluation Matrix Calculation
+ * Uses Random Forest probability + structured features
+ *
  * @param {Object} pitch
- * @param {Number} patternScore (ECLAT score)
+ * @param {Number} modelProbability
+ * @param {Array} previousPitches
  */
-async function evaluateMatrix(pitch, patternScore = 0) {
 
-  const items = await mapPitchToItems(pitch);
+async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = []) {
 
-  /* ===============================
-     1️⃣ PROBLEM SCORE
-  =============================== */
-  let problemScore = 40;
+  const features = await mapPitchToFeatures(pitch, previousPitches);
 
-  if (items.includes("strong_problem")) problemScore += 40;
-  if (items.includes("weak_problem")) problemScore -= 10;
-
-  problemScore = clamp(problemScore);
-
-  /* ===============================
-     2️⃣ SOLUTION SCORE
-  =============================== */
-  let solutionScore = 40;
-
-  if (items.includes("innovative_solution")) solutionScore += 40;
-  if (items.includes("basic_solution")) solutionScore += 10;
-  if (items.includes("weak_solution")) solutionScore -= 10;
-
-  solutionScore = clamp(solutionScore);
-
-  /* ===============================
-     3️⃣ MARKET SCORE
-  =============================== */
-  let marketScore = 40;
-
-  if (items.includes("large_market")) marketScore += 40;
-  if (items.includes("niche_market")) marketScore += 15;
-  if (items.includes("unclear_market")) marketScore -= 10;
-
-  marketScore = clamp(marketScore);
-
-  /* ===============================
-     4️⃣ REVENUE SCORE
-  =============================== */
-  let revenueScore = 40;
-
-  if (items.includes("strong_revenue_model")) revenueScore += 40;
-  if (items.includes("basic_revenue_model")) revenueScore += 10;
-  if (items.includes("undefined_revenue_model")) revenueScore -= 10;
-
-  revenueScore = clamp(revenueScore);
-
-  /* ===============================
-     5️⃣ PATTERN SCORE (ECLAT)
-  =============================== */
-  const patternMatchScore = patternScore;
-
-  /* ===============================
-     6️⃣ FINAL OVERALL SCORE
-  =============================== */
-
-  const overallScore = Math.round(
-    (problemScore +
-      solutionScore +
-      marketScore +
-      revenueScore +
-      patternMatchScore) / 5
-  );
-
-  return {
+  const [
     problemScore,
     solutionScore,
     marketScore,
     revenueScore,
-    patternMatchScore,
+    pitchLengthScore
+  ] = features;
+
+  /* ===============================
+     1️⃣ PROBLEM SCORE
+  =============================== */
+
+  let problemMatrixScore = 20 + (problemScore * 25);
+
+  problemMatrixScore = clamp(problemMatrixScore);
+
+  /* ===============================
+     2️⃣ SOLUTION SCORE
+  =============================== */
+
+  let solutionMatrixScore = 20 + (solutionScore * 25);
+
+  solutionMatrixScore = clamp(solutionMatrixScore);
+
+  /* ===============================
+     3️⃣ MARKET SCORE
+  =============================== */
+
+  let marketMatrixScore = 20 + (marketScore * 25);
+
+  marketMatrixScore = clamp(marketMatrixScore);
+
+  /* ===============================
+     4️⃣ REVENUE SCORE
+  =============================== */
+
+  let revenueMatrixScore = 20 + (revenueScore * 25);
+
+  revenueMatrixScore = clamp(revenueMatrixScore);
+
+  /* ===============================
+     5️⃣ PITCH QUALITY SCORE
+  =============================== */
+
+  let pitchQualityScore = 20 + (pitchLengthScore * 25);
+
+  pitchQualityScore = clamp(pitchQualityScore);
+
+  /* ===============================
+     6️⃣ RANDOM FOREST SCORE
+  =============================== */
+
+  const modelScore = Math.round(modelProbability * 100);
+
+  /* ===============================
+     7️⃣ FINAL OVERALL SCORE
+  =============================== */
+
+  const overallScore = Math.round(
+    (
+      problemMatrixScore +
+      solutionMatrixScore +
+      marketMatrixScore +
+      revenueMatrixScore +
+      pitchQualityScore +
+      modelScore
+    ) / 6
+  );
+
+  return {
+
+    problemScore: problemMatrixScore,
+    solutionScore: solutionMatrixScore,
+    marketScore: marketMatrixScore,
+    revenueScore: revenueMatrixScore,
+    pitchQualityScore,
+    modelScore,
     overallScore
+
   };
+
 }
 
 /* ===============================
    Helper
 =============================== */
+
 function clamp(value) {
+
   return Math.max(0, Math.min(100, value));
+
 }
 
 module.exports = { evaluateMatrix };

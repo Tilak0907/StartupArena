@@ -3,35 +3,41 @@ const { mapPitchToFeatures } = require("./attributeMapper");
 
 /* =========================================================
    SYNTHETIC FALLBACK DATA
-   Used only if Firestore dataset is too small
+   Used if dataset is too small
+   (10 FEATURES: 5 structured + 5 TF-IDF)
 ========================================================= */
 
 const fallbackTraining = [
-  [2,2,2,2],
-  [2,2,2,1],
-  [2,1,2,2],
-  [1,2,2,2],
-  [2,2,1,1],
-  [1,2,2,1],
-  [2,1,1,2],
-  [1,1,2,2],
-  [1,1,1,1],
-  [1,1,1,0],
-  [0,1,1,1],
-  [1,0,1,1],
-  [0,0,1,1],
-  [1,0,0,1],
-  [0,1,0,1],
-  [0,0,0,1],
-  [0,0,0,0]
+
+  [3,3,3,3,3,0.5,0.4,0.3,0.3,0.2],
+  [3,3,3,2,2,0.4,0.4,0.3,0.2,0.2],
+  [3,2,3,3,2,0.4,0.3,0.3,0.2,0.2],
+  [2,3,3,3,2,0.4,0.3,0.2,0.2,0.2],
+  [3,3,2,2,2,0.3,0.3,0.2,0.2,0.2],
+  [2,3,3,2,2,0.3,0.3,0.2,0.2,0.1],
+
+  [2,2,2,2,2,0.2,0.2,0.2,0.1,0.1],
+  [2,2,2,1,1,0.2,0.2,0.1,0.1,0.1],
+
+  [1,1,1,1,1,0.1,0.1,0.1,0.1,0.1],
+  [1,1,1,0,0,0.1,0.1,0.05,0.05,0.05],
+  [0,1,1,1,0,0.1,0.05,0.05,0.05,0.05],
+  [1,0,1,1,0,0.1,0.05,0.05,0.05,0.05],
+  [0,0,1,1,0,0.05,0.05,0.05,0.05,0.05],
+  [1,0,0,1,0,0.05,0.05,0.05,0.05,0.05],
+  [0,1,0,1,0,0.05,0.05,0.05,0.05,0.05],
+  [0,0,0,1,0,0.05,0.05,0.05,0.05,0.05],
+  [0,0,0,0,0,0.01,0.01,0.01,0.01,0.01]
+
 ];
 
 const fallbackLabels = [
-  1,1,1,1,
-  1,1,1,1,
-  0,0,0,0,
-  0,0,0,0,
+
+  1,1,1,1,1,1,
+  1,1,
+  0,0,0,0,0,0,0,0,
   0
+
 ];
 
 /* =========================================================
@@ -44,7 +50,7 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
   const labels = [];
 
   /* =========================================================
-     BUILD DATASET FROM FIRESTORE PITCHES
+     BUILD DATASET FROM FIRESTORE
   ========================================================= */
 
   for (const pitch of previousPitches) {
@@ -58,7 +64,7 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
   }
 
   /* =========================================================
-     FALLBACK IF DATASET TOO SMALL
+     FALLBACK DATA IF DATASET SMALL
   ========================================================= */
 
   if (trainingData.length < 10) {
@@ -75,10 +81,12 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
   ========================================================= */
 
   const rf = new RandomForestClassifier({
-    nEstimators: 20,
+
+    nEstimators: 30,
     maxFeatures: 0.8,
     replacement: true,
     seed: 3
+
   });
 
   rf.train(trainingData, labels);
@@ -87,15 +95,47 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
      PREDICT CURRENT PITCH
   ========================================================= */
 
-  const prediction = rf.predict([currentFeatures])[0];
+  const predictionValue = rf.predict([currentFeatures])[0];
 
-  const sum = currentFeatures.reduce((a,b) => a+b,0);
+  /* =========================================================
+     PROBABILITY ESTIMATION
+     (structured features influence)
+  ========================================================= */
 
-  const probability = Math.min(1, sum / (currentFeatures.length * 2));
+  const structuredFeatures = currentFeatures.slice(0,5);
+
+  const structuredSum =
+    structuredFeatures.reduce((a,b)=>a+b,0);
+
+  const structuredProbability =
+    structuredSum / (5 * 3);
+
+  const tfidfFeatures =
+    currentFeatures.slice(5);
+
+  const tfidfAvg =
+    tfidfFeatures.reduce((a,b)=>a+b,0) /
+    tfidfFeatures.length;
+
+  const probability = Math.min(
+
+    1,
+
+    (structuredProbability * 0.8) +
+    (tfidfAvg * 0.2)
+
+  );
+
+  const prediction =
+    predictionValue === 1
+      ? "Successful"
+      : "Needs Improvement";
 
   return {
-    prediction: prediction === 1 ? "Successful" : "Needs Improvement",
+
+    prediction,
     probability
+
   };
 
 }
