@@ -129,8 +129,6 @@ export default function Evaluation() {
 
         <div className="prediction-section">
 
-          <h3>AI Prediction</h3>
-
           <p className={`prediction ${prediction.toLowerCase().replace(" ", "-")}`}>
 
             {prediction}
