@@ -87,12 +87,10 @@ export default function Pitch() {
         updatedAt: new Date(),
       };
 
-      /* 🔹 UPDATE EXISTING */
       if (pitchId) {
         await updateDoc(doc(db, "pitches", pitchId), payload);
         alert("Pitch updated successfully!");
       } else {
-        /* 🔹 CREATE NEW */
         await addDoc(collection(db, "pitches"), {
           ...payload,
           createdAt: new Date(),
@@ -100,7 +98,6 @@ export default function Pitch() {
         alert("Pitch submitted successfully!");
       }
 
-      // ✅ Redirect to evaluation page
       navigate("/evaluation");
 
     } catch (err) {
@@ -121,48 +118,44 @@ export default function Pitch() {
         <div className="card">
           {error && <p className="error">{error}</p>}
 
+          {/* ── Problem Statement ── */}
           <label>Problem Statement</label>
           <textarea
+            className="field-lg"
             value={data.problem}
             placeholder="Describe the real-world problem clearly..."
-            onChange={(e) =>
-              setData({ ...data, problem: e.target.value })
-            }
+            onChange={(e) => setData({ ...data, problem: e.target.value })}
           />
 
+          {/* ── Solution ── */}
           <label>Solution</label>
           <textarea
+            className="field-lg"
             value={data.solution}
             placeholder="Explain your solution and its uniqueness..."
-            onChange={(e) =>
-              setData({ ...data, solution: e.target.value })
-            }
+            onChange={(e) => setData({ ...data, solution: e.target.value })}
           />
 
+          {/* ── Target Market — now textarea, taller ── */}
           <label>Target Market</label>
-          <input
+          <textarea
+            className="field-md"
             value={data.market}
             placeholder="Who are your customers?"
-            onChange={(e) =>
-              setData({ ...data, market: e.target.value })
-            }
+            onChange={(e) => setData({ ...data, market: e.target.value })}
           />
 
+          {/* ── Revenue Model — now textarea, taller ── */}
           <label>Revenue Model</label>
-          <input
+          <textarea
+            className="field-md"
             value={data.revenue}
             placeholder="How will you generate revenue?"
-            onChange={(e) =>
-              setData({ ...data, revenue: e.target.value })
-            }
+            onChange={(e) => setData({ ...data, revenue: e.target.value })}
           />
 
           <button onClick={submitPitch} disabled={loading}>
-            {loading
-              ? "Processing..."
-              : pitchId
-              ? "Update Pitch"
-              : "Submit Pitch"}
+            {loading ? "Processing..." : pitchId ? "Update Pitch" : "Submit Pitch"}
           </button>
         </div>
 

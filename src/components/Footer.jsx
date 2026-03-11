@@ -31,7 +31,7 @@ export default function Footer() {
             © {currentYear} StartupArena. All rights reserved.
           </p>
           <div className="footer-badges">
-            <span className="footer-badge">Developed By Tilakaraaj D</span>
+            <span className="footer-badge">Developed By Tilakaraaj Dhanaraj</span>
           </div>
         </div>
       </div>
