@@ -119,7 +119,7 @@ export default function Dashboard() {
         </div>
 
         <div className="dashboard-user">
-          <p className="user-email">{user.email}</p>
+          <p className="user-email"><p>Logged In</p>{user.email}</p>
         </div>
 
       </section>
