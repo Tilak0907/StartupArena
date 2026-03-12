@@ -21,6 +21,7 @@ export default function MentorReview() {
   const [loading, setLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
+  const [hasPitch,setHasPitch] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,6 +63,30 @@ export default function MentorReview() {
     fetchMentors();
 
   }, []);
+
+/* Check if pitch has been submitted */
+
+useEffect(() => {
+
+  const checkPitch = async () => {
+
+    const pitchQuery = query(
+      collection(db, "pitches"),
+      where("userId", "==", auth.currentUser.uid)
+    );
+
+    const snapshot = await getDocs(pitchQuery);
+
+    if (!snapshot.empty) {
+      setHasPitch(true);
+    }
+
+  };
+
+  checkPitch();
+
+}, []);
+
 
   /* ===============================
      3️⃣ Fetch mentors already submitted
@@ -256,9 +281,13 @@ export default function MentorReview() {
 
         </select>
 
-        <button onClick={handleSubmit} disabled={loading}>
+        <button onClick={handleSubmit} disabled={loading || !hasPitch}>
           {loading ? "Submitting..." : "Submit to Mentor"}
         </button>
+
+        {!hasPitch &&(
+          <p>you must submit your pitch</p>
+        )}
 
         {message && (
           <p style={{ marginTop: "10px", color: "green" }}>
