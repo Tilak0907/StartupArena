@@ -32,12 +32,10 @@ const fallbackTraining = [
 ];
 
 const fallbackLabels = [
-
   1,1,1,1,1,1,
   1,1,
   0,0,0,0,0,0,0,0,
   0
-
 ];
 
 /* =========================================================
@@ -57,9 +55,13 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
 
     const features = await mapPitchToFeatures(pitch, previousPitches);
 
-    trainingData.push(features);
+    // Ensure feature length is correct
+    if (features.length === 10) {
 
-    labels.push(pitch.successLabel || 0);
+      trainingData.push(features);
+      labels.push(pitch.successLabel || 0);
+
+    }
 
   }
 
@@ -82,14 +84,20 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
 
   const rf = new RandomForestClassifier({
 
-    nEstimators: 30,
+    nEstimators: 40,
     maxFeatures: 0.8,
     replacement: true,
-    seed: 3
+    seed: 7
 
   });
 
   rf.train(trainingData, labels);
+
+  /* =========================================================
+     DEBUG FEATURE VECTOR
+  ========================================================= */
+
+  console.log("Current Pitch Features:", currentFeatures);
 
   /* =========================================================
      PREDICT CURRENT PITCH
@@ -98,8 +106,7 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
   const predictionValue = rf.predict([currentFeatures])[0];
 
   /* =========================================================
-     PROBABILITY ESTIMATION
-     (structured features influence)
+     STRUCTURED FEATURE SCORE
   ========================================================= */
 
   const structuredFeatures = currentFeatures.slice(0,5);
@@ -108,23 +115,34 @@ async function runRandomForest(currentFeatures, previousPitches = []) {
     structuredFeatures.reduce((a,b)=>a+b,0);
 
   const structuredProbability =
-    structuredSum / (5 * 3);
+    structuredSum / 15; // max possible = 15
 
-  const tfidfFeatures =
-    currentFeatures.slice(5);
+  /* =========================================================
+     TF-IDF SCORE
+  ========================================================= */
+
+  const tfidfFeatures = currentFeatures.slice(5);
 
   const tfidfAvg =
     tfidfFeatures.reduce((a,b)=>a+b,0) /
     tfidfFeatures.length;
 
+  /* =========================================================
+     FINAL PROBABILITY
+  ========================================================= */
+
   const probability = Math.min(
 
     1,
 
-    (structuredProbability * 0.8) +
-    (tfidfAvg * 0.2)
+    (structuredProbability * 0.85) +
+    (tfidfAvg * 0.15)
 
   );
+
+  /* =========================================================
+     FINAL RESULT
+  ========================================================= */
 
   const prediction =
     predictionValue === 1

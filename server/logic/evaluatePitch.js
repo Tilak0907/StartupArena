@@ -2,7 +2,7 @@ const admin = require("firebase-admin");
 const { mapPitchToFeatures } = require("./attributeMapper");
 const { runRandomForest } = require("./randomForest");
 
-async function evaluatePitch(newPitch, previousPitches) {
+async function evaluatePitch(newPitch, previousPitches = []) {
 
   const db = admin.firestore();
 
@@ -13,7 +13,9 @@ async function evaluatePitch(newPitch, previousPitches) {
   const features = await mapPitchToFeatures(
     newPitch,
     previousPitches
-  );
+  ) || [0,0,0,0,0,0,0,0,0,0];
+
+  console.log("Generated Features:", features);
 
   /* =====================================
      STEP 2: SAVE FEATURE VECTOR
@@ -48,28 +50,28 @@ async function evaluatePitch(newPitch, previousPitches) {
     previousPitches
   );
 
-  const prediction = modelResult.prediction;
+  const prediction = modelResult.prediction || "Needs Improvement";
 
   const probability = modelResult.probability || 0;
 
   /* =====================================
-     STEP 4: FEATURE CONTRIBUTION
+     STEP 4: STRUCTURED FEATURE SCORES
   ===================================== */
 
-  const [
-    problemScore,
-    solutionScore,
-    marketScore,
-    revenueScore,
-    pitchLengthScore
-  ] = features;
+  const problemScore = features[0] || 0;
+  const solutionScore = features[1] || 0;
+  const marketScore = features[2] || 0;
+  const revenueScore = features[3] || 0;
+  const pitchLengthScore = features[4] || 0;
 
   const structuredAverage =
-    (problemScore +
+    (
+      problemScore +
       solutionScore +
       marketScore +
       revenueScore +
-      pitchLengthScore) / 5;
+      pitchLengthScore
+    ) / 5;
 
   /* =====================================
      STEP 5: SCORE CALCULATION
@@ -84,27 +86,25 @@ async function evaluatePitch(newPitch, previousPitches) {
     (featureScore * 0.6);
 
   /* =====================================
-     STEP 6: PENALTY FOR WEAK PITCH
+     STEP 6: PENALTY FOR VERY WEAK PITCH
   ===================================== */
-
-  if (structuredAverage < 1) {
-
-    score = score * 0.5;
-
-  }
 
   if (structuredAverage < 0.5) {
 
-    score = score * 0.4;
+    score = score * 0.6;
 
   }
+
+  /* =====================================
+     STEP 7: CLAMP SCORE
+  ===================================== */
 
   score = Math.round(score);
 
   score = Math.max(10, Math.min(score, 100));
 
   /* =====================================
-     STEP 7: STRENGTHS / WEAKNESSES
+     STEP 8: STRENGTHS / WEAKNESSES
   ===================================== */
 
   const strengths = [];
@@ -136,7 +136,7 @@ async function evaluatePitch(newPitch, previousPitches) {
     weaknesses.push("Pitch needs more explanation and detail.");
 
   /* =====================================
-     STEP 8: RETURN RESULT
+     STEP 9: RETURN RESULT
   ===================================== */
 
   return {

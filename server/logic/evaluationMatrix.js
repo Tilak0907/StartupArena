@@ -11,22 +11,19 @@ const { mapPitchToFeatures } = require("./attributeMapper");
 
 async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = []) {
 
-  const features = await mapPitchToFeatures(pitch, previousPitches);
+  const features = await mapPitchToFeatures(pitch, previousPitches) || [];
 
-  const [
-    problemScore,
-    solutionScore,
-    marketScore,
-    revenueScore,
-    pitchLengthScore
-  ] = features;
+  const problemScore = features[0] || 0;
+  const solutionScore = features[1] || 0;
+  const marketScore = features[2] || 0;
+  const revenueScore = features[3] || 0;
+  const pitchLengthScore = features[4] || 0;
 
   /* ===============================
      1️⃣ PROBLEM SCORE
   =============================== */
 
   let problemMatrixScore = 20 + (problemScore * 25);
-
   problemMatrixScore = clamp(problemMatrixScore);
 
   /* ===============================
@@ -34,7 +31,6 @@ async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = [])
   =============================== */
 
   let solutionMatrixScore = 20 + (solutionScore * 25);
-
   solutionMatrixScore = clamp(solutionMatrixScore);
 
   /* ===============================
@@ -42,7 +38,6 @@ async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = [])
   =============================== */
 
   let marketMatrixScore = 20 + (marketScore * 25);
-
   marketMatrixScore = clamp(marketMatrixScore);
 
   /* ===============================
@@ -50,7 +45,6 @@ async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = [])
   =============================== */
 
   let revenueMatrixScore = 20 + (revenueScore * 25);
-
   revenueMatrixScore = clamp(revenueMatrixScore);
 
   /* ===============================
@@ -58,14 +52,13 @@ async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = [])
   =============================== */
 
   let pitchQualityScore = 20 + (pitchLengthScore * 25);
-
   pitchQualityScore = clamp(pitchQualityScore);
 
   /* ===============================
      6️⃣ RANDOM FOREST SCORE
   =============================== */
 
-  const modelScore = Math.round(modelProbability * 100);
+  const modelScore = Math.round((modelProbability || 0) * 100);
 
   /* ===============================
      7️⃣ FINAL OVERALL SCORE
@@ -102,7 +95,7 @@ async function evaluateMatrix(pitch, modelProbability = 0, previousPitches = [])
 
 function clamp(value) {
 
-  return Math.max(0, Math.min(100, value));
+  return Math.max(0, Math.min(100, Math.round(value)));
 
 }
 

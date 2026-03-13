@@ -3,9 +3,35 @@ const natural = require("natural");
 
 const TfIdf = natural.TfIdf;
 
-/*
-Firebase Admin already initialized in index.js
-*/
+/* =====================================
+   KEYWORD FREQUENCY SCORING
+===================================== */
+
+function keywordScore(text, keywords) {
+
+  let score = 0;
+
+  keywords.forEach(keyword => {
+
+    const word = keyword.toLowerCase();
+
+    const regex = new RegExp(`\\b${word}\\b`, "g");
+
+    const matches = text.match(regex);
+
+    if (matches) {
+      score += matches.length;
+    }
+
+  });
+
+  return Math.min(score, 3);
+
+}
+
+/* =====================================
+   MAIN FEATURE MAPPER
+===================================== */
 
 async function mapPitchToFeatures(pitch, previousPitches = []) {
 
@@ -19,96 +45,48 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
     const db = admin.firestore();
 
     /* =====================================
-       FETCH KEYWORD CONFIG
+       FETCH KEYWORDS FROM FIRESTORE
     ===================================== */
 
-    const configSnapshot = await db
-      .collection("keywordConfig")
-      .limit(1)
-      .get();
+    const problemDoc =
+      await db.collection("keywordConfig").doc("problem").get();
 
-    if (configSnapshot.empty) {
+    const solutionDoc =
+      await db.collection("keywordConfig").doc("solution").get();
 
-      console.log("Keyword config missing");
+    const marketDoc =
+      await db.collection("keywordConfig").doc("market").get();
 
-      return [0,0,0,0,0,0,0,0,0,0];
+    const revenueDoc =
+      await db.collection("keywordConfig").doc("revenue").get();
 
-    }
+    const problemKeywords =
+      problemDoc.data()?.keywords || [];
 
-    const config = configSnapshot.docs[0].data();
+    const solutionKeywords =
+      solutionDoc.data()?.keywords || [];
+
+    const marketKeywords =
+      marketDoc.data()?.keywords || [];
+
+    const revenueKeywords =
+      revenueDoc.data()?.keywords || [];
 
     /* =====================================
-       READ KEYWORDS FROM FIRESTORE
+       STRUCTURED FEATURE SCORES
     ===================================== */
 
-    const problemKeywords = config.problem?.keywords || [];
-    const solutionKeywords = config.solution?.keywords || [];
-    const marketKeywords = config.market?.keywords || [];
-    const revenueKeywords = config.revenue?.keywords || [];
+    const problemScore =
+      keywordScore(problem, problemKeywords);
 
-    /* =====================================
-       PROBLEM SCORE
-    ===================================== */
+    const solutionScore =
+      keywordScore(solution, solutionKeywords);
 
-    let problemScore = 0;
+    const marketScore =
+      keywordScore(market, marketKeywords);
 
-    problemKeywords.forEach(keyword => {
-
-      if (problem.includes(keyword)) {
-        problemScore++;
-      }
-
-    });
-
-    problemScore = Math.min(problemScore, 3);
-
-    /* =====================================
-       SOLUTION SCORE
-    ===================================== */
-
-    let solutionScore = 0;
-
-    solutionKeywords.forEach(keyword => {
-
-      if (solution.includes(keyword)) {
-        solutionScore++;
-      }
-
-    });
-
-    solutionScore = Math.min(solutionScore, 3);
-
-    /* =====================================
-       MARKET SCORE
-    ===================================== */
-
-    let marketScore = 0;
-
-    marketKeywords.forEach(keyword => {
-
-      if (market.includes(keyword)) {
-        marketScore++;
-      }
-
-    });
-
-    marketScore = Math.min(marketScore, 3);
-
-    /* =====================================
-       REVENUE SCORE
-    ===================================== */
-
-    let revenueScore = 0;
-
-    revenueKeywords.forEach(keyword => {
-
-      if (revenue.includes(keyword)) {
-        revenueScore++;
-      }
-
-    });
-
-    revenueScore = Math.min(revenueScore, 3);
+    const revenueScore =
+      keywordScore(revenue, revenueKeywords);
 
     /* =====================================
        PITCH LENGTH SCORE
@@ -120,17 +98,17 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
       market + " " +
       revenue;
 
-    const wordCount = fullPitch.split(/\s+/).filter(w => w).length;
+    const wordCount =
+      fullPitch.split(/\s+/).filter(w => w).length;
 
     let pitchLengthScore = 0;
 
     if (wordCount > 120) pitchLengthScore = 3;
     else if (wordCount > 60) pitchLengthScore = 2;
     else if (wordCount > 25) pitchLengthScore = 1;
-    else pitchLengthScore = 0;
 
     /* =====================================
-       PENALTY FOR VERY WEAK TEXT
+       VERY WEAK PITCH FILTER
     ===================================== */
 
     if (wordCount < 10) {
@@ -146,17 +124,20 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
     const tfidf = new TfIdf();
 
     const documents = previousPitches.map(p =>
-      ((p.problem || "") + " " +
-       (p.solution || "") + " " +
-       (p.market || "") + " " +
-       (p.revenue || "")).toLowerCase()
+      (
+        (p.problem || "") + " " +
+        (p.solution || "") + " " +
+        (p.market || "") + " " +
+        (p.revenue || "")
+      ).toLowerCase()
     );
 
     documents.push(fullPitch);
 
     documents.forEach(doc => tfidf.addDocument(doc));
 
-    const tfidfTerms = tfidf.listTerms(documents.length - 1);
+    const tfidfTerms =
+      tfidf.listTerms(documents.length - 1);
 
     const tfidfFeatures = [];
 
@@ -190,6 +171,8 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
       ...tfidfFeatures
 
     ];
+
+    console.log("Feature Vector:", features);
 
     return features;
 
