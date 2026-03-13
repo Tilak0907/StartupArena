@@ -25,7 +25,7 @@ function keywordScore(text, keywords) {
 
   });
 
-  return Math.min(score, 3);
+  return Math.min(score, 2);
 
 }
 
@@ -103,9 +103,9 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
 
     let pitchLengthScore = 0;
 
-    if (wordCount > 120) pitchLengthScore = 3;
-    else if (wordCount > 60) pitchLengthScore = 2;
-    else if (wordCount > 25) pitchLengthScore = 1;
+    if (wordCount > 120) pitchLengthScore = 2;
+    else if (wordCount > 50) pitchLengthScore = 1;
+   
 
     /* =====================================
        VERY WEAK PITCH FILTER

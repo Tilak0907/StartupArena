@@ -101,7 +101,7 @@ async function evaluatePitch(newPitch, previousPitches = []) {
 
   score = Math.round(score);
 
-  score = Math.max(10, Math.min(score, 100));
+  score = Math.max(10, Math.min(score, 95));
 
   /* =====================================
      STEP 8: STRENGTHS / WEAKNESSES
