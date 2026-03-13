@@ -37,10 +37,14 @@ async function mapPitchToFeatures(pitch, previousPitches = []) {
 
     const config = configSnapshot.docs[0].data();
 
-    const problemKeywords = config.problem || [];
-    const solutionKeywords = config.solution || [];
-    const marketKeywords = config.market || [];
-    const revenueKeywords = config.revenue || [];
+    /* =====================================
+       READ KEYWORDS FROM FIRESTORE
+    ===================================== */
+
+    const problemKeywords = config.problem?.keywords || [];
+    const solutionKeywords = config.solution?.keywords || [];
+    const marketKeywords = config.market?.keywords || [];
+    const revenueKeywords = config.revenue?.keywords || [];
 
     /* =====================================
        PROBLEM SCORE
