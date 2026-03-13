@@ -66,50 +66,115 @@ async function createNotification(userId, title, message) {
 ========================================================= */
 
 app.post("/api/mentor/assign", async (req, res) => {
+
   try {
+
     const { profileId, mentorId, founderId } = req.body;
 
     if (!profileId || !mentorId || !founderId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Prevent duplicate assignment
-    const duplicateCheck = await db.collection("mentorAssignments")
+    /* =========================================
+       CHECK IF MENTOR ALREADY ASSIGNED
+    ========================================= */
+
+    const assignmentQuery = await db.collection("mentorAssignments")
       .where("profileId", "==", profileId)
       .where("mentorId", "==", mentorId)
       .get();
 
-    if (!duplicateCheck.empty) {
-      return res.status(400).json({
-        message: "Mentor already assigned to this profile"
-      });
+    if (!assignmentQuery.empty) {
+
+      const assignment = assignmentQuery.docs[0].data();
+
+      /* =========================================
+         FETCH CURRENT PITCH
+      ========================================= */
+
+      const pitchQuery = await db.collection("pitches")
+        .where("userId", "==", founderId)
+        .get();
+
+      if (!pitchQuery.empty) {
+
+        const pitchData = pitchQuery.docs[0].data();
+
+        const pitchUpdated =
+          pitchData.updatedAt?.seconds || 0;
+
+        const assignedTime =
+          assignment.createdAt?.seconds || 0;
+
+        /* =========================================
+           BLOCK IF PITCH NOT UPDATED
+        ========================================= */
+
+        if (pitchUpdated <= assignedTime) {
+
+          return res.status(400).json({
+            message: "Mentor already assigned to this profile"
+          });
+
+        }
+
+      }
+
     }
 
+    /* =========================================
+       CREATE NEW ASSIGNMENT
+    ========================================= */
+
     await db.collection("mentorAssignments").add({
+
       profileId,
       mentorId,
       founderId,
       status: "pending",
       createdAt: admin.firestore.FieldValue.serverTimestamp()
+
     });
 
-    // Fetch mentor details
-    const mentorDoc = await db.collection("users").doc(mentorId).get();
+    /* =========================================
+       FETCH MENTOR DETAILS
+    ========================================= */
+
+    const mentorDoc =
+      await db.collection("users").doc(mentorId).get();
+
     if (!mentorDoc.exists) {
-      return res.status(404).json({ message: "Mentor not found" });
+
+      return res.status(404).json({
+        message: "Mentor not found"
+      });
+
     }
 
     const mentorData = mentorDoc.data();
 
-    // Fetch profile details
-    const profileDoc = await db.collection("profiles").doc(profileId).get();
-    const profileData = profileDoc.exists ? profileDoc.data() : {};
+    /* =========================================
+       FETCH PROFILE DETAILS
+    ========================================= */
 
-    // Send email
+    const profileDoc =
+      await db.collection("profiles").doc(profileId).get();
+
+    const profileData =
+      profileDoc.exists ? profileDoc.data() : {};
+
+    /* =========================================
+       SEND EMAIL
+    ========================================= */
+
     const msg = {
+
       to: mentorData.email,
+
       from: process.env.SENDER_EMAIL,
+
       subject: "New Startup Pitch Assigned",
+
       text: `
 Hello ${mentorData.name || "Mentor"},
 
@@ -123,26 +188,41 @@ Please login to StartupArena to review the pitch.
 
 StartupArena Team
       `
+
     };
 
     await sgMail.send(msg);
 
-    /* 🔔 Notification for Mentor */
+    /* =========================================
+       CREATE NOTIFICATION
+    ========================================= */
 
-await createNotification(
-  mentorId,
-  "New Pitch Assigned",
-  "A startup pitch has been assigned to you"
-);
+    await createNotification(
+
+      mentorId,
+      "New Pitch Assigned",
+      "A startup pitch has been assigned to you"
+
+    );
 
     res.json({
+
       message: "Mentor assigned successfully and email sent"
+
     });
 
   } catch (error) {
+
     console.error("Mentor assignment error:", error);
-    res.status(500).json({ message: "Server error" });
+
+    res.status(500).json({
+
+      message: "Server error"
+
+    });
+
   }
+
 });
 
 
