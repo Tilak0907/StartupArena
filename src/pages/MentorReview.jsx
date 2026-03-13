@@ -23,10 +23,14 @@ export default function MentorReview() {
   const [selectedReview, setSelectedReview] = useState(null);
   const [hasPitch,setHasPitch] = useState(false);
 
+  /* NEW STATE */
+  const [pitchUpdatedAt,setPitchUpdatedAt] = useState(null);
+  const [assignments,setAssignments] = useState([]);
+
   const navigate = useNavigate();
 
   /* ===============================
-     1️⃣ Set founder profileId (UID)
+     1️⃣ Set founder profileId
   =============================== */
 
   useEffect(() => {
@@ -64,29 +68,38 @@ export default function MentorReview() {
 
   }, []);
 
-/* Check if pitch has been submitted */
+  /* ===============================
+     CHECK IF PITCH EXISTS + UPDATED TIME
+  =============================== */
 
-useEffect(() => {
+  useEffect(() => {
 
-  const checkPitch = async () => {
+    const checkPitch = async () => {
 
-    const pitchQuery = query(
-      collection(db, "pitches"),
-      where("userId", "==", auth.currentUser.uid)
-    );
+      const pitchQuery = query(
+        collection(db, "pitches"),
+        where("userId", "==", auth.currentUser.uid)
+      );
 
-    const snapshot = await getDocs(pitchQuery);
+      const snapshot = await getDocs(pitchQuery);
 
-    if (!snapshot.empty) {
-      setHasPitch(true);
-    }
+      if (!snapshot.empty) {
 
-  };
+        setHasPitch(true);
 
-  checkPitch();
+        const pitchData = snapshot.docs[0].data();
 
-}, []);
+        if(pitchData.updatedAt){
+          setPitchUpdatedAt(pitchData.updatedAt.seconds);
+        }
 
+      }
+
+    };
+
+    checkPitch();
+
+  }, []);
 
   /* ===============================
      3️⃣ Fetch mentors already submitted
@@ -105,11 +118,16 @@ useEffect(() => {
 
       const snapshot = await getDocs(q);
 
+      const assignmentList = snapshot.docs.map(docSnap => ({
+        id: docSnap.id,
+        ...docSnap.data()
+      }));
+
+      setAssignments(assignmentList);
+
       const mentorNames = await Promise.all(
 
-        snapshot.docs.map(async (docSnap) => {
-
-          const data = docSnap.data();
+        assignmentList.map(async (data) => {
 
           const mentorDoc = await getDoc(
             doc(db, "users", data.mentorId)
@@ -199,6 +217,23 @@ useEffect(() => {
       return;
     }
 
+    /* NEW CHECK: ALLOW RESUBMIT IF PITCH UPDATED */
+
+    const existingAssignment = assignments.find(
+      a => a.mentorId === selectedMentor
+    );
+
+    if(existingAssignment && pitchUpdatedAt){
+
+      const assignedTime = existingAssignment.createdAt?.seconds;
+
+      if(assignedTime && pitchUpdatedAt <= assignedTime){
+        setMessage("You have already submitted this pitch to this mentor.");
+        return;
+      }
+
+    }
+
     try {
 
       setLoading(true);
@@ -286,7 +321,7 @@ useEffect(() => {
         </button>
 
         {!hasPitch &&(
-          <p>you must submit your pitch</p>
+          <p>You must submit your pitch first</p>
         )}
 
         {message && (
