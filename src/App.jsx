@@ -66,10 +66,11 @@ function Layout() {
 
       <Routes>
 
-        {/* ⭐ INTRO PAGE ROUTE */}
+        {/* INTRO PAGE */}
         <Route path="/intro" element={<IntroPage />} />
 
         {/* ================= Auth Routes ================= */}
+
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}
@@ -86,6 +87,7 @@ function Layout() {
         />
 
         {/* ================= Protected Routes ================= */}
+
         <Route
           path="/"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
@@ -179,14 +181,30 @@ export default function App() {
 
   useEffect(() => {
 
+    /* Save current route before splash */
+    const currentRoute = window.location.hash;
+    sessionStorage.setItem("lastRoute", currentRoute);
+
     const timer = setTimeout(() => {
 
       setShowSplash(false);
 
-      /* ⭐ REDIRECT TO INTRO AFTER SPLASH */
+      const introSeen = localStorage.getItem("introSeen");
+      const lastRoute = sessionStorage.getItem("lastRoute");
 
-      if (!window.location.hash) {
+      if (!introSeen) {
+
+        localStorage.setItem("introSeen", "true");
         window.location.hash = "#/intro";
+
+      } else if (lastRoute && lastRoute !== "#") {
+
+        window.location.hash = lastRoute;
+
+      } else {
+
+        window.location.hash = "#/login";
+
       }
 
     }, 2500);
