@@ -5,7 +5,8 @@ import {
   where,
   getDocs,
   doc,
-  getDoc
+  getDoc,
+  deleteDoc
 } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +51,7 @@ export default function MentorDashboard() {
 
         const assignmentSnapshot = await getDocs(assignmentQuery);
 
-        let profileList = [];
+        const profileMap = new Map();
 
         for (const assignmentDoc of assignmentSnapshot.docs) {
 
@@ -63,15 +64,11 @@ export default function MentorDashboard() {
 
           const profileData = profileSnap.data();
 
-          /* -----------------------------
-             CHECK REVIEW STATUS
-          ----------------------------- */
-
           let status = assignmentData.status;
 
           const reviewQuery = query(
             collection(db, "mentorReviews"),
-            where("profileId", "==", profileData.userId), // FIXED HERE
+            where("profileId", "==", profileData.userId),
             where("mentorId", "==", currentUser.uid)
           );
 
@@ -81,15 +78,31 @@ export default function MentorDashboard() {
             status = reviewSnapshot.docs[0].data().status;
           }
 
-          profileList.push({
-            id: profileSnap.id,
-            ...profileData,
-            status
-          });
+          const profileId = profileSnap.id;
+
+          if (profileMap.has(profileId)) {
+
+            const existingProfile = profileMap.get(profileId);
+
+            profileMap.set(profileId, {
+              ...existingProfile,
+              status: "Updated Pitch Submitted"
+            });
+
+          } else {
+
+            profileMap.set(profileId, {
+              id: profileSnap.id,
+              assignmentId: assignmentDoc.id,   // ⭐ Needed for deletion
+              ...profileData,
+              status
+            });
+
+          }
 
         }
 
-        setProfiles(profileList);
+        setProfiles(Array.from(profileMap.values()));
 
       } catch (error) {
         console.error("Error fetching assigned profiles:", error);
@@ -102,6 +115,28 @@ export default function MentorDashboard() {
     fetchAssignedProfiles();
 
   }, []);
+
+  /* ======================================================
+     DELETE PROFILE FROM DASHBOARD
+  ====================================================== */
+
+  const deleteProfile = async (profile) => {
+
+    try {
+
+      await deleteDoc(doc(db, "mentorAssignments", profile.assignmentId));
+
+      setProfiles(prev =>
+        prev.filter(p => p.id !== profile.id)
+      );
+
+    } catch (error) {
+
+      console.error("Error deleting profile:", error);
+
+    }
+
+  };
 
   /* ======================================================
      DOWNLOAD STARTUP REPORT
@@ -173,11 +208,10 @@ export default function MentorDashboard() {
     } catch (error) {
       console.error("Error generating report:", error);
     }
-    
+
   };
 
   if (loading) return <p className="mentor-loading">Loading...</p>;
-
 
   return (
 
@@ -207,12 +241,24 @@ export default function MentorDashboard() {
 
             </div>
 
+            <div className="mentor-card-actions">
+
             <button
-              className="download-btn"
+              className="btn-download"
               onClick={() => downloadReport(profile)}
             >
               Download Startup Report
             </button>
+
+            {/* ⭐ NEW DELETE BUTTON */}
+
+            <button
+              className="btn-delete"
+              onClick={() => deleteProfile(profile)}
+            >
+              Delete
+            </button>
+            </div>
 
           </div>
 

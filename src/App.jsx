@@ -26,52 +26,60 @@ import MentorProfileDetails from "./pages/MentorProfileDetails";
 import MentorChatList from "./pages/MentorChatList";
 import MentorChatPage from "./pages/MentorChatPage";
 import Funding from "./pages/Funding";
+import IntroPage from "./pages/IntroPage";
 
 /* ===============================
    Components
 =============================== */
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import SplashScreen from "./components/SplashScreen"; // ⭐ NEW
+import SplashScreen from "./components/SplashScreen";
 
 /* ===============================
    Layout Component
 =============================== */
 function Layout() {
+
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
     });
 
     return () => unsubscribe();
+
   }, []);
 
   if (loading) return null;
 
-  // Pages that should NOT show navbar/footer
   const authRoutes = ["/login", "/register", "/forgot-password"];
   const isAuthPage = authRoutes.includes(location.pathname);
 
   return (
     <>
-      {/* Show Navbar ONLY when logged in and NOT auth page */}
       {user && !isAuthPage && <Navbar />}
 
       <Routes>
+
+        {/* ⭐ INTRO PAGE ROUTE */}
+        <Route path="/intro" element={<IntroPage />} />
+
         {/* ================= Auth Routes ================= */}
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}
         />
+
         <Route
           path="/register"
           element={!user ? <Register /> : <Navigate to="/" />}
         />
+
         <Route
           path="/forgot-password"
           element={!user ? <ForgotPassword /> : <Navigate to="/" />}
@@ -82,26 +90,32 @@ function Layout() {
           path="/"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/profile"
           element={user ? <Profile /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/pitch"
           element={user ? <Pitch /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/evaluation"
           element={user ? <Evaluation /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/feedback"
           element={user ? <Feedback /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/analytics"
           element={user ? <Analytics /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/matrix"
           element={user ? <Matrix /> : <Navigate to="/login" />}
@@ -116,35 +130,41 @@ function Layout() {
           path="/trl"
           element={user ? <TRL /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/mentor"
           element={user ? <MentorReview /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/chat"
           element={user ? <Chat /> : <Navigate to="/login" />}
         />
 
         {/* ================= Mentor Routes ================= */}
+
         <Route
           path="/mentor-dashboard"
           element={user ? <MentorDashboard /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/mentor/profile/:id"
           element={user ? <MentorProfileDetails /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/mentor/chats"
           element={user ? <MentorChatList /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/mentor/chat/:chatId"
           element={user ? <MentorChatPage /> : <Navigate to="/login" />}
         />
+
       </Routes>
 
-      {/* Show Footer ONLY when logged in and NOT auth page */}
       {user && !isAuthPage && <Footer />}
     </>
   );
@@ -154,14 +174,25 @@ function Layout() {
    App Root with Splash Screen
 =============================== */
 export default function App() {
+
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
+
     const timer = setTimeout(() => {
+
       setShowSplash(false);
-    }, 2500); // ⏳ Splash duration (2.5 seconds)
+
+      /* ⭐ REDIRECT TO INTRO AFTER SPLASH */
+
+      if (!window.location.hash) {
+        window.location.hash = "#/intro";
+      }
+
+    }, 2500);
 
     return () => clearTimeout(timer);
+
   }, []);
 
   if (showSplash) {

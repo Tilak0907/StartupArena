@@ -449,3 +449,7 @@ body:has(.login-wrapper) {
 .Toastify__close-button:hover {
   opacity: 1 !important;
 }
+
+.intro-btn{
+  margin-bottom: 10px;
+}

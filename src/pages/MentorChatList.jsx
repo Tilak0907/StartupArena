@@ -42,10 +42,6 @@ export default function MentorChatList() {
             let founderName = "Founder";
             let companyName = "Startup";
 
-            /* ===============================
-               Get Founder Name
-            =============================== */
-
             const userQuery = query(
               collection(db, "users"),
               where("__name__", "==", founderId)
@@ -56,10 +52,6 @@ export default function MentorChatList() {
             if (!userSnapshot.empty) {
               founderName = userSnapshot.docs[0].data().name;
             }
-
-            /* ===============================
-               Get Company Name
-            =============================== */
 
             const profileQuery = query(
               collection(db, "profiles"),
@@ -113,7 +105,6 @@ export default function MentorChatList() {
         method: "DELETE"
       });
 
-      // remove chat from UI
       setChats(prev => prev.filter(chat => chat.id !== chatId));
 
     } catch (error) {
@@ -175,30 +166,22 @@ export default function MentorChatList() {
               <div
                 key={chat.id}
                 className="mentorChatCard"
+                onClick={() => navigate(`/mentor/chat/${chat.id}`)}
               >
 
-                <div
-                  className="mentorChatCardContent"
-                  onClick={() => navigate(`/mentor/chat/${chat.id}`)}
-                >
+                <div className="mentorChatAvatar">👤</div>
 
-                  <div className="mentorChatAvatar">👤</div>
+                <div className="mentorChatCardBody">
 
-                  <div className="mentorChatCardBody">
+                  <div className="mentorChatCardTitle">
+                    {chat.companyName}
+                  </div>
 
-                    <div className="mentorChatCardTitle">
-                      {chat.companyName}
-                    </div>
-
-                    <div className="mentorChatCardMeta">
-                      Founder: {chat.founderName}
-                    </div>
-
+                  <div className="mentorChatCardMeta">
+                    Founder: {chat.founderName}
                   </div>
 
                 </div>
-
-                {/* DELETE BUTTON */}
 
                 <button
                   className="mentorChatDeleteBtn"

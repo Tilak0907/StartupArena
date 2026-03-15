@@ -97,6 +97,14 @@ export default function NotificationBox() {
                 {n.message}
               </div>
 
+              {/* NEW: DATE & TIME DISPLAY */}
+
+              {n.createdAt && (
+                <div style={{fontSize:"12px", color:"#777", marginTop:"4px"}}>
+                  {new Date(n.createdAt.seconds * 1000).toLocaleString()}
+                </div>
+              )}
+
             </div>
 
             <button

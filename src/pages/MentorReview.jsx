@@ -23,15 +23,10 @@ export default function MentorReview() {
   const [selectedReview, setSelectedReview] = useState(null);
   const [hasPitch,setHasPitch] = useState(false);
 
-  /* NEW STATE */
   const [pitchUpdatedAt,setPitchUpdatedAt] = useState(null);
   const [assignments,setAssignments] = useState([]);
 
   const navigate = useNavigate();
-
-  /* ===============================
-     1️⃣ Set founder profileId
-  =============================== */
 
   useEffect(() => {
 
@@ -42,10 +37,6 @@ export default function MentorReview() {
     }
 
   }, []);
-
-  /* ===============================
-     2️⃣ Fetch mentors list
-  =============================== */
 
   useEffect(() => {
 
@@ -67,10 +58,6 @@ export default function MentorReview() {
     fetchMentors();
 
   }, []);
-
-  /* ===============================
-     CHECK IF PITCH EXISTS + UPDATED TIME
-  =============================== */
 
   useEffect(() => {
 
@@ -100,10 +87,6 @@ export default function MentorReview() {
     checkPitch();
 
   }, []);
-
-  /* ===============================
-     3️⃣ Fetch mentors already submitted
-  =============================== */
 
   useEffect(() => {
 
@@ -143,17 +126,17 @@ export default function MentorReview() {
 
       );
 
-      setSubmittedMentors(mentorNames);
+      /* ✅ NEW CHANGE: REMOVE DUPLICATE MENTOR NAMES */
+
+      const uniqueMentors = [...new Set(mentorNames)];
+
+      setSubmittedMentors(uniqueMentors);
 
     };
 
     fetchSubmittedMentors();
 
   }, [profileId]);
-
-  /* ===============================
-     4️⃣ Fetch mentor reviews
-  =============================== */
 
   useEffect(() => {
 
@@ -206,18 +189,12 @@ export default function MentorReview() {
 
   }, [profileId]);
 
-  /* ===============================
-     5️⃣ Assign mentor
-  =============================== */
-
   const handleSubmit = async () => {
 
     if (!selectedMentor) {
       setMessage("Please select a mentor");
       return;
     }
-
-    /* NEW CHECK: ALLOW RESUBMIT IF PITCH UPDATED */
 
     const existingAssignment = assignments.find(
       a => a.mentorId === selectedMentor
@@ -280,10 +257,6 @@ export default function MentorReview() {
 
   };
 
-  /* ===============================
-     6️⃣ Redirect to chat
-  =============================== */
-
   const startChat = () => {
     navigate("/chat");
   };
@@ -291,8 +264,6 @@ export default function MentorReview() {
   return (
 
     <div className="container">
-
-      {/* Submit Pitch */}
 
       <div className="card">
 
@@ -332,8 +303,6 @@ export default function MentorReview() {
 
       </div>
 
-      {/* Already Submitted */}
-
       <div className="card">
 
         <h3>Already Submitted to These Mentors</h3>
@@ -349,8 +318,6 @@ export default function MentorReview() {
         )}
 
       </div>
-
-      {/* Mentor Reviews */}
 
       <div className="card">
 
@@ -395,8 +362,6 @@ export default function MentorReview() {
         )}
 
       </div>
-
-      {/* Review Modal */}
 
       {selectedReview && (
 

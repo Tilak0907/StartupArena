@@ -106,6 +106,13 @@ export default function Login() {
 
       <div className="login-card">
 
+        <button
+  className="intro-btn"
+  onClick={() => window.location.hash = "#/intro"}
+>
+  Learn About StartupArena
+</button>
+
         <h2>Welcome</h2>
 
         <p className="subtitle">
