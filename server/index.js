@@ -570,6 +570,10 @@ app.post("/api/chat/send", async (req, res) => {
     }
 
     const receiverEmail = receiverDoc.data().email;
+
+    /* ⭐ NEW: Get sender name */
+    const senderName = senderDoc.data().name || "StartupArena User";
+
     const senderEmail = senderDoc.data().email;
 
     if (!receiverEmail) {
@@ -586,7 +590,7 @@ app.post("/api/chat/send", async (req, res) => {
       text: `
 Hello,
 
-We hope this message finds you well. We are writing to inform you that you have received a new message from ${senderEmail} through the StartupArena platform. StartupArena is committed to fostering meaningful connections between founders and mentors and this message may contain important insights, feedback, or opportunities that could be valuable to your entrepreneurial journey.
+We hope this message finds you well. We are writing to inform you that you have received a new message from ${senderName} through the StartupArena platform. StartupArena is committed to fostering meaningful connections between founders and mentors and this message may contain important insights, feedback, or opportunities that could be valuable to your entrepreneurial journey.
 
 To ensure a smooth and secure communication experience, we kindly request that you log in to your StartupArena account at your earliest convenience to view the full message and respond accordingly. Timely responses help maintain productive relationships and ensure that no valuable opportunity is missed.
 
@@ -606,11 +610,11 @@ ${"" /* "${text.trim()}" */}
 
     /* 🔔 Notification for Receiver */
 
-await createNotification(
-  receiverId,
-  "New Message",
-  `${senderEmail} sent you a message`
-);
+    await createNotification(
+      receiverId,
+      "New Message",
+      `${senderName} sent you a message`
+    );
 
     console.log("Email sent successfully");
 
