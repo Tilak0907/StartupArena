@@ -303,22 +303,40 @@ export default function MentorReview() {
 
       </div>
 
-      <div className="card">
+      {/* Replace your existing card div with this */}
 
-        <h3>Already Submitted to These Mentors</h3>
+<div className="submitted-mentors-card">
 
-        {submittedMentors.length === 0 ? (
-          <p>No mentors yet.</p>
-        ) : (
+  <h3 className="submitted-mentors-title">
+    Already Submitted to These Mentors
+  </h3>
 
-          submittedMentors.map((name, index) => (
-            <p key={index}>{name}</p>
-          ))
+  {submittedMentors.length === 0 ? (
 
-        )}
+    <div className="submitted-mentors-empty">
+      <span className="submitted-mentors-empty-icon">🧑‍💼</span>
+      <p>No mentors assigned yet.</p>
+    </div>
 
-      </div>
+  ) : (
 
+    <div className="submitted-mentors-list">
+      {submittedMentors.map((name, index) => (
+
+        <div key={index} className="submitted-mentor-chip">
+          <div className="submitted-mentor-avatar">
+            {name.charAt(0).toUpperCase()}
+          </div>
+          <span className="submitted-mentor-name">{name}</span>
+          <span className="submitted-mentor-badge">Submitted</span>
+        </div>
+
+      ))}
+    </div>
+
+  )}
+
+</div>
       <div className="card">
 
         <h3>Mentor Reviews</h3>
