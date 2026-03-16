@@ -178,15 +178,24 @@ app.post("/api/mentor/assign", async (req, res) => {
       text: `
 Hello ${mentorData.name || "Mentor"},
 
-A new startup pitch has been assigned to you.
+We hope this message finds you in great spirits. We are pleased to inform you that a new startup pitch has been assigned to you on the StartupArena platform. As a valued mentor, your expertise, guidance, and feedback play a crucial role in shaping the future of emerging startups and helping passionate founders refine their ideas into successful ventures.
+
+Here are the details of the startup that has been assigned to you for review:
 
 Startup Name: ${profileData.name || "N/A"}
 Industry: ${profileData.industry || "N/A"}
 Vision: ${profileData.vision || "N/A"}
 
-Please login to StartupArena to review the pitch.
+We kindly request you to log in to your StartupArena account at your earliest convenience to access the full pitch details, evaluate the startup's proposal, and provide your valuable feedback. Your insights and recommendations are incredibly important to the founder and can make a significant difference in their entrepreneurial journey. Timely reviews also ensure that founders receive the guidance they need to move forward with confidence and clarity.
 
-StartupArena Team
+StartupArena is built on the foundation of meaningful mentor-founder relationships, and your continued contribution to this community is what makes our platform truly impactful. We deeply appreciate the time and effort you invest in reviewing pitches and supporting the next generation of entrepreneurs.
+
+Should you have any questions, face any technical difficulties, or require any assistance regarding the assigned pitch or your mentor dashboard, please do not hesitate to contact our support team. We are always available to help and ensure your experience on the platform remains seamless and rewarding.
+
+Thank you sincerely for your dedication, your mentorship, and your belief in the power of innovation. We look forward to your continued support and partnership.
+
+Warm regards,
+The StartupArena Team
       `
 
     };
@@ -577,13 +586,19 @@ app.post("/api/chat/send", async (req, res) => {
       text: `
 Hello,
 
-${senderEmail} has sent you a new message:
+We hope this message finds you well. We are writing to inform you that you have received a new message from ${senderEmail} through the StartupArena platform. StartupArena is committed to fostering meaningful connections between founders and mentors and this message may contain important insights, feedback, or opportunities that could be valuable to your entrepreneurial journey.
 
-"${text.trim()}"
+To ensure a smooth and secure communication experience, we kindly request that you log in to your StartupArena account at your earliest convenience to view the full message and respond accordingly. Timely responses help maintain productive relationships and ensure that no valuable opportunity is missed.
 
-Login to StartupArena to reply.
+If you have any questions or encounter any issues accessing your account or messages, please do not hesitate to reach out to our support team. We are always here to assist you.
 
-StartupArena Team
+Thank you for being a valued member of the StartupArena community. We look forward to supporting your continued growth and success.
+
+Warm regards,
+The StartupArena Team
+
+${"" /* "${text.trim()}" */}
+
       `
     };
 
