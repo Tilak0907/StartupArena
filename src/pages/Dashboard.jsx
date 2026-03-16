@@ -16,8 +16,6 @@ export default function Dashboard() {
 
   const [loading, setLoading] = useState(true);
 
-  /* ⭐ MANUAL NEWS WITH LINKS */
-
   const news = [
     {
       title: "AI startups continue to attract strong investment globally as investors focus on technology driven innovation.",
@@ -105,7 +103,7 @@ export default function Dashboard() {
           );
 
           /* ===============================
-             CHECK MATRIX
+             CHECK EVALUATION MATRIX
           =============================== */
 
           const matrixQuery = query(
@@ -115,9 +113,27 @@ export default function Dashboard() {
 
           const matrixSnapshot = await getDocs(matrixQuery);
 
-          setMatrixStatus(
-            matrixSnapshot.empty ? "Not Submitted" : "Submitted"
-          );
+          if (matrixSnapshot.empty) {
+
+            setMatrixStatus("Not Submitted");
+
+          } else {
+
+            const matrixData = matrixSnapshot.docs[0].data();
+
+            const matrixValues = matrixData.matrix || {};
+
+            const hasTrueValue = Object.values(matrixValues).some(
+              value => value === true
+            );
+
+            if (hasTrueValue) {
+              setMatrixStatus("Submitted");
+            } else {
+              setMatrixStatus("Not Submitted");
+            }
+
+          }
 
         } catch {
 
