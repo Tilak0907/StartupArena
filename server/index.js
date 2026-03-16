@@ -571,10 +571,20 @@ app.post("/api/chat/send", async (req, res) => {
 
     const receiverEmail = receiverDoc.data().email;
 
-    /* ⭐ NEW: Get sender name */
+    /* ⭐ Get sender name */
     const senderName = senderDoc.data().name || "StartupArena User";
 
-    const senderEmail = senderDoc.data().email;
+    /* ⭐ NEW: Get startup/company name */
+    let companyName = "Startup";
+
+    const profileQuery = await db.collection("profiles")
+      .where("userId", "==", senderId)
+      .limit(1)
+      .get();
+
+    if (!profileQuery.empty) {
+      companyName = profileQuery.docs[0].data().name || "Startup";
+    }
 
     if (!receiverEmail) {
       return res.status(400).json({ message: "Receiver email missing" });
@@ -590,19 +600,23 @@ app.post("/api/chat/send", async (req, res) => {
       text: `
 Hello,
 
-We hope this message finds you well. We are writing to inform you that you have received a new message from ${senderName} through the StartupArena platform. StartupArena is committed to fostering meaningful connections between founders and mentors and this message may contain important insights, feedback, or opportunities that could be valuable to your entrepreneurial journey.
+We hope this message finds you well.
 
-To ensure a smooth and secure communication experience, we kindly request that you log in to your StartupArena account at your earliest convenience to view the full message and respond accordingly. Timely responses help maintain productive relationships and ensure that no valuable opportunity is missed.
+You have received a new message on StartupArena.
 
-If you have any questions or encounter any issues accessing your account or messages, please do not hesitate to reach out to our support team. We are always here to assist you.
+Sender: ${senderName}
+Startup: ${companyName}
 
-Thank you for being a valued member of the StartupArena community. We look forward to supporting your continued growth and success.
+StartupArena connects founders and mentors to build meaningful startup collaborations. A new message has been sent to you through the platform and may contain important insights, feedback, or updates related to a startup pitch.
+
+To view and respond to the message, please log in to your StartupArena account.
+
+Responding promptly helps maintain productive mentor-founder communication and ensures valuable opportunities are not missed.
+
+If you experience any issues accessing your account or messages, please contact our support team.
 
 Warm regards,
-The StartupArena Team
-
-${"" /* "${text.trim()}" */}
-
+StartupArena Team
       `
     };
 
@@ -613,7 +627,7 @@ ${"" /* "${text.trim()}" */}
     await createNotification(
       receiverId,
       "New Message",
-      `${senderName} sent you a message`
+      `${senderName} (${companyName}) sent you a message`
     );
 
     console.log("Email sent successfully");

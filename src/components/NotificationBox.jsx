@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, query, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, deleteDoc, doc, orderBy } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import "../styles/NotificationBox.css";
 
@@ -14,7 +14,8 @@ export default function NotificationBox() {
 
     const q = query(
       collection(db, "notifications"),
-      where("userId", "==", auth.currentUser.uid)
+      where("userId", "==", auth.currentUser.uid),
+      orderBy("createdAt", "desc")   // ⭐ NEW: latest notification first
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -97,7 +98,7 @@ export default function NotificationBox() {
                 {n.message}
               </div>
 
-              {/* NEW: DATE & TIME DISPLAY */}
+              {/* DATE & TIME DISPLAY */}
 
               {n.createdAt && (
                 <div style={{fontSize:"12px", color:"#777", marginTop:"4px"}}>
