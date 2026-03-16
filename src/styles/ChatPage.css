@@ -193,6 +193,9 @@
     border-color 0.2s ease,
     color 0.2s ease,
     transform 0.15s var(--transition);
+    display:flex;
+    align-items: center;
+    gap:10px;
 }
 
 .chat-list-item:hover {
@@ -266,7 +269,7 @@
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
-
+  margin-top: 10px;
   font-family: 'Cabinet Grotesk', sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
@@ -467,6 +470,8 @@
 .chat-delete-btn{
   width:20px !important;
   height:20px;
+  margin-left: auto;
+  cursor: pointer;
 }
 
 /* ── Animations ── */
@@ -507,4 +512,26 @@
   .chat-main {
     height: 440px;
   }
+}
+
+.chat-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 16px;
+  border-bottom:1px solid var(--border);
+}
+
+.chat-close-btn{
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+  width:28px !important;
+  height:28px;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+}
+
+.chat-close-btn:hover{
+  background:rgba(239,68,68,0.25);
 }

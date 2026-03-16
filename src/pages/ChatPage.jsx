@@ -24,6 +24,15 @@ export default function ChatPage() {
   const [user, setUser] = useState(null);
 
   /* ===============================
+     CLOSE CHAT (NEW FEATURE)
+  =============================== */
+
+  const closeChat = () => {
+    setChatId(null);
+    setMessages([]);
+  };
+
+  /* ===============================
      1️⃣ Wait for Auth
   =============================== */
   useEffect(() => {
@@ -263,12 +272,10 @@ export default function ChatPage() {
                 <div
                   key={chat.id}
                   className={`chat-list-item ${chatId === chat.id ? "active" : ""}`}
+                  onClick={() => setChatId(chat.id)}
                 >
 
-                  <span
-                    className="chat-name"
-                    onClick={() => setChatId(chat.id)}
-                  >
+                  <span className="chat-name">
                     Chat with {chat.mentorName}
                   </span>
 
@@ -292,7 +299,6 @@ export default function ChatPage() {
 
           <hr className="chat-divider" />
 
-          {/* START NEW CHAT */}
           {!chatId && (
 
             <div className="chat-new-section">
@@ -342,6 +348,22 @@ export default function ChatPage() {
           {chatId ? (
 
             <>
+
+              {/* NEW CHAT HEADER WITH CLOSE BUTTON */}
+              <div className="chat-header">
+
+                <span className="chat-header-title">
+                  Chat
+                </span>
+
+                <button
+                  className="chat-close-btn"
+                  onClick={closeChat}
+                >
+                  ✖
+                </button>
+
+              </div>
 
               <div className="chat-messages">
 

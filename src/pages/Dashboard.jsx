@@ -9,18 +9,25 @@ export default function Dashboard() {
 
   const [user, setUser] = useState(null);
   const [pitchStatus, setPitchStatus] = useState("Not Submitted");
+
+  const [fundingStatus, setFundingStatus] = useState("Not Submitted");
+  const [trlStatus, setTrlStatus] = useState("Not Submitted");
+  const [matrixStatus, setMatrixStatus] = useState("Not Submitted");
+
   const [loading, setLoading] = useState(true);
 
-  /* ⭐ MANUAL NEWS */
+  /* ⭐ MANUAL NEWS WITH LINKS */
 
   const news = [
     {
       title: "AI startups continue to attract strong investment globally as investors focus on technology driven innovation.",
-      source: "Startup Ecosystem Update"
+      source: "Startup Ecosystem Update",
+      link: "https://example.com/news1"
     },
     {
       title: "Indian startup ecosystem is expanding rapidly with support from incubators, accelerators and venture capital firms.",
-      source: "Startup India Report"
+      source: "Startup India Report",
+      link: "https://example.com/news2"
     }
   ];
 
@@ -52,15 +59,64 @@ export default function Dashboard() {
 
         try {
 
-          const q = query(
+          /* ===============================
+             CHECK PITCH
+          =============================== */
+
+          const pitchQuery = query(
             collection(db, "pitches"),
             where("userId", "==", currentUser.uid)
           );
 
-          const snapshot = await getDocs(q);
+          const pitchSnapshot = await getDocs(pitchQuery);
 
           setPitchStatus(
-            snapshot.empty ? "Not Submitted" : "Submitted & Evaluated"
+            pitchSnapshot.empty ? "Not Submitted" : "Submitted & Evaluated"
+          );
+
+          /* ===============================
+             CHECK FUNDING
+          =============================== */
+
+          const fundingQuery = query(
+            collection(db, "fundingDetails"),
+            where("userId", "==", currentUser.uid)
+          );
+
+          const fundingSnapshot = await getDocs(fundingQuery);
+
+          setFundingStatus(
+            fundingSnapshot.empty ? "Not Submitted" : "Submitted"
+          );
+
+          /* ===============================
+             CHECK TRL
+          =============================== */
+
+          const trlQuery = query(
+            collection(db, "trl"),
+            where("userId", "==", currentUser.uid)
+          );
+
+          const trlSnapshot = await getDocs(trlQuery);
+
+          setTrlStatus(
+            trlSnapshot.empty ? "Not Submitted" : "Submitted"
+          );
+
+          /* ===============================
+             CHECK MATRIX
+          =============================== */
+
+          const matrixQuery = query(
+            collection(db, "evaluationMatrix"),
+            where("userId", "==", currentUser.uid)
+          );
+
+          const matrixSnapshot = await getDocs(matrixQuery);
+
+          setMatrixStatus(
+            matrixSnapshot.empty ? "Not Submitted" : "Submitted"
           );
 
         } catch {
@@ -102,11 +158,6 @@ export default function Dashboard() {
 
   }
 
-  const logout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
-
   return (
 
     <div className="dashboard-page">
@@ -124,7 +175,7 @@ export default function Dashboard() {
 
       </section>
 
-      {/* CARDS */}
+      {/* MAIN CARDS */}
 
       <section className="dashboard-grid">
 
@@ -141,7 +192,7 @@ export default function Dashboard() {
           </span>
 
           <button
-            className="primary-btn"
+            className="primary-btn-pitch"
             onClick={() => navigate("/pitch")}
           >
             {pitchStatus === "Not Submitted"
@@ -156,31 +207,71 @@ export default function Dashboard() {
           <h3>Evaluation</h3>
 
           <p>
-            AI-generated startup readiness feedback based on your pitch.
+            Evaluation Results of the Pitch
           </p>
 
           <button
             className="primary-btn"
-            onClick={() => navigate("/feedback")}
+            onClick={() => navigate("/evaluation")}
           >
-            View Feedback
+            View Evaluation
+          </button>
+
+        </div>
+
+      </section>
+
+      {/* SMALL FEATURE CARDS */}
+
+      <section className="dashboard-grid">
+
+        <div className="dashboard-card">
+
+          <h3>Funding Details</h3>
+
+          <p>
+            {fundingStatus === "Submitted"
+              ? "Submitted"
+              : "Not Submitted — Please submit funding details"}
+          </p>
+
+          <button
+            className="primary-btn"
+            onClick={() => navigate("/funding")}
+          >
+            Add Funding
           </button>
 
         </div>
 
         <div className="dashboard-card">
 
-          <h3>Analytics</h3>
+          <h3>TRL Level</h3>
+
+          <button
+            className="primary-btn-trl"
+            onClick={() => navigate("/trl")}
+          >
+            View TRL
+          </button>
+
+        </div>
+
+        <div className="dashboard-card">
+
+          <h3>Evaluation Matrix</h3>
 
           <p>
-            Analyze strengths and improvement areas using insights.
+            {matrixStatus === "Submitted"
+              ? "Submitted"
+              : "Not Submitted — Please submit evaluation matrix"}
           </p>
 
           <button
             className="primary-btn"
-            onClick={() => navigate("/analytics")}
+            onClick={() => navigate("/matrix")}
           >
-            View Analytics
+            View Matrix
           </button>
 
         </div>
@@ -195,7 +286,7 @@ export default function Dashboard() {
 
         <ul>
           <li>Real startup evaluation simulation</li>
-          <li>Explainable AI-based analysis</li>
+          <li>Mentor Review and feedback</li>
           <li>Highlights strengths & weaknesses</li>
           <li>Improves investor readiness</li>
         </ul>
@@ -214,9 +305,16 @@ export default function Dashboard() {
 
             <div key={index} style={{ marginBottom: "12px" }}>
 
-              <p style={{ fontWeight: "600" }}>
-                {item.title}
-              </p>
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <p style={{ fontWeight: "600" }}>
+                  {item.title}
+                </p>
+              </a>
 
               <p style={{ fontSize: "13px", color: "#666" }}>
                 {item.source}

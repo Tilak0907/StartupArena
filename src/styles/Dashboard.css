@@ -285,6 +285,14 @@
   transform: translateY(0);
 }
 
+.primary-btn-trl{
+  margin-top: 50px;
+}
+
+.primary-btn-pitch{
+  margin-top: 10px;
+}
+
 .secondary-btn {
   padding: 10px 16px;
   border-radius: 12px;
