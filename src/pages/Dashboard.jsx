@@ -14,6 +14,8 @@ export default function Dashboard() {
   const [trlStatus, setTrlStatus] = useState("Not Submitted");
   const [matrixStatus, setMatrixStatus] = useState("Not Submitted");
 
+  const [profileStatus, setProfileStatus] = useState("Not Submitted"); // ⭐ NEW
+
   const [loading, setLoading] = useState(true);
 
   const news = [
@@ -56,6 +58,38 @@ export default function Dashboard() {
       if (currentUser) {
 
         try {
+
+          /* ⭐ PROFILE CHECK (NEW) */
+          const profileQuery = query(
+            collection(db, "profiles"),
+            where("userId", "==", currentUser.uid)
+          );
+
+          const profileSnapshot = await getDocs(profileQuery);
+
+          if (profileSnapshot.empty) {
+
+            setProfileStatus("Not Submitted");
+
+          } else {
+
+            const profileData = profileSnapshot.docs[0].data();
+
+            const values = Object.values(profileData).filter(
+              value => value !== null && value !== "" && value !== undefined
+            );
+
+            const totalFields = Object.keys(profileData).length - 1;
+
+            if (values.length >= totalFields) {
+              setProfileStatus("Submitted");
+            } else {
+              setProfileStatus("Not Submitted");
+            }
+
+          }
+
+          /* EXISTING CODE BELOW (UNCHANGED) */
 
           const pitchQuery = query(
             collection(db, "pitches"),
@@ -162,166 +196,108 @@ export default function Dashboard() {
         <div>
           <h1>Welcome to StartupArena</h1>
           <p>A Platform to Transform Ideas into Reality</p>
+
+          {/* ⭐ SMALL PROFILE MESSAGE */}
+          <p style={{ fontSize: "13px", marginTop: "6px", opacity: 0.8 }}>
+            {profileStatus === "Submitted"
+              ? "Profile Submitted ✅"
+              : "Profile Not Submitted — Please complete your profile"}
+          </p>
+
         </div>
 
         <div className="dashboard-user">
           <p className="user-email">
-            <span>Logged In</span>
+            <span>Logged In : </span>
             {user.email}
           </p>
         </div>
 
       </section>
 
+      {/* REST OF YOUR CODE UNCHANGED */}
+
       {/* MAIN CARDS */}
-
       <section className="dashboard-grid">
-
         <div className="dashboard-card">
-
           <h3>Pitch Status</h3>
-
-          <span
-            className={`status-pill ${
-              pitchStatus === "Not Submitted" ? "pending" : "success"
-            }`}
-          >
+          <span className={`status-pill ${pitchStatus === "Not Submitted" ? "pending" : "success"}`}>
             {pitchStatus}
           </span>
-
-          <button
-            className="primary-btn-pitch"
-            onClick={() => navigate("/pitch")}
-          >
-            {pitchStatus === "Not Submitted"
-              ? "Submit Pitch"
-              : "Update Pitch"}
+          <button className="primary-btn-pitch" onClick={() => navigate("/pitch")}>
+            {pitchStatus === "Not Submitted" ? "Submit Pitch" : "Update Pitch"}
           </button>
-
         </div>
 
         <div className="dashboard-card">
-
           <h3>Evaluation</h3>
-
           <p>Evaluation Results of the Pitch</p>
-
-          <button
-            className="primary-btn"
-            onClick={() => navigate("/evaluation")}
-          >
+          <button className="primary-btn" onClick={() => navigate("/evaluation")}>
             View Evaluation
           </button>
-
         </div>
-
       </section>
 
       {/* SMALL FEATURE CARDS */}
-
       <section className="dashboard-grid">
-
         <div className="dashboard-card">
-
           <h3>Funding Details</h3>
-
           <p>
             {fundingStatus === "Submitted"
               ? "Submitted"
               : "Not Submitted — Please submit funding details"}
           </p>
-
-          <button
-            className="primary-btn"
-            onClick={() => navigate("/funding")}
-          >
+          <button className="primary-btn" onClick={() => navigate("/funding")}>
             Add Funding
           </button>
-
         </div>
 
         <div className="dashboard-card">
-
           <h3>TRL Level</h3>
-
-          <button
-            className="primary-btn-trl"
-            onClick={() => navigate("/trl")}
-          >
+          <button className="primary-btn-trl" onClick={() => navigate("/trl")}>
             View TRL
           </button>
-
         </div>
 
         <div className="dashboard-card">
-
           <h3>Evaluation Matrix</h3>
-
           <p>
             {matrixStatus === "Submitted"
               ? "Submitted"
               : "Not Submitted — Please submit evaluation matrix"}
           </p>
-
-          <button
-            className="primary-btn"
-            onClick={() => navigate("/matrix")}
-          >
+          <button className="primary-btn" onClick={() => navigate("/matrix")}>
             View Matrix
           </button>
-
         </div>
-
       </section>
 
       {/* INFO */}
-
       <section className="dashboard-info">
-
         <h3>How StartupArena Helps You</h3>
-
         <ul>
           <li>Real startup evaluation simulation</li>
           <li>Mentor Review and feedback</li>
           <li>Highlights strengths & weaknesses</li>
           <li>Improves investor readiness</li>
         </ul>
-
       </section>
 
-      {/* STARTUP NEWS */}
-
+      {/* NEWS */}
       <section className="dashboard-grid">
-
         <div className="dashboard-card">
-
           <h3>Startup Updates</h3>
 
           {news.map((item, index) => (
-
             <div key={index} className="news-item">
-
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="news-link"
-              >
+              <a href={item.link} target="_blank" rel="noopener noreferrer" className="news-link">
                 {item.title}
               </a>
-
-              <p className="news-source">
-                {item.source}
-              </p>
-
+              <p className="news-source">{item.source}</p>
               <hr className="news-divider" />
-
             </div>
-
           ))}
-
         </div>
-
       </section>
 
     </div>
