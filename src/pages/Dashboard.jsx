@@ -198,7 +198,7 @@ export default function Dashboard() {
           <p>A Platform to Transform Ideas into Reality</p>
 
           {/* ⭐ SMALL PROFILE MESSAGE */}
-          <p style={{ fontSize: "13px", marginTop: "6px", opacity: 0.8 }}>
+          <p className="profile-status">
             {profileStatus === "Submitted"
               ? "Profile Submitted ✅"
               : "Profile Not Submitted — Please complete your profile"}

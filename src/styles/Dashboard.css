@@ -434,3 +434,9 @@ html {
 .news-divider {
   margin: 10px 0;
 }
+
+.profile-status{
+  font-weight: bolder !important;
+  padding-top: 10px;
+  color:white !important;
+}
