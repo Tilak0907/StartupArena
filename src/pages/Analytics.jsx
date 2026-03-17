@@ -34,83 +34,71 @@ export default function Analytics() {
       }
 
       try {
-        const q = query(
+        const userId = auth.currentUser.uid;
+
+        /* ===============================
+           1️⃣ GET EVALUATION RESULT
+        =============================== */
+
+        const evalQuery = query(
           collection(db, "evaluationResults"),
-          where("userId", "==", auth.currentUser.uid)
+          where("userId", "==", userId)
         );
 
-        const snapshot = await getDocs(q);
+        const evalSnapshot = await getDocs(evalQuery);
 
-        if (snapshot.empty) {
+        if (evalSnapshot.empty) {
           setLoading(false);
           return;
         }
 
-        const evaluation = snapshot.docs[0].data();
-
+        const evaluation = evalSnapshot.docs[0].data();
         const score = evaluation.score || 0;
-        const readiness = evaluation.readiness || "Low";
-        const strengths = evaluation.strengths || [];
-        const weaknesses = evaluation.weaknesses || [];
 
-        /* ---------------- COMPONENT SCORING ---------------- */
+        /* ===============================
+           2️⃣ GET FEATURE VECTOR
+        =============================== */
 
-        let problemScore = 50;
-        let solutionScore = 50;
-        let marketScore = 50;
-        let revenueScore = 50;
+        const featureQuery = query(
+          collection(db, "featureVectors"),
+          where("userId", "==", userId)
+        );
 
-        // Increase based on strengths
-        strengths.forEach((item) => {
-          if (item.toLowerCase().includes("problem"))
-            problemScore += 20;
+        const featureSnapshot = await getDocs(featureQuery);
 
-          if (item.toLowerCase().includes("solution"))
-            solutionScore += 20;
-
-          if (item.toLowerCase().includes("market"))
-            marketScore += 20;
-
-          if (item.toLowerCase().includes("revenue"))
-            revenueScore += 20;
-        });
-
-        // Decrease based on weaknesses
-        weaknesses.forEach((item) => {
-          if (item.toLowerCase().includes("problem"))
-            problemScore -= 15;
-
-          if (item.toLowerCase().includes("solution"))
-            solutionScore -= 15;
-
-          if (item.toLowerCase().includes("market"))
-            marketScore -= 15;
-
-          if (item.toLowerCase().includes("revenue"))
-            revenueScore -= 15;
-        });
-
-        // Adjust based on overall readiness
-        if (readiness === "High") {
-          problemScore += 5;
-          solutionScore += 5;
-          marketScore += 5;
-          revenueScore += 5;
+        if (featureSnapshot.empty) {
+          console.warn("No feature vector found");
+          setLoading(false);
+          return;
         }
 
-        if (readiness === "Low") {
-          problemScore -= 5;
-          solutionScore -= 5;
-          marketScore -= 5;
-          revenueScore -= 5;
-        }
+        const featureData = featureSnapshot.docs[0].data();
+        const features = featureData.features || [];
+
+        /* ===============================
+           3️⃣ NEW LOGIC (STRUCTURED + TF-IDF)
+        =============================== */
+
+        const normalizeTFIDF = (val, max = 30) =>
+          Math.min(1, val / max);
+
+        const getScore = (structured, tfidf) => {
+          const structuredPercent = (structured / 3) * 70;
+          const tfidfPercent = normalizeTFIDF(tfidf) * 30;
+          return Math.round(structuredPercent + tfidfPercent);
+        };
+
+        const problemScore = getScore(features[0] || 0, features[5] || 0);
+        const solutionScore = getScore(features[1] || 0, features[6] || 0);
+        const marketScore = getScore(features[2] || 0, features[7] || 0);
+        const revenueScore = getScore(features[3] || 0, features[8] || 0);
 
         setAnalyticsData({
           overall: score,
-          problem: Math.max(0, Math.min(problemScore, 100)),
-          solution: Math.max(0, Math.min(solutionScore, 100)),
-          market: Math.max(0, Math.min(marketScore, 100)),
-          revenue: Math.max(0, Math.min(revenueScore, 100)),
+          problem: problemScore,
+          solution: solutionScore,
+          market: marketScore,
+          revenue: revenueScore,
         });
 
       } catch (err) {
@@ -149,7 +137,7 @@ export default function Analytics() {
     );
   }
 
-  /* ---------------- CHART CONFIG ---------------- */
+  /* ---------------- CHART DATA ---------------- */
 
   const data = {
     labels: [
@@ -178,56 +166,46 @@ export default function Analytics() {
   };
 
   const options = {
-  responsive: true,
-  scales: {
-    y: {
-      min: 0,
-      max: 100,
-      ticks: {
-        stepSize: 20,
-        color: "#ffffff",        // ✅ white Y-axis numbers
-        font: {
-          family: "Figtree",
-          size: 13,
-          weight: "500",
+    responsive: true,
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+          color: "#ffffff",
+          font: {
+            family: "Figtree",
+            size: 13,
+            weight: "500",
+          },
+        },
+        grid: {
+          color: "rgba(255,255,255,0.07)",
         },
       },
-      grid: {
-        color: "rgba(255,255,255,0.07)",
-      },
-      border: {
-        color: "rgba(255,255,255,0.1)",
-      },
-    },
-    x: {
-      ticks: {
-        color: "#ffffff",        // ✅ white bar label names
-        font: {
-          family: "Figtree",
-          size: 13,
-          weight: "500",
+      x: {
+        ticks: {
+          color: "#ffffff",
+          font: {
+            family: "Figtree",
+            size: 13,
+            weight: "500",
+          },
         },
-      },
-      grid: {
-        color: "rgba(255,255,255,0.07)",
-      },
-      border: {
-        color: "rgba(255,255,255,0.1)",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: "#ffffff",        // ✅ white legend text
-        font: {
-          family: "Figtree",
-          size: 13,
+        grid: {
+          color: "rgba(255,255,255,0.07)",
         },
       },
     },
-  },
-};
+    plugins: {
+      legend: {
+        labels: {
+          color: "#ffffff",
+        },
+      },
+    },
+  };
 
   return (
     <div className="container analytics-page">
@@ -241,8 +219,7 @@ export default function Analytics() {
         <Bar data={data} options={options} />
 
         <p className="hint">
-          📊 Component scores are derived from backend ECLAT evaluation
-          (strength & weakness signals).
+          📊 Component scores are derived from structured features and TF-IDF values.
         </p>
       </div>
     </div>
