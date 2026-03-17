@@ -18,14 +18,14 @@ export default function Dashboard() {
 
   const news = [
     {
-      title: "AI startups continue to attract strong investment globally as investors focus on technology driven innovation.",
-      source: "Startup Ecosystem Update",
-      link: "https://example.com/news1"
+      title: "Visa processing startup Atlys raises $36 Mn in Series C funding",
+      source: "Entrackr",
+      link: "https://entrackr.com/news/visa-processing-startup-atlys-raises-36-mn-in-series-c-funding-11218314"
     },
     {
-      title: "Indian startup ecosystem is expanding rapidly with support from incubators, accelerators and venture capital firms.",
-      source: "Startup India Report",
-      link: "https://example.com/news2"
+      title: "This startup lets you harvest your own mangoes, without owning a mango tree",
+      source: "livemint",
+      link: "https://www.livemint.com/companies/start-ups/rent-a-tree-kerala-startup-lets-you-lease-mango-trees-harvest-mangoes-11773313324283.html"
     }
   ];
 
@@ -57,10 +57,6 @@ export default function Dashboard() {
 
         try {
 
-          /* ===============================
-             CHECK PITCH
-          =============================== */
-
           const pitchQuery = query(
             collection(db, "pitches"),
             where("userId", "==", currentUser.uid)
@@ -71,10 +67,6 @@ export default function Dashboard() {
           setPitchStatus(
             pitchSnapshot.empty ? "Not Submitted" : "Submitted & Evaluated"
           );
-
-          /* ===============================
-             CHECK FUNDING
-          =============================== */
 
           const fundingQuery = query(
             collection(db, "fundingDetails"),
@@ -87,10 +79,6 @@ export default function Dashboard() {
             fundingSnapshot.empty ? "Not Submitted" : "Submitted"
           );
 
-          /* ===============================
-             CHECK TRL
-          =============================== */
-
           const trlQuery = query(
             collection(db, "trl"),
             where("userId", "==", currentUser.uid)
@@ -101,10 +89,6 @@ export default function Dashboard() {
           setTrlStatus(
             trlSnapshot.empty ? "Not Submitted" : "Submitted"
           );
-
-          /* ===============================
-             CHECK EVALUATION MATRIX
-          =============================== */
 
           const matrixQuery = query(
             collection(db, "evaluationMatrix"),
@@ -120,18 +104,13 @@ export default function Dashboard() {
           } else {
 
             const matrixData = matrixSnapshot.docs[0].data();
-
             const matrixValues = matrixData.matrix || {};
 
             const hasTrueValue = Object.values(matrixValues).some(
               value => value === true
             );
 
-            if (hasTrueValue) {
-              setMatrixStatus("Submitted");
-            } else {
-              setMatrixStatus("Not Submitted");
-            }
+            setMatrixStatus(hasTrueValue ? "Submitted" : "Not Submitted");
 
           }
 
@@ -186,7 +165,10 @@ export default function Dashboard() {
         </div>
 
         <div className="dashboard-user">
-          <p className="user-email"><p>Logged In</p>{user.email}</p>
+          <p className="user-email">
+            <span>Logged In</span>
+            {user.email}
+          </p>
         </div>
 
       </section>
@@ -222,9 +204,7 @@ export default function Dashboard() {
 
           <h3>Evaluation</h3>
 
-          <p>
-            Evaluation Results of the Pitch
-          </p>
+          <p>Evaluation Results of the Pitch</p>
 
           <button
             className="primary-btn"
@@ -319,24 +299,22 @@ export default function Dashboard() {
 
           {news.map((item, index) => (
 
-            <div key={index} style={{ marginBottom: "12px" }}>
+            <div key={index} className="news-item">
 
               <a
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="news-link"
               >
-                <p style={{ fontWeight: "600" }}>
-                  {item.title}
-                </p>
+                {item.title}
               </a>
 
-              <p style={{ fontSize: "13px", color: "#666" }}>
+              <p className="news-source">
                 {item.source}
               </p>
 
-              <hr style={{ margin: "10px 0" }} />
+              <hr className="news-divider" />
 
             </div>
 

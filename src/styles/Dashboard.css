@@ -414,3 +414,23 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+.news-link {
+  display: block;
+  font-weight: 600;
+  color:white;   /* visible link color */
+  text-decoration: none;
+}
+
+.news-link:hover {
+  text-decoration: underline;
+}
+
+.news-source {
+  font-size: 13px;
+  color: #888;
+}
+
+.news-divider {
+  margin: 10px 0;
+}
