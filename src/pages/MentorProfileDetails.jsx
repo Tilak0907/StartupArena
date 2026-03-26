@@ -251,7 +251,6 @@ return (
 
 <h3>Profile Information</h3>
 
-<p><b>Company Name:</b> {profile.companyName}</p>
 <p><b>Startup Name:</b> {profile.name}</p>
 <p><b>Industry:</b> {profile.industry}</p>
 <p><b>Vision:</b> {profile.vision}</p>
