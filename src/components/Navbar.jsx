@@ -71,19 +71,16 @@ export default function Navbar() {
     <nav className="navbar">
 
       {/* LEFT SIDE */}
-      <Link to="/" className="navbar-left">
-
-        <img
-          src={logo}
-          alt="StartupArena"
-          className="navbar-logo"
-        />
-
-        <span className="navbar-title">
-          StartupArena
-        </span>
-
-      </Link>
+    <div className="navbar-left">
+  <img
+    src={logo}
+    alt="StartupArena"
+    className="navbar-logo"
+  />
+  <span className="navbar-title">
+    StartupArena
+  </span>
+</div>
 
       {/* HAMBURGER */}
 

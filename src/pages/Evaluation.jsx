@@ -125,17 +125,6 @@ export default function Evaluation() {
           <strong> {evaluationType}</strong>
         </p>
 
-        {/* 🔹 AI PREDICTION */}
-
-        <div className="prediction-section">
-
-          <p className={`prediction ${prediction.toLowerCase().replace(" ", "-")}`}>
-
-            {prediction}
-
-          </p>
-
-        </div>
 
         {/* 🔹 SCORE DISPLAY */}
 

@@ -179,7 +179,9 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  padding-top: 20px;
+  height: 60px;
   gap: 0.4rem;
   white-space: nowrap;
 }

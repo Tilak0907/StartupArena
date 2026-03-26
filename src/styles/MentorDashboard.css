@@ -109,6 +109,82 @@
   font-weight: 600;
 }
 
+/* Nav right group: badge + login status */
+.md-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Login status pill */
+.md-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* pushes left & right */
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.md-login-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface2);
+  border: 1px solid rgba(0, 229, 195, 0.2);
+  border-radius: 20px;
+  padding: 5px 12px 5px 8px;
+}
+
+.md-login-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.md-login-label::after {
+  content: ':';
+  margin-left: 1px;
+}
+
+.md-login-email {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* Mobile: hide email and badge, keep dot + label */
+@media (max-width: 480px) {
+
+  .md-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .md-login-status {
+    align-self: none;          /* center it */
+    padding: 6px 10px;
+    border-radius: 16px;
+  }
+
+  .md-login-label {
+    font-size: 0.6rem;
+  }
+
+  .md-login-email {
+    max-width: 160px;
+    font-size: 0.7rem;
+  }
+}
 /* ══════════════════════════════════════
    PAGE HEADER
 ══════════════════════════════════════ */
@@ -181,7 +257,6 @@
   letter-spacing: -0.04em;
   line-height: 1;
 }
-/* individual stat colours */
 .md-stat-val--total    { color: var(--accent); }
 .md-stat-val--reviewed { color: var(--accent2); }
 .md-stat-val--updated  { color: #a78bfa; }
@@ -319,7 +394,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 18px;
-  overflow: hidden;
+  overflow: visible;        /* was: hidden — that clipped the 3rd button  */
   cursor: pointer;
   transition:
     transform 0.22s cubic-bezier(.22,.68,0,1.2),
@@ -334,8 +409,8 @@
 }
 
 /* stagger */
-.md-card:nth-child(1)  { animation-delay: 0ms;  }
-.md-card:nth-child(2)  { animation-delay: 50ms; }
+.md-card:nth-child(1)  { animation-delay: 0ms;   }
+.md-card:nth-child(2)  { animation-delay: 50ms;  }
 .md-card:nth-child(3)  { animation-delay: 100ms; }
 .md-card:nth-child(4)  { animation-delay: 150ms; }
 .md-card:nth-child(5)  { animation-delay: 200ms; }
@@ -372,8 +447,6 @@
   font-weight: 900;
   font-size: 1.2rem;
 }
-
-/* Avatar colour variants — replaces inline style={{ background, color }} */
 .md-card-avatar--0 { background: #1a1730; color: #6c63ff; }
 .md-card-avatar--1 { background: #0d2620; color: #00e5c3; }
 .md-card-avatar--2 { background: #2a1414; color: #ff6b6b; }
@@ -455,17 +528,24 @@
   margin: 0 22px;
 }
 
-/* Card actions */
 .md-card-actions {
-  padding: 14px 22px;
-  display: flex;
+  padding: 12px 16px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   gap: 8px;
   align-items: center;
 }
+
+/* ── Buttons ──
+   FIX: remove fixed height:50px — that
+   forced text to wrap inside the button.
+   Use padding + auto height instead.
+══════════════════════════════════════ */
 .md-btn {
   border: none;
   border-radius: 9px;
-  padding: 8px 14px;
+  padding: 10px 14px;     /* natural height from padding, not fixed */
+  height: auto;           /* was 50px — that caused the text wrap    */
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
@@ -473,13 +553,15 @@
   font-family: 'Nunito', sans-serif;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  height: 50px;
+  white-space: nowrap;    /* never wrap button text */
+  line-height: 1;
 }
 .md-btn-primary {
   background: linear-gradient(135deg, var(--accent), #8b7fff);
   color: #fff;
-  flex: 1;
+  min-width: 0;
 }
 .md-btn-primary:hover {
   opacity: 0.88;
@@ -532,7 +614,6 @@
   background-size: 400% 100%;
   animation: shimmer 1.4s infinite;
 }
-/* Skeleton shape helpers */
 .md-skel-avatar {
   width: 48px;
   height: 48px;
@@ -562,9 +643,9 @@
   height: 34px;
   border-radius: 9px;
 }
-.md-skel-btn--wide  { flex: 1; }
-.md-skel-btn--sm    { width: 80px; }
-.md-skel-btn--xs    { width: 70px; }
+.md-skel-btn--wide { flex: 1; }
+.md-skel-btn--sm   { width: 80px; }
+.md-skel-btn--xs   { width: 70px; }
 
 @keyframes shimmer {
   to { background-position: -400% 0; }
@@ -654,10 +735,77 @@
 /* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
-@media (max-width: 600px) {
-  .md-wrap       { padding: 0 16px 40px; }
-  .md-grid       { grid-template-columns: 1fr; }
+
+/* Tablet — single column */
+@media (max-width: 768px) {
+  .md-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .md-wrap {
+    padding: 0 16px 40px;
+  }
   .md-stats      { gap: 10px; }
   .md-stat       { min-width: 120px; padding: 16px 20px; }
   .md-view-toggle { margin-left: 0; }
+}
+
+/* Mobile — everything fits inside the card width */
+@media (max-width: 480px) {
+  .md-wrap { padding: 0 10px 32px; }
+
+  .md-card-top {
+    padding: 12px 12px 10px;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .md-card-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .md-card-meta { min-width: 0; flex: 1; }
+
+  .md-card-name {
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Pill: compact so it doesn't push buttons off */
+  .md-status-pill {
+    font-size: 0.55rem;
+    padding: 3px 6px;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .md-card-body    { padding: 0 12px 12px; }
+  .md-card-divider { margin: 0 12px; }
+
+  /* Button row — 3-column grid, guaranteed to fit */
+  .md-card-actions {
+    padding: 10px 12px 12px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 6px;
+  }
+
+  .md-btn {
+    padding: 9px 10px;
+    font-size: 0.74rem;
+    gap: 4px;
+    border-radius: 8px;
+    white-space: nowrap;
+    height: auto;
+  }
 }

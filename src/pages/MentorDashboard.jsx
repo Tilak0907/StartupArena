@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   query,
@@ -16,7 +17,6 @@ import "../styles/MentorDashboard.css";
    HELPERS
 ══════════════════════════════════════ */
 
-// 6 colour slots — index drives the CSS class md-card-avatar--{n}
 const AVATAR_COUNT = 6;
 
 const avatarFor = (name = "") => ({
@@ -79,6 +79,21 @@ export default function MentorDashboard() {
   const [viewMode, setViewMode]         = useState("grid");
   const [toDelete, setToDelete]         = useState(null);
   const navigate = useNavigate();
+
+  /* ── Current user email ── */
+ const [userEmail, setUserEmail] = useState("");
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserEmail(user.email);
+    } else {
+      setUserEmail("");
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
 
   /* ── Visit tracking ── */
   useEffect(() => {
@@ -249,7 +264,6 @@ export default function MentorDashboard() {
           </div>
           <div className="md-card-meta">
             <div className="md-card-name">{profile.name}</div>
-            <div className="md-card-company">{profile.companyName || "—"}</div>
           </div>
           <span className={`md-status-pill ${sc}`}>{statusLabel(profile.status)}</span>
         </div>
@@ -272,10 +286,6 @@ export default function MentorDashboard() {
             className="md-btn md-btn-primary"
             onClick={() => navigate(`/mentor/profile/${profile.id}`)}
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
             View Profile
           </button>
 
@@ -326,17 +336,23 @@ export default function MentorDashboard() {
             <div className="md-nav-brand-dot" />
             StartupArena
           </div>
-          <span className="md-nav-badge">Mentor Portal</span>
+
+          {/* ── LOGIN STATUS ── */}
+          <div className="md-nav-right">
+            <span className="md-nav-badge">Mentor Portal</span>
+          </div>
         </nav>
 
+          
+
         {/* ── HEADER ── */}
-        <div className="md-header">
-          <div className="md-header-eyebrow">Overview</div>
-          <h1>Mentor <span>Dashboard</span></h1>
-          <p className="md-header-sub">
-            Review, analyse, and manage your assigned startup pitches.
-          </p>
-        </div>
+       <div className="md-header-top">
+  <h1>Mentor <span>Dashboard</span></h1>
+  <div className="md-login-status">
+    <span className="md-login-label">Logged in</span>
+    <span className="md-login-email">{userEmail}</span>
+  </div>
+</div>
 
         {/* ── STATS ── */}
         <div className="md-stats">
@@ -356,7 +372,6 @@ export default function MentorDashboard() {
 
         {/* ── TOOLBAR ── */}
         <div className="md-toolbar">
-          {/* Search */}
           <div className="md-search-wrap">
             <span className="md-search-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -371,12 +386,6 @@ export default function MentorDashboard() {
               onChange={e => setSearch(e.target.value)}
             />
           </div>
-
-          {/* Filter pills */}
-         
-
-          {/* View toggle */}
-         
         </div>
 
         {/* ── CARDS ── */}
@@ -392,7 +401,7 @@ export default function MentorDashboard() {
                 <h3>No pitches found</h3>
                 <p>
                   {search || filterStatus !== "All"
-                    ? "Try adjusting your search or filter."
+                    ? "Try adjusting your search."
                     : "You have no assigned pitches yet."}
                 </p>
               </div>
