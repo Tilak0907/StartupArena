@@ -96,7 +96,7 @@ export default function MentorReview() {
 
       const q = query(
         collection(db, "mentorAssignments"),
-        where("founderId", "==", profileId)
+        where("profileId", "==", profileId)
       );
 
       const snapshot = await getDocs(q);
@@ -146,7 +146,7 @@ export default function MentorReview() {
 
       const reviewQuery = query(
         collection(db, "mentorReviews"),
-        where("founderId", "==", profileId)
+        where("profileId", "==", profileId)
       );
 
       const reviewSnapshot = await getDocs(reviewQuery);
@@ -337,93 +337,97 @@ export default function MentorReview() {
   )}
 
 </div>
-      <div className="card">
+     <div className="mentor-reviews">
 
-        <h3>Mentor Reviews</h3>
+  <h3 className="mentor-title">Mentor Reviews</h3>
 
-        {reviews.length === 0 ? (
-          <p>No reviews received yet.</p>
-        ) : (
+  {reviews.length === 0 ? (
+    <p className="mentor-empty">No reviews received yet.</p>
+  ) : (
 
-          reviews.map((review) => (
+    <div className="mentor-list">
+      {reviews.map((review) => (
 
-            <div
-              key={review.id}
-              className="review-card"
-              onClick={() => setSelectedReview(review)}
+        <div
+          key={review.id}
+          className="mentor-item"
+          onClick={() => setSelectedReview(review)}
+        >
+
+          <div className="mentor-item-header">
+            <span className="mentor-name">{review.mentorName}</span>
+
+            <span
+              className={`mentor-status ${review.status}`}
             >
-
-              <p><b>Mentor:</b> {review.mentorName}</p>
-
-              <p>
-                <b>Status:</b>{" "}
-                <span
-                  style={{
-                    color:
-                      review.status === "approved"
-                        ? "green"
-                        : review.status === "rejected"
-                        ? "red"
-                        : "orange"
-                  }}
-                >
-                  {review.status}
-                </span>
-              </p>
-
-              <p><b>Click to view review</b></p>
-
-            </div>
-
-          ))
-
-        )}
-
-      </div>
-
-      {selectedReview && (
-
-        <div className="review-modal">
-
-          <div className="review-modal-content">
-
-            <h3>Mentor Feedback</h3>
-
-            <p><b>Mentor:</b> {selectedReview.mentorName}</p>
-
-            <p><b>Status:</b> {selectedReview.status}</p>
-
-            <p><b>Feedback:</b></p>
-
-            <p>{selectedReview.feedback}</p>
-
-            {selectedReview.createdAt && (
-              <p style={{ fontSize: "13px", color: "#777" }}>
-                <b>Reviewed on:</b>{" "}
-                {new Date(
-                  selectedReview.createdAt.seconds * 1000
-                ).toLocaleString()}
-              </p>
-            )}
-
-            <br />
-
-            <button onClick={startChat}>
-              Ask Mentor (Start Chat)
-            </button>
-
-            <button
-              onClick={() => setSelectedReview(null)}
-              style={{ marginLeft: "10px" }}
-            >
-              Close
-            </button>
-
+              {review.status}
+            </span>
           </div>
+
+          <p className="mentor-action-text">
+            Click to view review
+          </p>
 
         </div>
 
+      ))}
+    </div>
+
+  )}
+
+</div>
+
+{/* MODAL */}
+{selectedReview && (
+
+  <div className="mentor-modal">
+
+    <div className="mentor-modal-box">
+
+      <h3 className="mentor-modal-title">Mentor Feedback</h3>
+
+      <p><b>Mentor:</b> {selectedReview.mentorName}</p>
+
+      <p>
+        <b>Status:</b>{" "}
+        <span className={`mentor-status ${selectedReview.status}`}>
+          {selectedReview.status}
+        </span>
+      </p>
+
+      <p className="feedback-label">Feedback:</p>
+
+      <p className="feedback-text">{selectedReview.feedback}</p>
+
+      {selectedReview.createdAt && (
+        <p className="review-date">
+          Reviewed on:{" "}
+          {new Date(
+            selectedReview.createdAt.seconds * 1000
+          ).toLocaleString()}
+        </p>
       )}
+
+      <div className="mentor-modal-actions">
+
+        <button className="btn-primary" onClick={startChat}>
+          Ask Mentor (Start Chat)
+        </button>
+
+        <button
+          className="btn-secondary"
+          onClick={() => setSelectedReview(null)}
+        >
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+)}
 
     </div>
 
