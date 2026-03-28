@@ -14,7 +14,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("founder");
 
-  const [expertise, setExpertise] = useState(""); // ⭐ NEW
+  const [expertise, setExpertise] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -66,7 +66,6 @@ export default function Register() {
       else newErrors.confirmPassword = "";
     }
 
-    // ⭐ NEW VALIDATION FOR EXPERTISE
     if (field === "expertise") {
       if (role === "mentor" && !value) {
         newErrors.expertise = "Expertise is required for mentors";
@@ -86,14 +85,21 @@ export default function Register() {
     validateField("email", email);
     validateField("password", password);
     validateField("confirmPassword", confirmPassword);
-    validateField("expertise", expertise); // ⭐ NEW
+    validateField("expertise", expertise);
 
+    // ✅ NEW: Toast error if any required field is empty
     if (
       !name ||
       !email ||
       !password ||
       !confirmPassword ||
-      (role === "mentor" && !expertise) || // ⭐ NEW
+      (role === "mentor" && !expertise)
+    ) {
+      toast.error("⚠️ Please fill in all fields before registering.");
+      return;
+    }
+
+    if (
       errors.name ||
       errors.email ||
       errors.password ||
@@ -119,7 +125,7 @@ export default function Register() {
         name,
         email,
         role,
-        expertise: role === "mentor" ? expertise : "", // ⭐ NEW
+        expertise: role === "mentor" ? expertise : "",
         createdAt: new Date(),
       });
 
@@ -260,7 +266,7 @@ export default function Register() {
           <select
             onChange={(e) => {
               setRole(e.target.value);
-              setExpertise(""); // reset if switching
+              setExpertise("");
             }}
           >
             <option value="founder">Founder</option>
@@ -268,7 +274,7 @@ export default function Register() {
           </select>
         </div>
 
-        {/* ⭐ NEW: EXPERTISE FIELD */}
+        {/* EXPERTISE FIELD */}
         {role === "mentor" && (
           <div className="form-group">
             <label>Domain Expertise</label>
