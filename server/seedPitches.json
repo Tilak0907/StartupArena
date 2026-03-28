@@ -160,5 +160,559 @@
     "revenue": "",
     "userId": "seed_weak_6",
     "successLabel": 0
+  },
+
+{
+    "problem": "Indian consumers increasingly seek quality, convenient, and healthy food options but face challenges with availability, consistency, and access to authentic regional flavors. The unorganized food sector lacks standardization, leading to quality inconsistencies and limited reach beyond local markets.",
+    "solution": "Frozen Momos addresses this gap by offering a standardized, scalable product/service with consistent quality, modern packaging, and efficient distribution — bridging the gap between traditional tastes and contemporary consumer expectations.",
+    "market": "The Indian Food & Beverage market is valued at over ₹40 lakh crore and growing at 9% CAGR. Health-conscious and convenience-seeking urban millennials represent a high-growth segment. The target market includes tier-1 and tier-2 cities with a combined addressable population of 300M+ consumers.",
+    "revenue": "Revenue streams include direct-to-consumer (D2C) sales via e-commerce, B2B supply to retail chains and restaurants, subscription meal/snack boxes, and white-label licensing. Pricing strategy leverages premium positioning with margins of 35–55%.",
+    "userId": "food_and_beverage_1",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian consumers increasingly seek quality, convenient, and healthy food options but face challenges with availability, consistency, and access to authentic regional flavors. The unorganized food sector lacks standardization, leading to quality inconsistencies and limited reach beyond local markets.",
+    "solution": "Healthy Potato Chips Snacks addresses this gap by offering a standardized, scalable product/service with consistent quality, modern packaging, and efficient distribution — bridging the gap between traditional tastes and contemporary consumer expectations.",
+    "market": "The Indian Food & Beverage market is valued at over ₹40 lakh crore and growing at 9% CAGR. Health-conscious and convenience-seeking urban millennials represent a high-growth segment. The target market includes tier-1 and tier-2 cities with a combined addressable population of 300M+ consumers.",
+    "revenue": "Revenue streams include direct-to-consumer (D2C) sales via e-commerce, B2B supply to retail chains and restaurants, subscription meal/snack boxes, and white-label licensing. Pricing strategy leverages premium positioning with margins of 35–55%.",
+    "userId": "food_and_beverage_2",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian consumers increasingly seek quality, convenient, and healthy food options but face challenges with availability, consistency, and access to authentic regional flavors. The unorganized food sector lacks standardization, leading to quality inconsistencies and limited reach beyond local markets.",
+    "solution": "Food Freshness Detector addresses this gap by offering a standardized, scalable product/service with consistent quality, modern packaging, and efficient distribution — bridging the gap between traditional tastes and contemporary consumer expectations.",
+    "market": "The Indian Food & Beverage market is valued at over ₹40 lakh crore and growing at 9% CAGR. Health-conscious and convenience-seeking urban millennials represent a high-growth segment. The target market includes tier-1 and tier-2 cities with a combined addressable population of 300M+ consumers.",
+    "revenue": "Revenue streams include direct-to-consumer (D2C) sales via e-commerce, B2B supply to retail chains and restaurants, subscription meal/snack boxes, and white-label licensing. Pricing strategy leverages premium positioning with margins of 35–55%.",
+    "userId": "food_and_beverage_3",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian consumers increasingly seek quality, convenient, and healthy food options but face challenges with availability, consistency, and access to authentic regional flavors. The unorganized food sector lacks standardization, leading to quality inconsistencies and limited reach beyond local markets.",
+    "solution": "Energy Drink addresses this gap by offering a standardized, scalable product/service with consistent quality, modern packaging, and efficient distribution — bridging the gap between traditional tastes and contemporary consumer expectations.",
+    "market": "The Indian Food & Beverage market is valued at over ₹40 lakh crore and growing at 9% CAGR. Health-conscious and convenience-seeking urban millennials represent a high-growth segment. The target market includes tier-1 and tier-2 cities with a combined addressable population of 300M+ consumers.",
+    "revenue": "Revenue streams include direct-to-consumer (D2C) sales via e-commerce, B2B supply to retail chains and restaurants, subscription meal/snack boxes, and white-label licensing. Pricing strategy leverages premium positioning with margins of 35–55%.",
+    "userId": "food_and_beverage_4",
+    "successLabel": 0
+  },
+  {
+    "problem": "Urban India faces a dual crisis of traffic congestion and rising pollution, driven by the dominance of fossil-fuel vehicles. EV adoption is hindered by high upfront costs, limited charging infrastructure, and lack of last-mile electric mobility options.",
+    "solution": "Renting e-bike for mobility in private spaces offers a clean, affordable, and practical electric mobility solution tailored to Indian roads and commuting needs. It accelerates EV adoption by reducing cost barriers and addressing last-mile connectivity gaps for urban and peri-urban commuters.",
+    "market": "India\\'s EV market is projected to reach \\$113 billion by 2029. Two-wheelers and three-wheelers dominate adoption (90%+ of EV sales). Government FAME-II subsidies and state EV policies create favorable tailwinds. 600M+ daily commuters represent a massive addressable market.",
+    "revenue": "Vehicle sales, subscription/rental models, battery-as-a-service (BaaS), fleet leasing to delivery companies, government contracts, and charging infrastructure monetization. Target: ₹10 crore ARR by Year 3 with gross margins of 25–35%.",
+    "userId": "vehicles_electrical_vehicles_5",
+    "successLabel": 1
+  },
+  {
+    "problem": "Urban India faces a dual crisis of traffic congestion and rising pollution, driven by the dominance of fossil-fuel vehicles. EV adoption is hindered by high upfront costs, limited charging infrastructure, and lack of last-mile electric mobility options.",
+    "solution": "E-Bike Mitra bud-e RM offers a clean, affordable, and practical electric mobility solution tailored to Indian roads and commuting needs. It accelerates EV adoption by reducing cost barriers and addressing last-mile connectivity gaps for urban and peri-urban commuters.",
+    "market": "India\\'s EV market is projected to reach \\$113 billion by 2029. Two-wheelers and three-wheelers dominate adoption (90%+ of EV sales). Government FAME-II subsidies and state EV policies create favorable tailwinds. 600M+ daily commuters represent a massive addressable market.",
+    "revenue": "Vehicle sales, subscription/rental models, battery-as-a-service (BaaS), fleet leasing to delivery companies, government contracts, and charging infrastructure monetization. Target: ₹10 crore ARR by Year 3 with gross margins of 25–35%.",
+    "userId": "vehicles_electrical_vehicles_6",
+    "successLabel": 1
+  },
+  {
+    "problem": "Urban India faces a dual crisis of traffic congestion and rising pollution, driven by the dominance of fossil-fuel vehicles. EV adoption is hindered by high upfront costs, limited charging infrastructure, and lack of last-mile electric mobility options.",
+    "solution": "Smart Electric Motorcycle offers a clean, affordable, and practical electric mobility solution tailored to Indian roads and commuting needs. It accelerates EV adoption by reducing cost barriers and addressing last-mile connectivity gaps for urban and peri-urban commuters.",
+    "market": "India\\'s EV market is projected to reach \\$113 billion by 2029. Two-wheelers and three-wheelers dominate adoption (90%+ of EV sales). Government FAME-II subsidies and state EV policies create favorable tailwinds. 600M+ daily commuters represent a massive addressable market.",
+    "revenue": "Vehicle sales, subscription/rental models, battery-as-a-service (BaaS), fleet leasing to delivery companies, government contracts, and charging infrastructure monetization. Target: ₹10 crore ARR by Year 3 with gross margins of 25–35%.",
+    "userId": "vehicles_electrical_vehicles_7",
+    "successLabel": 1
+  },
+  {
+    "problem": "Urban India faces a dual crisis of traffic congestion and rising pollution, driven by the dominance of fossil-fuel vehicles. EV adoption is hindered by high upfront costs, limited charging infrastructure, and lack of last-mile electric mobility options.",
+    "solution": "Electric Auto Vehicle Dandera offers a clean, affordable, and practical electric mobility solution tailored to Indian roads and commuting needs. It accelerates EV adoption by reducing cost barriers and addressing last-mile connectivity gaps for urban and peri-urban commuters.",
+    "market": "India\\'s EV market is projected to reach \\$113 billion by 2029. Two-wheelers and three-wheelers dominate adoption (90%+ of EV sales). Government FAME-II subsidies and state EV policies create favorable tailwinds. 600M+ daily commuters represent a massive addressable market.",
+    "revenue": "Vehicle sales, subscription/rental models, battery-as-a-service (BaaS), fleet leasing to delivery companies, government contracts, and charging infrastructure monetization. Target: ₹10 crore ARR by Year 3 with gross margins of 25–35%.",
+    "userId": "vehicles_electrical_vehicles_8",
+    "successLabel": 1
+  },
+  {
+    "problem": "The Indian fashion and beauty consumer struggles with limited access to personalized, affordable, and sustainable products. Mass-market offerings lack differentiation, while premium brands remain inaccessible. Consumers also face challenges in finding products suited to Indian skin tones, body types, and cultural preferences.",
+    "solution": "Detachable Sleeves delivers a differentiated product/service tailored to Indian consumers — combining innovation, affordability, and cultural relevance. It leverages technology and local craftsmanship to offer personalized solutions that mass-market brands cannot replicate.",
+    "market": "India\\'s fashion and beauty market is projected to reach \\$30 billion by 2026, growing at 12% CAGR. The digital-first consumer (18–35 age group) is the primary target, with growing demand in tier-2/3 cities. Online beauty and apparel together represent a \\$10B+ opportunity.",
+    "revenue": "Revenue generated through product sales (retail and D2C), subscription boxes, platform commissions, brand collaborations, and influencer-driven affiliate models. Expected gross margins of 40–65% with a customer LTV of ₹5,000–₹20,000.",
+    "userId": "beauty_fashion_9",
+    "successLabel": 1
+  },
+  {
+    "problem": "The Indian fashion and beauty consumer struggles with limited access to personalized, affordable, and sustainable products. Mass-market offerings lack differentiation, while premium brands remain inaccessible. Consumers also face challenges in finding products suited to Indian skin tones, body types, and cultural preferences.",
+    "solution": "Disposable Urine Bag delivers a differentiated product/service tailored to Indian consumers — combining innovation, affordability, and cultural relevance. It leverages technology and local craftsmanship to offer personalized solutions that mass-market brands cannot replicate.",
+    "market": "India\\'s fashion and beauty market is projected to reach \\$30 billion by 2026, growing at 12% CAGR. The digital-first consumer (18–35 age group) is the primary target, with growing demand in tier-2/3 cities. Online beauty and apparel together represent a \\$10B+ opportunity.",
+    "revenue": "Revenue generated through product sales (retail and D2C), subscription boxes, platform commissions, brand collaborations, and influencer-driven affiliate models. Expected gross margins of 40–65% with a customer LTV of ₹5,000–₹20,000.",
+    "userId": "beauty_fashion_10",
+    "successLabel": 0
+  },
+  {
+    "problem": "The Indian fashion and beauty consumer struggles with limited access to personalized, affordable, and sustainable products. Mass-market offerings lack differentiation, while premium brands remain inaccessible. Consumers also face challenges in finding products suited to Indian skin tones, body types, and cultural preferences.",
+    "solution": "Intelligent Skincare delivers a differentiated product/service tailored to Indian consumers — combining innovation, affordability, and cultural relevance. It leverages technology and local craftsmanship to offer personalized solutions that mass-market brands cannot replicate.",
+    "market": "India\\'s fashion and beauty market is projected to reach \\$30 billion by 2026, growing at 12% CAGR. The digital-first consumer (18–35 age group) is the primary target, with growing demand in tier-2/3 cities. Online beauty and apparel together represent a \\$10B+ opportunity.",
+    "revenue": "Revenue generated through product sales (retail and D2C), subscription boxes, platform commissions, brand collaborations, and influencer-driven affiliate models. Expected gross margins of 40–65% with a customer LTV of ₹5,000–₹20,000.",
+    "userId": "beauty_fashion_11",
+    "successLabel": 1
+  },
+  {
+    "problem": "The Indian fashion and beauty consumer struggles with limited access to personalized, affordable, and sustainable products. Mass-market offerings lack differentiation, while premium brands remain inaccessible. Consumers also face challenges in finding products suited to Indian skin tones, body types, and cultural preferences.",
+    "solution": "Underwear delivers a differentiated product/service tailored to Indian consumers — combining innovation, affordability, and cultural relevance. It leverages technology and local craftsmanship to offer personalized solutions that mass-market brands cannot replicate.",
+    "market": "India\\'s fashion and beauty market is projected to reach \\$30 billion by 2026, growing at 12% CAGR. The digital-first consumer (18–35 age group) is the primary target, with growing demand in tier-2/3 cities. Online beauty and apparel together represent a \\$10B+ opportunity.",
+    "revenue": "Revenue generated through product sales (retail and D2C), subscription boxes, platform commissions, brand collaborations, and influencer-driven affiliate models. Expected gross margins of 40–65% with a customer LTV of ₹5,000–₹20,000.",
+    "userId": "beauty_fashion_12",
+    "successLabel": 0
+  },
+  {
+    "problem": "Despite India producing 1.5 million engineering graduates annually, foundational skill gaps, limited access to quality education, and poor learning outcomes persist — especially for rural and economically weaker students. Parents seek holistic development tools beyond academic curricula.",
+    "solution": "Brain Development Course bridges learning gaps through engaging, accessible, and research-backed educational content or tools. It caters to modern learners by combining technology with pedagogy, offering personalized learning journeys outside traditional classroom settings.",
+    "market": "India\\'s EdTech market is expected to reach \\$10.4 billion by 2025, growing at 39% CAGR. 260 million school-going children and 37 million higher-education students represent the primary market. Parents are willing to spend ₹5,000–₹50,000/year on supplementary education.",
+    "revenue": "Subscription-based learning plans, one-time course/product fees, institutional (B2B school/college) licensing, freemium model with premium content, and government/CSR-funded inclusion programs. Target: 1 lakh paid subscribers by Year 2.",
+    "userId": "children_education_13",
+    "successLabel": 1
+  },
+  {
+    "problem": "Despite India producing 1.5 million engineering graduates annually, foundational skill gaps, limited access to quality education, and poor learning outcomes persist — especially for rural and economically weaker students. Parents seek holistic development tools beyond academic curricula.",
+    "solution": "Menstrual Awareness Comic bridges learning gaps through engaging, accessible, and research-backed educational content or tools. It caters to modern learners by combining technology with pedagogy, offering personalized learning journeys outside traditional classroom settings.",
+    "market": "India\\'s EdTech market is expected to reach \\$10.4 billion by 2025, growing at 39% CAGR. 260 million school-going children and 37 million higher-education students represent the primary market. Parents are willing to spend ₹5,000–₹50,000/year on supplementary education.",
+    "revenue": "Subscription-based learning plans, one-time course/product fees, institutional (B2B school/college) licensing, freemium model with premium content, and government/CSR-funded inclusion programs. Target: 1 lakh paid subscribers by Year 2.",
+    "userId": "children_education_14",
+    "successLabel": 0
+  },
+  {
+    "problem": "Despite India producing 1.5 million engineering graduates annually, foundational skill gaps, limited access to quality education, and poor learning outcomes persist — especially for rural and economically weaker students. Parents seek holistic development tools beyond academic curricula.",
+    "solution": "Child Development App bridges learning gaps through engaging, accessible, and research-backed educational content or tools. It caters to modern learners by combining technology with pedagogy, offering personalized learning journeys outside traditional classroom settings.",
+    "market": "India\\'s EdTech market is expected to reach \\$10.4 billion by 2025, growing at 39% CAGR. 260 million school-going children and 37 million higher-education students represent the primary market. Parents are willing to spend ₹5,000–₹50,000/year on supplementary education.",
+    "revenue": "Subscription-based learning plans, one-time course/product fees, institutional (B2B school/college) licensing, freemium model with premium content, and government/CSR-funded inclusion programs. Target: 1 lakh paid subscribers by Year 2.",
+    "userId": "children_education_15",
+    "successLabel": 1
+  },
+  {
+    "problem": "Despite India producing 1.5 million engineering graduates annually, foundational skill gaps, limited access to quality education, and poor learning outcomes persist — especially for rural and economically weaker students. Parents seek holistic development tools beyond academic curricula.",
+    "solution": "Gadgets for visually impaired people bridges learning gaps through engaging, accessible, and research-backed educational content or tools. It caters to modern learners by combining technology with pedagogy, offering personalized learning journeys outside traditional classroom settings.",
+    "market": "India\\'s EdTech market is expected to reach \\$10.4 billion by 2025, growing at 39% CAGR. 260 million school-going children and 37 million higher-education students represent the primary market. Parents are willing to spend ₹5,000–₹50,000/year on supplementary education.",
+    "revenue": "Subscription-based learning plans, one-time course/product fees, institutional (B2B school/college) licensing, freemium model with premium content, and government/CSR-funded inclusion programs. Target: 1 lakh paid subscribers by Year 2.",
+    "userId": "children_education_16",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian farmers face chronic challenges: poor access to modern inputs, market price information, post-harvest losses exceeding 30%, and dependence on middlemen that erode margins. Agricultural productivity remains 40% below global benchmarks.",
+    "solution": "Tourism empowers farmers with technology, market linkages, or innovative products that reduce post-harvest losses, improve yields, increase income transparency, and eliminate inefficient middlemen from the agricultural value chain.",
+    "market": "India\\'s agriculture sector contributes 18% of GDP with 140 million farm households. The agri-tech market is expected to reach \\$24 billion by 2025. Input supply, market linkage, and post-harvest tech together represent a ₹4 lakh crore opportunity.",
+    "revenue": "SaaS subscriptions for farm management tools, marketplace commission on input/output trades, government agri-scheme partnerships, premium organic product sales, and B2B supply to food processors.",
+    "userId": "agriculture_17",
+    "successLabel": 0
+  },
+  {
+    "problem": "Indian farmers face chronic challenges: poor access to modern inputs, market price information, post-harvest losses exceeding 30%, and dependence on middlemen that erode margins. Agricultural productivity remains 40% below global benchmarks.",
+    "solution": "Agricultural Innovations empowers farmers with technology, market linkages, or innovative products that reduce post-harvest losses, improve yields, increase income transparency, and eliminate inefficient middlemen from the agricultural value chain.",
+    "market": "India\\'s agriculture sector contributes 18% of GDP with 140 million farm households. The agri-tech market is expected to reach \\$24 billion by 2025. Input supply, market linkage, and post-harvest tech together represent a ₹4 lakh crore opportunity.",
+    "revenue": "SaaS subscriptions for farm management tools, marketplace commission on input/output trades, government agri-scheme partnerships, premium organic product sales, and B2B supply to food processors.",
+    "userId": "agriculture_18",
+    "successLabel": 0
+  },
+  {
+    "problem": "Indian farmers face chronic challenges: poor access to modern inputs, market price information, post-harvest losses exceeding 30%, and dependence on middlemen that erode margins. Agricultural productivity remains 40% below global benchmarks.",
+    "solution": "Protective farming products empowers farmers with technology, market linkages, or innovative products that reduce post-harvest losses, improve yields, increase income transparency, and eliminate inefficient middlemen from the agricultural value chain.",
+    "market": "India\\'s agriculture sector contributes 18% of GDP with 140 million farm households. The agri-tech market is expected to reach \\$24 billion by 2025. Input supply, market linkage, and post-harvest tech together represent a ₹4 lakh crore opportunity.",
+    "revenue": "SaaS subscriptions for farm management tools, marketplace commission on input/output trades, government agri-scheme partnerships, premium organic product sales, and B2B supply to food processors.",
+    "userId": "agriculture_19",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian farmers face chronic challenges: poor access to modern inputs, market price information, post-harvest losses exceeding 30%, and dependence on middlemen that erode margins. Agricultural productivity remains 40% below global benchmarks.",
+    "solution": "Hydrophonic Farming empowers farmers with technology, market linkages, or innovative products that reduce post-harvest losses, improve yields, increase income transparency, and eliminate inefficient middlemen from the agricultural value chain.",
+    "market": "India\\'s agriculture sector contributes 18% of GDP with 140 million farm households. The agri-tech market is expected to reach \\$24 billion by 2025. Input supply, market linkage, and post-harvest tech together represent a ₹4 lakh crore opportunity.",
+    "revenue": "SaaS subscriptions for farm management tools, marketplace commission on input/output trades, government agri-scheme partnerships, premium organic product sales, and B2B supply to food processors.",
+    "userId": "agriculture_20",
+    "successLabel": 1
+  },
+  {
+    "problem": "India faces a significant healthcare access gap — 70% of the population lacks access to quality primary healthcare. High out-of-pocket expenses, physician shortages, and poor diagnostic infrastructure result in delayed treatment and avoidable complications.",
+    "solution": "Easy Life Prickless Diabetes Testing Machine democratizes healthcare access by offering an affordable, portable, or digital-first health solution. It eliminates geographical barriers, reduces dependence on expensive clinical visits, and enables early detection and better health management.",
+    "market": "India\\'s healthcare market is valued at \\$372 billion and is growing at 22% CAGR. Digital health alone is expected to reach \\$10.6 billion by 2025. Rural and semi-urban populations (600M+) represent an underserved yet high-demand market segment.",
+    "revenue": "Revenue through device/product sales, subscription wellness plans, B2B hospital/clinic partnerships, insurance tie-ups, and telemedicine consultation fees. Government healthcare procurement (Ayushman Bharat partnerships) adds institutional revenue potential.",
+    "userId": "medical_health_21",
+    "successLabel": 1
+  },
+  {
+    "problem": "India faces a significant healthcare access gap — 70% of the population lacks access to quality primary healthcare. High out-of-pocket expenses, physician shortages, and poor diagnostic infrastructure result in delayed treatment and avoidable complications.",
+    "solution": "Home Dialysis Treatment democratizes healthcare access by offering an affordable, portable, or digital-first health solution. It eliminates geographical barriers, reduces dependence on expensive clinical visits, and enables early detection and better health management.",
+    "market": "India\\'s healthcare market is valued at \\$372 billion and is growing at 22% CAGR. Digital health alone is expected to reach \\$10.6 billion by 2025. Rural and semi-urban populations (600M+) represent an underserved yet high-demand market segment.",
+    "revenue": "Revenue through device/product sales, subscription wellness plans, B2B hospital/clinic partnerships, insurance tie-ups, and telemedicine consultation fees. Government healthcare procurement (Ayushman Bharat partnerships) adds institutional revenue potential.",
+    "userId": "medical_health_22",
+    "successLabel": 1
+  },
+  {
+    "problem": "India faces a significant healthcare access gap — 70% of the population lacks access to quality primary healthcare. High out-of-pocket expenses, physician shortages, and poor diagnostic infrastructure result in delayed treatment and avoidable complications.",
+    "solution": "Portable ECG Device democratizes healthcare access by offering an affordable, portable, or digital-first health solution. It eliminates geographical barriers, reduces dependence on expensive clinical visits, and enables early detection and better health management.",
+    "market": "India\\'s healthcare market is valued at \\$372 billion and is growing at 22% CAGR. Digital health alone is expected to reach \\$10.6 billion by 2025. Rural and semi-urban populations (600M+) represent an underserved yet high-demand market segment.",
+    "revenue": "Revenue through device/product sales, subscription wellness plans, B2B hospital/clinic partnerships, insurance tie-ups, and telemedicine consultation fees. Government healthcare procurement (Ayushman Bharat partnerships) adds institutional revenue potential.",
+    "userId": "medical_health_23",
+    "successLabel": 1
+  },
+  {
+    "problem": "India faces a significant healthcare access gap — 70% of the population lacks access to quality primary healthcare. High out-of-pocket expenses, physician shortages, and poor diagnostic infrastructure result in delayed treatment and avoidable complications.",
+    "solution": "Ventilated PPE Kits democratizes healthcare access by offering an affordable, portable, or digital-first health solution. It eliminates geographical barriers, reduces dependence on expensive clinical visits, and enables early detection and better health management.",
+    "market": "India\\'s healthcare market is valued at \\$372 billion and is growing at 22% CAGR. Digital health alone is expected to reach \\$10.6 billion by 2025. Rural and semi-urban populations (600M+) represent an underserved yet high-demand market segment.",
+    "revenue": "Revenue through device/product sales, subscription wellness plans, B2B hospital/clinic partnerships, insurance tie-ups, and telemedicine consultation fees. Government healthcare procurement (Ayushman Bharat partnerships) adds institutional revenue potential.",
+    "userId": "medical_health_24",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian manufacturing SMEs face operational inefficiencies, dependence on imports for specialized components, and an inability to meet modern quality and sustainability standards. Consumers also lack access to locally manufactured innovative products at competitive prices.",
+    "solution": "Smart Helmets leverages Indian manufacturing capabilities, local materials, and innovative design to produce high-quality products that replace imports or fill product gaps in the domestic market, while adhering to modern quality and sustainability benchmarks.",
+    "market": "India\\'s manufacturing sector contributes 17% of GDP (\\~\\$490 billion) with a government target of 25% under \\'Make in India\\'. The domestic consumer goods manufacturing market is ₹18 lakh crore, with significant import substitution opportunities across multiple categories.",
+    "revenue": "B2B supply to retailers and distributors, D2C sales, export to global markets, OEM manufacturing contracts, and government procurement. Scalable unit economics with EBITDA margins of 18–28% at steady state.",
+    "userId": "manufacturing_25",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian manufacturing SMEs face operational inefficiencies, dependence on imports for specialized components, and an inability to meet modern quality and sustainability standards. Consumers also lack access to locally manufactured innovative products at competitive prices.",
+    "solution": "Wooden Toys leverages Indian manufacturing capabilities, local materials, and innovative design to produce high-quality products that replace imports or fill product gaps in the domestic market, while adhering to modern quality and sustainability benchmarks.",
+    "market": "India\\'s manufacturing sector contributes 17% of GDP (\\~\\$490 billion) with a government target of 25% under \\'Make in India\\'. The domestic consumer goods manufacturing market is ₹18 lakh crore, with significant import substitution opportunities across multiple categories.",
+    "revenue": "B2B supply to retailers and distributors, D2C sales, export to global markets, OEM manufacturing contracts, and government procurement. Scalable unit economics with EBITDA margins of 18–28% at steady state.",
+    "userId": "manufacturing_26",
+    "successLabel": 0
+  },
+  {
+    "problem": "Indian manufacturing SMEs face operational inefficiencies, dependence on imports for specialized components, and an inability to meet modern quality and sustainability standards. Consumers also lack access to locally manufactured innovative products at competitive prices.",
+    "solution": "Wall Building Surface Textures leverages Indian manufacturing capabilities, local materials, and innovative design to produce high-quality products that replace imports or fill product gaps in the domestic market, while adhering to modern quality and sustainability benchmarks.",
+    "market": "India\\'s manufacturing sector contributes 17% of GDP (\\~\\$490 billion) with a government target of 25% under \\'Make in India\\'. The domestic consumer goods manufacturing market is ₹18 lakh crore, with significant import substitution opportunities across multiple categories.",
+    "revenue": "B2B supply to retailers and distributors, D2C sales, export to global markets, OEM manufacturing contracts, and government procurement. Scalable unit economics with EBITDA margins of 18–28% at steady state.",
+    "userId": "manufacturing_27",
+    "successLabel": 0
+  },
+  {
+    "problem": "Indian manufacturing SMEs face operational inefficiencies, dependence on imports for specialized components, and an inability to meet modern quality and sustainability standards. Consumers also lack access to locally manufactured innovative products at competitive prices.",
+    "solution": "Yarn-Trading App Online Marketplace for Yarn leverages Indian manufacturing capabilities, local materials, and innovative design to produce high-quality products that replace imports or fill product gaps in the domestic market, while adhering to modern quality and sustainability benchmarks.",
+    "market": "India\\'s manufacturing sector contributes 17% of GDP (\\~\\$490 billion) with a government target of 25% under \\'Make in India\\'. The domestic consumer goods manufacturing market is ₹18 lakh crore, with significant import substitution opportunities across multiple categories.",
+    "revenue": "B2B supply to retailers and distributors, D2C sales, export to global markets, OEM manufacturing contracts, and government procurement. Scalable unit economics with EBITDA margins of 18–28% at steady state.",
+    "userId": "manufacturing_28",
+    "successLabel": 1
+  },
+  {
+    "problem": "Businesses and consumers face inefficiencies due to fragmented, outdated, or non-existent digital solutions. SMEs in India particularly lack access to affordable, scalable tech tools, leading to productivity loss and competitive disadvantage.",
+    "solution": "Metaverse App provides a smart, scalable technology solution that automates processes, improves accessibility, and reduces operational friction. It democratizes access to advanced technology for businesses and end-users who previously lacked viable alternatives.",
+    "market": "India\\'s software and SaaS market is expected to reach \\$50 billion by 2030, with SME digitization being a key driver. The target addressable market includes 63 million MSMEs and 500M+ smartphone users hungry for productivity and utility solutions.",
+    "revenue": "SaaS subscription model (monthly/annual tiers), freemium-to-paid conversion, API licensing for enterprise integrations, data monetization, and value-added professional services. MRR target of ₹50L by Year 2 with net revenue retention above 110%.",
+    "userId": "technology_software_29",
+    "successLabel": 0
+  },
+  {
+    "problem": "Businesses and consumers face inefficiencies due to fragmented, outdated, or non-existent digital solutions. SMEs in India particularly lack access to affordable, scalable tech tools, leading to productivity loss and competitive disadvantage.",
+    "solution": "Digital Piggy Bank provides a smart, scalable technology solution that automates processes, improves accessibility, and reduces operational friction. It democratizes access to advanced technology for businesses and end-users who previously lacked viable alternatives.",
+    "market": "India\\'s software and SaaS market is expected to reach \\$50 billion by 2030, with SME digitization being a key driver. The target addressable market includes 63 million MSMEs and 500M+ smartphone users hungry for productivity and utility solutions.",
+    "revenue": "SaaS subscription model (monthly/annual tiers), freemium-to-paid conversion, API licensing for enterprise integrations, data monetization, and value-added professional services. MRR target of ₹50L by Year 2 with net revenue retention above 110%.",
+    "userId": "technology_software_30",
+    "successLabel": 1
+  },
+  {
+    "problem": "Businesses and consumers face inefficiencies due to fragmented, outdated, or non-existent digital solutions. SMEs in India particularly lack access to affordable, scalable tech tools, leading to productivity loss and competitive disadvantage.",
+    "solution": "Robotics and Automation Solutions provides a smart, scalable technology solution that automates processes, improves accessibility, and reduces operational friction. It democratizes access to advanced technology for businesses and end-users who previously lacked viable alternatives.",
+    "market": "India\\'s software and SaaS market is expected to reach \\$50 billion by 2030, with SME digitization being a key driver. The target addressable market includes 63 million MSMEs and 500M+ smartphone users hungry for productivity and utility solutions.",
+    "revenue": "SaaS subscription model (monthly/annual tiers), freemium-to-paid conversion, API licensing for enterprise integrations, data monetization, and value-added professional services. MRR target of ₹50L by Year 2 with net revenue retention above 110%.",
+    "userId": "technology_software_31",
+    "successLabel": 1
+  },
+  {
+    "problem": "Businesses and consumers face inefficiencies due to fragmented, outdated, or non-existent digital solutions. SMEs in India particularly lack access to affordable, scalable tech tools, leading to productivity loss and competitive disadvantage.",
+    "solution": "Pothole Detection Software and Data provides a smart, scalable technology solution that automates processes, improves accessibility, and reduces operational friction. It democratizes access to advanced technology for businesses and end-users who previously lacked viable alternatives.",
+    "market": "India\\'s software and SaaS market is expected to reach \\$50 billion by 2030, with SME digitization being a key driver. The target addressable market includes 63 million MSMEs and 500M+ smartphone users hungry for productivity and utility solutions.",
+    "revenue": "SaaS subscription model (monthly/annual tiers), freemium-to-paid conversion, API licensing for enterprise integrations, data monetization, and value-added professional services. MRR target of ₹50L by Year 2 with net revenue retention above 110%.",
+    "userId": "technology_software_32",
+    "successLabel": 1
+  },
+  {
+    "problem": "India generates 62 million tonnes of waste annually, with less than 20% being processed sustainably. Businesses face growing pressure to reduce carbon footprints, yet affordable, scalable green alternatives to conventional products remain scarce.",
+    "solution": "Eco-Friendly boxes provides an eco-friendly, commercially viable alternative to conventional products or processes — reducing environmental impact without compromising performance or price competitiveness. It aligns businesses with ESG compliance requirements.",
+    "market": "India\\'s green economy and sustainable products market is expected to reach \\$1 trillion by 2030. Corporate sustainability mandates and consumer awareness are driving demand. The sustainable packaging market alone is growing at 14% CAGR.",
+    "revenue": "Product sales to corporates and consumers, B2B sustainability consulting, carbon offset credits, government green procurement, and ESG-linked impact investment partnerships. Premium pricing justified by sustainability credentials (20–40% premium over conventional).",
+    "userId": "green_cleantech_33",
+    "successLabel": 1
+  },
+  {
+    "problem": "India generates 62 million tonnes of waste annually, with less than 20% being processed sustainably. Businesses face growing pressure to reduce carbon footprints, yet affordable, scalable green alternatives to conventional products remain scarce.",
+    "solution": "Furniture from plastic waste provides an eco-friendly, commercially viable alternative to conventional products or processes — reducing environmental impact without compromising performance or price competitiveness. It aligns businesses with ESG compliance requirements.",
+    "market": "India\\'s green economy and sustainable products market is expected to reach \\$1 trillion by 2030. Corporate sustainability mandates and consumer awareness are driving demand. The sustainable packaging market alone is growing at 14% CAGR.",
+    "revenue": "Product sales to corporates and consumers, B2B sustainability consulting, carbon offset credits, government green procurement, and ESG-linked impact investment partnerships. Premium pricing justified by sustainability credentials (20–40% premium over conventional).",
+    "userId": "green_cleantech_34",
+    "successLabel": 1
+  },
+  {
+    "problem": "India generates 62 million tonnes of waste annually, with less than 20% being processed sustainably. Businesses face growing pressure to reduce carbon footprints, yet affordable, scalable green alternatives to conventional products remain scarce.",
+    "solution": "Sell scrap recyclables online provides an eco-friendly, commercially viable alternative to conventional products or processes — reducing environmental impact without compromising performance or price competitiveness. It aligns businesses with ESG compliance requirements.",
+    "market": "India\\'s green economy and sustainable products market is expected to reach \\$1 trillion by 2030. Corporate sustainability mandates and consumer awareness are driving demand. The sustainable packaging market alone is growing at 14% CAGR.",
+    "revenue": "Product sales to corporates and consumers, B2B sustainability consulting, carbon offset credits, government green procurement, and ESG-linked impact investment partnerships. Premium pricing justified by sustainability credentials (20–40% premium over conventional).",
+    "userId": "green_cleantech_35",
+    "successLabel": 1
+  },
+  {
+    "problem": "India generates 62 million tonnes of waste annually, with less than 20% being processed sustainably. Businesses face growing pressure to reduce carbon footprints, yet affordable, scalable green alternatives to conventional products remain scarce.",
+    "solution": "Eco friendly products provides an eco-friendly, commercially viable alternative to conventional products or processes — reducing environmental impact without compromising performance or price competitiveness. It aligns businesses with ESG compliance requirements.",
+    "market": "India\\'s green economy and sustainable products market is expected to reach \\$1 trillion by 2030. Corporate sustainability mandates and consumer awareness are driving demand. The sustainable packaging market alone is growing at 14% CAGR.",
+    "revenue": "Product sales to corporates and consumers, B2B sustainability consulting, carbon offset credits, government green procurement, and ESG-linked impact investment partnerships. Premium pricing justified by sustainability credentials (20–40% premium over conventional).",
+    "userId": "green_cleantech_36",
+    "successLabel": 0
+  },
+  {
+    "problem": "Indian consumers seek affordable, reliable consumer electronics but face a market dominated by Chinese imports with questionable quality and limited after-sales support. Home-grown electronics brands are scarce, leaving a trust and quality gap.",
+    "solution": "Smart Audio Products delivers consumer electronics that prioritize quality, affordability, and local customer support — targeting the value-seeking Indian consumer who wants reliable products without paying a global premium.",
+    "market": "India\\'s consumer electronics market is worth ₹5.5 lakh crore, growing at 7.8% CAGR. Wearables, smart home devices, and audio products are the fastest-growing segments. \\'Atmanirbhar Bharat\\' and PLI schemes incentivize domestic manufacturing.",
+    "revenue": "Product sales through D2C, e-commerce, and retail distribution; warranty/AMC service contracts; accessories and consumables; corporate procurement; and extended warranty programs. Target margins of 25–35% at scale.",
+    "userId": "electronics_37",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian consumers seek affordable, reliable consumer electronics but face a market dominated by Chinese imports with questionable quality and limited after-sales support. Home-grown electronics brands are scarce, leaving a trust and quality gap.",
+    "solution": "Televisions delivers consumer electronics that prioritize quality, affordability, and local customer support — targeting the value-seeking Indian consumer who wants reliable products without paying a global premium.",
+    "market": "India\\'s consumer electronics market is worth ₹5.5 lakh crore, growing at 7.8% CAGR. Wearables, smart home devices, and audio products are the fastest-growing segments. \\'Atmanirbhar Bharat\\' and PLI schemes incentivize domestic manufacturing.",
+    "revenue": "Product sales through D2C, e-commerce, and retail distribution; warranty/AMC service contracts; accessories and consumables; corporate procurement; and extended warranty programs. Target margins of 25–35% at scale.",
+    "userId": "electronics_38",
+    "successLabel": 0
+  },
+  {
+    "problem": "Indian consumers seek affordable, reliable consumer electronics but face a market dominated by Chinese imports with questionable quality and limited after-sales support. Home-grown electronics brands are scarce, leaving a trust and quality gap.",
+    "solution": "Portable wooden Bluetooth speakers delivers consumer electronics that prioritize quality, affordability, and local customer support — targeting the value-seeking Indian consumer who wants reliable products without paying a global premium.",
+    "market": "India\\'s consumer electronics market is worth ₹5.5 lakh crore, growing at 7.8% CAGR. Wearables, smart home devices, and audio products are the fastest-growing segments. \\'Atmanirbhar Bharat\\' and PLI schemes incentivize domestic manufacturing.",
+    "revenue": "Product sales through D2C, e-commerce, and retail distribution; warranty/AMC service contracts; accessories and consumables; corporate procurement; and extended warranty programs. Target margins of 25–35% at scale.",
+    "userId": "electronics_39",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian consumers seek affordable, reliable consumer electronics but face a market dominated by Chinese imports with questionable quality and limited after-sales support. Home-grown electronics brands are scarce, leaving a trust and quality gap.",
+    "solution": "Smart watches delivers consumer electronics that prioritize quality, affordability, and local customer support — targeting the value-seeking Indian consumer who wants reliable products without paying a global premium.",
+    "market": "India\\'s consumer electronics market is worth ₹5.5 lakh crore, growing at 7.8% CAGR. Wearables, smart home devices, and audio products are the fastest-growing segments. \\'Atmanirbhar Bharat\\' and PLI schemes incentivize domestic manufacturing.",
+    "revenue": "Product sales through D2C, e-commerce, and retail distribution; warranty/AMC service contracts; accessories and consumables; corporate procurement; and extended warranty programs. Target margins of 25–35% at scale.",
+    "userId": "electronics_40",
+    "successLabel": 0
+  },
+  {
+    "problem": "India\\'s rapidly growing pet ownership market (70M+ pets) is severely underserved in terms of quality nutrition, healthcare, hygiene, and specialized products. Most pet owners rely on unorganized, low-quality products that don\\'t meet modern pet care standards.",
+    "solution": "Dog pets Hygiene addresses the gap in organized, high-quality pet care products and services — offering science-backed, affordable solutions that reflect the evolving relationship Indian pet owners have with their animals.",
+    "market": "India\\'s pet care market is valued at ₹3,400 crore and growing at 14% CAGR — one of the fastest-growing consumer segments. Urban pet ownership is increasing at 11% annually, with pet food being the largest category at ₹1,800 crore.",
+    "revenue": "Product subscription boxes, e-commerce D2C sales, vet clinic partnerships, grooming service integration, and B2B supply to pet stores. Customer LTV of ₹15,000–₹40,000 with repeat purchase rates exceeding 60%.",
+    "userId": "animal_pets_41",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s rapidly growing pet ownership market (70M+ pets) is severely underserved in terms of quality nutrition, healthcare, hygiene, and specialized products. Most pet owners rely on unorganized, low-quality products that don\\'t meet modern pet care standards.",
+    "solution": "Brainwired Livestock health monitoring AI pets ear tag addresses the gap in organized, high-quality pet care products and services — offering science-backed, affordable solutions that reflect the evolving relationship Indian pet owners have with their animals.",
+    "market": "India\\'s pet care market is valued at ₹3,400 crore and growing at 14% CAGR — one of the fastest-growing consumer segments. Urban pet ownership is increasing at 11% annually, with pet food being the largest category at ₹1,800 crore.",
+    "revenue": "Product subscription boxes, e-commerce D2C sales, vet clinic partnerships, grooming service integration, and B2B supply to pet stores. Customer LTV of ₹15,000–₹40,000 with repeat purchase rates exceeding 60%.",
+    "userId": "animal_pets_42",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s rapidly growing pet ownership market (70M+ pets) is severely underserved in terms of quality nutrition, healthcare, hygiene, and specialized products. Most pet owners rely on unorganized, low-quality products that don\\'t meet modern pet care standards.",
+    "solution": "Dog Products addresses the gap in organized, high-quality pet care products and services — offering science-backed, affordable solutions that reflect the evolving relationship Indian pet owners have with their animals.",
+    "market": "India\\'s pet care market is valued at ₹3,400 crore and growing at 14% CAGR — one of the fastest-growing consumer segments. Urban pet ownership is increasing at 11% annually, with pet food being the largest category at ₹1,800 crore.",
+    "revenue": "Product subscription boxes, e-commerce D2C sales, vet clinic partnerships, grooming service integration, and B2B supply to pet stores. Customer LTV of ₹15,000–₹40,000 with repeat purchase rates exceeding 60%.",
+    "userId": "animal_pets_43",
+    "successLabel": 0
+  },
+  {
+    "problem": "India\\'s rapidly growing pet ownership market (70M+ pets) is severely underserved in terms of quality nutrition, healthcare, hygiene, and specialized products. Most pet owners rely on unorganized, low-quality products that don\\'t meet modern pet care standards.",
+    "solution": "Live insect feed for pets addresses the gap in organized, high-quality pet care products and services — offering science-backed, affordable solutions that reflect the evolving relationship Indian pet owners have with their animals.",
+    "market": "India\\'s pet care market is valued at ₹3,400 crore and growing at 14% CAGR — one of the fastest-growing consumer segments. Urban pet ownership is increasing at 11% annually, with pet food being the largest category at ₹1,800 crore.",
+    "revenue": "Product subscription boxes, e-commerce D2C sales, vet clinic partnerships, grooming service integration, and B2B supply to pet stores. Customer LTV of ₹15,000–₹40,000 with repeat purchase rates exceeding 60%.",
+    "userId": "animal_pets_44",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian businesses — particularly SMEs — face operational inefficiencies, poor service access, and limited professional support infrastructure. Consumers also lack access to organized, reliable service providers across multiple essential service categories.",
+    "solution": "Premium Surprise-Planning streamlines business or consumer service delivery through an organized, tech-enabled platform or service model — replacing fragmented informal providers with standardized, reliable, and affordable professional services.",
+    "market": "India\\'s professional and business services market is valued at \\$250 billion and growing. The 63 million MSME segment is chronically underserved, representing a ₹5 lakh crore B2B services opportunity. Consumer services digitization adds another ₹2 lakh crore addressable market.",
+    "revenue": "Service fees (per-transaction or subscription), SaaS platform licensing, B2B retainer contracts, marketplace commission on bookings, and value-added premium services. Target: ₹5 crore GMV by end of Year 1.",
+    "userId": "business_services_45",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian businesses — particularly SMEs — face operational inefficiencies, poor service access, and limited professional support infrastructure. Consumers also lack access to organized, reliable service providers across multiple essential service categories.",
+    "solution": "Funeral Service the last rites streamlines business or consumer service delivery through an organized, tech-enabled platform or service model — replacing fragmented informal providers with standardized, reliable, and affordable professional services.",
+    "market": "India\\'s professional and business services market is valued at \\$250 billion and growing. The 63 million MSME segment is chronically underserved, representing a ₹5 lakh crore B2B services opportunity. Consumer services digitization adds another ₹2 lakh crore addressable market.",
+    "revenue": "Service fees (per-transaction or subscription), SaaS platform licensing, B2B retainer contracts, marketplace commission on bookings, and value-added premium services. Target: ₹5 crore GMV by end of Year 1.",
+    "userId": "business_services_46",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian businesses — particularly SMEs — face operational inefficiencies, poor service access, and limited professional support infrastructure. Consumers also lack access to organized, reliable service providers across multiple essential service categories.",
+    "solution": "Insurance Solutions streamlines business or consumer service delivery through an organized, tech-enabled platform or service model — replacing fragmented informal providers with standardized, reliable, and affordable professional services.",
+    "market": "India\\'s professional and business services market is valued at \\$250 billion and growing. The 63 million MSME segment is chronically underserved, representing a ₹5 lakh crore B2B services opportunity. Consumer services digitization adds another ₹2 lakh crore addressable market.",
+    "revenue": "Service fees (per-transaction or subscription), SaaS platform licensing, B2B retainer contracts, marketplace commission on bookings, and value-added premium services. Target: ₹5 crore GMV by end of Year 1.",
+    "userId": "business_services_47",
+    "successLabel": 1
+  },
+  {
+    "problem": "Indian businesses — particularly SMEs — face operational inefficiencies, poor service access, and limited professional support infrastructure. Consumers also lack access to organized, reliable service providers across multiple essential service categories.",
+    "solution": "Streaming Platform streamlines business or consumer service delivery through an organized, tech-enabled platform or service model — replacing fragmented informal providers with standardized, reliable, and affordable professional services.",
+    "market": "India\\'s professional and business services market is valued at \\$250 billion and growing. The 63 million MSME segment is chronically underserved, representing a ₹5 lakh crore B2B services opportunity. Consumer services digitization adds another ₹2 lakh crore addressable market.",
+    "revenue": "Service fees (per-transaction or subscription), SaaS platform licensing, B2B retainer contracts, marketplace commission on bookings, and value-added premium services. Target: ₹5 crore GMV by end of Year 1.",
+    "userId": "business_services_48",
+    "successLabel": 0
+  },
+  {
+    "problem": "Many safety, productivity, and convenience challenges faced by Indian consumers and industries lack adequate hardware solutions. Imported hardware products are expensive and not designed for Indian conditions, usage patterns, or price points.",
+    "solution": "LPG Cylinder lock is an innovative hardware product engineered specifically for Indian needs — combining local material sourcing, India-specific design, and affordable pricing to address gaps that imported or conventional products fail to fill.",
+    "market": "India\\'s hardware and consumer devices market is valued at ₹2 lakh crore and growing with rapid urbanization. Smart home, safety devices, and industrial hardware represent ₹80,000 crore in addressable market size with strong government infrastructure spending.",
+    "revenue": "Product sales (retail, online, institutional), B2G government contracts, enterprise bulk procurement, maintenance/repair service contracts, and IoT-enabled subscription monitoring services.",
+    "userId": "hardware_49",
+    "successLabel": 1
+  },
+  {
+    "problem": "Many safety, productivity, and convenience challenges faced by Indian consumers and industries lack adequate hardware solutions. Imported hardware products are expensive and not designed for Indian conditions, usage patterns, or price points.",
+    "solution": "Inventions is an innovative hardware product engineered specifically for Indian needs — combining local material sourcing, India-specific design, and affordable pricing to address gaps that imported or conventional products fail to fill.",
+    "market": "India\\'s hardware and consumer devices market is valued at ₹2 lakh crore and growing with rapid urbanization. Smart home, safety devices, and industrial hardware represent ₹80,000 crore in addressable market size with strong government infrastructure spending.",
+    "revenue": "Product sales (retail, online, institutional), B2G government contracts, enterprise bulk procurement, maintenance/repair service contracts, and IoT-enabled subscription monitoring services.",
+    "userId": "hardware_50",
+    "successLabel": 0
+  },
+  {
+    "problem": "Despite growing health awareness, India has low organized sports participation rates and limited access to quality fitness infrastructure outside metros. Amateur athletes and fitness enthusiasts lack access to coaching, equipment, and community support.",
+    "solution": "All-Kabaddi App makes fitness, sports training, and outdoor activities more accessible, engaging, and affordable — using technology, community, and innovative product design to democratize athletic performance and wellness for everyday Indians.",
+    "market": "India\\'s fitness and sports market is projected to reach ₹2.5 lakh crore by 2025. Post-pandemic wellness awareness has accelerated growth. 250M+ youth (15–35) and 50M+ fitness enthusiasts represent the addressable consumer base.",
+    "revenue": "Product sales, subscription fitness/coaching plans, events and tournaments, B2B corporate wellness contracts, and branded merchandise. Freemium digital model with premium conversion target of 8–12%.",
+    "userId": "fitness_sports_outdoors_51",
+    "successLabel": 1
+  },
+  {
+    "problem": "Despite growing health awareness, India has low organized sports participation rates and limited access to quality fitness infrastructure outside metros. Amateur athletes and fitness enthusiasts lack access to coaching, equipment, and community support.",
+    "solution": "Sportswear makes fitness, sports training, and outdoor activities more accessible, engaging, and affordable — using technology, community, and innovative product design to democratize athletic performance and wellness for everyday Indians.",
+    "market": "India\\'s fitness and sports market is projected to reach ₹2.5 lakh crore by 2025. Post-pandemic wellness awareness has accelerated growth. 250M+ youth (15–35) and 50M+ fitness enthusiasts represent the addressable consumer base.",
+    "revenue": "Product sales, subscription fitness/coaching plans, events and tournaments, B2B corporate wellness contracts, and branded merchandise. Freemium digital model with premium conversion target of 8–12%.",
+    "userId": "fitness_sports_outdoors_52",
+    "successLabel": 0
+  },
+  {
+    "problem": "Despite growing health awareness, India has low organized sports participation rates and limited access to quality fitness infrastructure outside metros. Amateur athletes and fitness enthusiasts lack access to coaching, equipment, and community support.",
+    "solution": "Non-Electric & Portable Bowling Machines makes fitness, sports training, and outdoor activities more accessible, engaging, and affordable — using technology, community, and innovative product design to democratize athletic performance and wellness for everyday Indians.",
+    "market": "India\\'s fitness and sports market is projected to reach ₹2.5 lakh crore by 2025. Post-pandemic wellness awareness has accelerated growth. 250M+ youth (15–35) and 50M+ fitness enthusiasts represent the addressable consumer base.",
+    "revenue": "Product sales, subscription fitness/coaching plans, events and tournaments, B2B corporate wellness contracts, and branded merchandise. Freemium digital model with premium conversion target of 8–12%.",
+    "userId": "fitness_sports_outdoors_53",
+    "successLabel": 1
+  },
+  {
+    "problem": "Despite growing health awareness, India has low organized sports participation rates and limited access to quality fitness infrastructure outside metros. Amateur athletes and fitness enthusiasts lack access to coaching, equipment, and community support.",
+    "solution": "Sports training institute makes fitness, sports training, and outdoor activities more accessible, engaging, and affordable — using technology, community, and innovative product design to democratize athletic performance and wellness for everyday Indians.",
+    "market": "India\\'s fitness and sports market is projected to reach ₹2.5 lakh crore by 2025. Post-pandemic wellness awareness has accelerated growth. 250M+ youth (15–35) and 50M+ fitness enthusiasts represent the addressable consumer base.",
+    "revenue": "Product sales, subscription fitness/coaching plans, events and tournaments, B2B corporate wellness contracts, and branded merchandise. Freemium digital model with premium conversion target of 8–12%.",
+    "userId": "fitness_sports_outdoors_54",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s 1.4 billion population is chronically underserved by local language, culturally resonant entertainment content. Mainstream OTT platforms neglect regional languages and niche interests, leaving hundreds of millions of consumers without relatable content.",
+    "solution": "Sex toys and games delivers engaging, culturally authentic entertainment content or experiences that cater to underserved audiences — leveraging India\\'s content diversity to build deep, loyal audience bases in neglected segments.",
+    "market": "India\\'s OTT and entertainment market is valued at ₹2.4 lakh crore, growing at 22% CAGR. Regional language content is the fastest-growing segment (35% CAGR). 700M+ internet users consume digital entertainment, with 80% preferring regional or local content.",
+    "revenue": "Subscription revenue (SVOD), advertising (AVOD), pay-per-view events, branded content partnerships, live events, and merchandise. Regional content commands lower CAC with higher retention due to cultural affinity.",
+    "userId": "entertainment_55",
+    "successLabel": 0
+  },
+  {
+    "problem": "India\\'s 1.4 billion population is chronically underserved by local language, culturally resonant entertainment content. Mainstream OTT platforms neglect regional languages and niche interests, leaving hundreds of millions of consumers without relatable content.",
+    "solution": "Web series and movies in Indian languages delivers engaging, culturally authentic entertainment content or experiences that cater to underserved audiences — leveraging India\\'s content diversity to build deep, loyal audience bases in neglected segments.",
+    "market": "India\\'s OTT and entertainment market is valued at ₹2.4 lakh crore, growing at 22% CAGR. Regional language content is the fastest-growing segment (35% CAGR). 700M+ internet users consume digital entertainment, with 80% preferring regional or local content.",
+    "revenue": "Subscription revenue (SVOD), advertising (AVOD), pay-per-view events, branded content partnerships, live events, and merchandise. Regional content commands lower CAC with higher retention due to cultural affinity.",
+    "userId": "entertainment_56",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s 1.4 billion population is chronically underserved by local language, culturally resonant entertainment content. Mainstream OTT platforms neglect regional languages and niche interests, leaving hundreds of millions of consumers without relatable content.",
+    "solution": "Movie delivers engaging, culturally authentic entertainment content or experiences that cater to underserved audiences — leveraging India\\'s content diversity to build deep, loyal audience bases in neglected segments.",
+    "market": "India\\'s OTT and entertainment market is valued at ₹2.4 lakh crore, growing at 22% CAGR. Regional language content is the fastest-growing segment (35% CAGR). 700M+ internet users consume digital entertainment, with 80% preferring regional or local content.",
+    "revenue": "Subscription revenue (SVOD), advertising (AVOD), pay-per-view events, branded content partnerships, live events, and merchandise. Regional content commands lower CAC with higher retention due to cultural affinity.",
+    "userId": "entertainment_57",
+    "successLabel": 0
+  },
+  {
+    "problem": "India\\'s urban middle class seeks aesthetic, functional home and lifestyle products but finds the market polarized — low-quality mass products on one end and unaffordable luxury imports on the other. There is a gap for premium-yet-accessible Indian-designed lifestyle goods.",
+    "solution": "Exquisite pieces of home decor fills the aspirational middle market with thoughtfully designed, locally inspired lifestyle and home products that blend aesthetics, functionality, and cultural identity — making premium design accessible to the emerging Indian consumer.",
+    "market": "India\\'s home decor and lifestyle market is worth ₹1.8 lakh crore and growing at 10% annually. Urban HNIs and aspirational middle-class households (100M+) are the primary target. Online home décor is a ₹15,000 crore sub-segment growing at 18% CAGR.",
+    "revenue": "D2C e-commerce sales, marketplace listings (Amazon, Flipkart, Nykaa), physical retail/pop-up stores, interior designer B2B channel, and corporate gifting. Average order value of ₹2,500–₹8,000 with 50–60% gross margins.",
+    "userId": "lifestyle_home_58",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s urban middle class seeks aesthetic, functional home and lifestyle products but finds the market polarized — low-quality mass products on one end and unaffordable luxury imports on the other. There is a gap for premium-yet-accessible Indian-designed lifestyle goods.",
+    "solution": "House of design, aesthetics and elegance fills the aspirational middle market with thoughtfully designed, locally inspired lifestyle and home products that blend aesthetics, functionality, and cultural identity — making premium design accessible to the emerging Indian consumer.",
+    "market": "India\\'s home decor and lifestyle market is worth ₹1.8 lakh crore and growing at 10% annually. Urban HNIs and aspirational middle-class households (100M+) are the primary target. Online home décor is a ₹15,000 crore sub-segment growing at 18% CAGR.",
+    "revenue": "D2C e-commerce sales, marketplace listings (Amazon, Flipkart, Nykaa), physical retail/pop-up stores, interior designer B2B channel, and corporate gifting. Average order value of ₹2,500–₹8,000 with 50–60% gross margins.",
+    "userId": "lifestyle_home_59",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s urban middle class seeks aesthetic, functional home and lifestyle products but finds the market polarized — low-quality mass products on one end and unaffordable luxury imports on the other. There is a gap for premium-yet-accessible Indian-designed lifestyle goods.",
+    "solution": "Handmade paper goods fills the aspirational middle market with thoughtfully designed, locally inspired lifestyle and home products that blend aesthetics, functionality, and cultural identity — making premium design accessible to the emerging Indian consumer.",
+    "market": "India\\'s home decor and lifestyle market is worth ₹1.8 lakh crore and growing at 10% annually. Urban HNIs and aspirational middle-class households (100M+) are the primary target. Online home décor is a ₹15,000 crore sub-segment growing at 18% CAGR.",
+    "revenue": "D2C e-commerce sales, marketplace listings (Amazon, Flipkart, Nykaa), physical retail/pop-up stores, interior designer B2B channel, and corporate gifting. Average order value of ₹2,500–₹8,000 with 50–60% gross margins.",
+    "userId": "lifestyle_home_60",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s urban middle class seeks aesthetic, functional home and lifestyle products but finds the market polarized — low-quality mass products on one end and unaffordable luxury imports on the other. There is a gap for premium-yet-accessible Indian-designed lifestyle goods.",
+    "solution": "Clay utensils and cookwares fills the aspirational middle market with thoughtfully designed, locally inspired lifestyle and home products that blend aesthetics, functionality, and cultural identity — making premium design accessible to the emerging Indian consumer.",
+    "market": "India\\'s home decor and lifestyle market is worth ₹1.8 lakh crore and growing at 10% annually. Urban HNIs and aspirational middle-class households (100M+) are the primary target. Online home décor is a ₹15,000 crore sub-segment growing at 18% CAGR.",
+    "revenue": "D2C e-commerce sales, marketplace listings (Amazon, Flipkart, Nykaa), physical retail/pop-up stores, interior designer B2B channel, and corporate gifting. Average order value of ₹2,500–₹8,000 with 50–60% gross margins.",
+    "userId": "lifestyle_home_61",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s alcohol market is dominated by a few legacy brands offering limited variety. Craft spirits, premium indigenous beverages, and innovative formats remain largely unexplored — leaving a growing base of discerning consumers underserved.",
+    "solution": "Spirits, Liqueurs & Cocktail Blends introduces an artisanal, premium, or innovatively positioned beverage product that caters to the evolving tastes of urban Indian consumers seeking quality, story, and differentiation beyond mainstream alcohol brands.",
+    "market": "India is the world\\'s largest whisky market by volume and third-largest overall alcohol market, valued at ₹3.5 lakh crore. The premium spirits segment is growing at 20% annually. Urban millennials (25–40) are driving premiumization across all beverage categories.",
+    "revenue": "Direct retail sales, on-premise (bar/restaurant) placement, e-commerce (state-permitting), subscription clubs, branded experience events, and export to Indian diaspora markets. Target: 1 lakh cases annually by Year 3.",
+    "userId": "liquor_alcohol_62",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s alcohol market is dominated by a few legacy brands offering limited variety. Craft spirits, premium indigenous beverages, and innovative formats remain largely unexplored — leaving a growing base of discerning consumers underserved.",
+    "solution": "pears and plum wine introduces an artisanal, premium, or innovatively positioned beverage product that caters to the evolving tastes of urban Indian consumers seeking quality, story, and differentiation beyond mainstream alcohol brands.",
+    "market": "India is the world\\'s largest whisky market by volume and third-largest overall alcohol market, valued at ₹3.5 lakh crore. The premium spirits segment is growing at 20% annually. Urban millennials (25–40) are driving premiumization across all beverage categories.",
+    "revenue": "Direct retail sales, on-premise (bar/restaurant) placement, e-commerce (state-permitting), subscription clubs, branded experience events, and export to Indian diaspora markets. Target: 1 lakh cases annually by Year 3.",
+    "userId": "liquor_alcohol_63",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s alcohol market is dominated by a few legacy brands offering limited variety. Craft spirits, premium indigenous beverages, and innovative formats remain largely unexplored — leaving a growing base of discerning consumers underserved.",
+    "solution": "Cocktail Mocktail mixers introduces an artisanal, premium, or innovatively positioned beverage product that caters to the evolving tastes of urban Indian consumers seeking quality, story, and differentiation beyond mainstream alcohol brands.",
+    "market": "India is the world\\'s largest whisky market by volume and third-largest overall alcohol market, valued at ₹3.5 lakh crore. The premium spirits segment is growing at 20% annually. Urban millennials (25–40) are driving premiumization across all beverage categories.",
+    "revenue": "Direct retail sales, on-premise (bar/restaurant) placement, e-commerce (state-permitting), subscription clubs, branded experience events, and export to Indian diaspora markets. Target: 1 lakh cases annually by Year 3.",
+    "userId": "liquor_alcohol_64",
+    "successLabel": 1
+  },
+  {
+    "problem": "India\\'s alcohol market is dominated by a few legacy brands offering limited variety. Craft spirits, premium indigenous beverages, and innovative formats remain largely unexplored — leaving a growing base of discerning consumers underserved.",
+    "solution": "Alcohol brand introduces an artisanal, premium, or innovatively positioned beverage product that caters to the evolving tastes of urban Indian consumers seeking quality, story, and differentiation beyond mainstream alcohol brands.",
+    "market": "India is the world\\'s largest whisky market by volume and third-largest overall alcohol market, valued at ₹3.5 lakh crore. The premium spirits segment is growing at 20% annually. Urban millennials (25–40) are driving premiumization across all beverage categories.",
+    "revenue": "Direct retail sales, on-premise (bar/restaurant) placement, e-commerce (state-permitting), subscription clubs, branded experience events, and export to Indian diaspora markets. Target: 1 lakh cases annually by Year 3.",
+    "userId": "liquor_alcohol_65",
+    "successLabel": 0
+  },
+  {
+    "problem": "Niche consumer and business needs remain underaddressed in India\\'s rapidly evolving market. Traditional solutions are outdated, overpriced, or inaccessible, leaving a significant unmet demand across emerging lifestyle and service categories.",
+    "solution": "Tactical clothing for Military introduces a novel product or service that fills a clearly identified market gap — leveraging innovation, technology, or unique positioning to deliver value where existing solutions fall short.",
+    "market": "India\\'s consumer market is the third-largest globally by purchasing power and growing at 8% annually. Rising disposable incomes and digital adoption are creating new demand categories across demographics. The total addressable market represents a multi-thousand crore opportunity.",
+    "revenue": "Multi-channel revenue including D2C sales, marketplace distribution, B2B partnerships, subscription services, and licensing. Targeted CAC:LTV ratio of 1:4 with break-even at 18–24 months.",
+    "userId": "others_66",
+    "successLabel": 1
+  },
+  {
+    "problem": "Niche consumer and business needs remain underaddressed in India\\'s rapidly evolving market. Traditional solutions are outdated, overpriced, or inaccessible, leaving a significant unmet demand across emerging lifestyle and service categories.",
+    "solution": "AI Powered Astrology Platform introduces a novel product or service that fills a clearly identified market gap — leveraging innovation, technology, or unique positioning to deliver value where existing solutions fall short.",
+    "market": "India\\'s consumer market is the third-largest globally by purchasing power and growing at 8% annually. Rising disposable incomes and digital adoption are creating new demand categories across demographics. The total addressable market represents a multi-thousand crore opportunity.",
+    "revenue": "Multi-channel revenue including D2C sales, marketplace distribution, B2B partnerships, subscription services, and licensing. Targeted CAC:LTV ratio of 1:4 with break-even at 18–24 months.",
+    "userId": "others_67",
+    "successLabel": 0
+  },
+  {
+    "problem": "Niche consumer and business needs remain underaddressed in India\\'s rapidly evolving market. Traditional solutions are outdated, overpriced, or inaccessible, leaving a significant unmet demand across emerging lifestyle and service categories.",
+    "solution": "Self-publishing platform introduces a novel product or service that fills a clearly identified market gap — leveraging innovation, technology, or unique positioning to deliver value where existing solutions fall short.",
+    "market": "India\\'s consumer market is the third-largest globally by purchasing power and growing at 8% annually. Rising disposable incomes and digital adoption are creating new demand categories across demographics. The total addressable market represents a multi-thousand crore opportunity.",
+    "revenue": "Multi-channel revenue including D2C sales, marketplace distribution, B2B partnerships, subscription services, and licensing. Targeted CAC:LTV ratio of 1:4 with break-even at 18–24 months.",
+    "userId": "others_68",
+    "successLabel": 1
+  },
+  {
+    "problem": "Niche consumer and business needs remain underaddressed in India\\'s rapidly evolving market. Traditional solutions are outdated, overpriced, or inaccessible, leaving a significant unmet demand across emerging lifestyle and service categories.",
+    "solution": "Premium telescopes and binoculars introduces a novel product or service that fills a clearly identified market gap — leveraging innovation, technology, or unique positioning to deliver value where existing solutions fall short.",
+    "market": "India\\'s consumer market is the third-largest globally by purchasing power and growing at 8% annually. Rising disposable incomes and digital adoption are creating new demand categories across demographics. The total addressable market represents a multi-thousand crore opportunity.",
+    "revenue": "Multi-channel revenue including D2C sales, marketplace distribution, B2B partnerships, subscription services, and licensing. Targeted CAC:LTV ratio of 1:4 with break-even at 18–24 months.",
+    "userId": "others_69",
+    "successLabel": 1
   }
+
 ]

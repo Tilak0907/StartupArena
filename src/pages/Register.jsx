@@ -8,13 +8,15 @@ import "../styles/Register.css";
 
 export default function Register() {
 
-  const [name, setName] = useState(""); // ✅ NEW
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("founder");
-  const [loading, setLoading] = useState(false);
 
+  const [expertise, setExpertise] = useState(""); // ⭐ NEW
+
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const [showPassword, setShowPassword] = useState(false);
@@ -22,35 +24,28 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  /* ===============================
-     PASSWORD RULE CHECK
-  =============================== */
+  /* ================= PASSWORD RULE ================= */
 
   const checkPasswordRules = (pwd) => {
-    const rules = {
+    return {
       length: pwd.length >= 8,
       number: /[0-9]/.test(pwd),
       special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
     };
-    return rules;
   };
 
-  /* ===============================
-     REAL-TIME VALIDATION
-  =============================== */
+  /* ================= VALIDATION ================= */
 
   const validateField = (field, value) => {
 
     let newErrors = { ...errors };
 
     if (field === "name") {
-      if (!value) newErrors.name = "Name is required";
-      else newErrors.name = "";
+      newErrors.name = !value ? "Name is required" : "";
     }
 
     if (field === "email") {
-      if (!value) newErrors.email = "Email is required";
-      else newErrors.email = "";
+      newErrors.email = !value ? "Email is required" : "";
     }
 
     if (field === "password") {
@@ -58,31 +53,32 @@ export default function Register() {
       const rules = checkPasswordRules(value);
 
       if (!value) newErrors.password = "Password is required";
-      else if (!rules.length)
-        newErrors.password = "Must be at least 8 characters";
-      else if (!rules.number)
-        newErrors.password = "Must include at least 1 number";
-      else if (!rules.special)
-        newErrors.password = "Must include at least 1 special character";
+      else if (!rules.length) newErrors.password = "Must be at least 8 characters";
+      else if (!rules.number) newErrors.password = "Must include at least 1 number";
+      else if (!rules.special) newErrors.password = "Must include at least 1 special character";
       else newErrors.password = "";
     }
 
     if (field === "confirmPassword") {
 
-      if (!value)
-        newErrors.confirmPassword = "Please confirm your password";
-      else if (value !== password)
-        newErrors.confirmPassword = "Passwords do not match";
+      if (!value) newErrors.confirmPassword = "Please confirm your password";
+      else if (value !== password) newErrors.confirmPassword = "Passwords do not match";
       else newErrors.confirmPassword = "";
+    }
 
+    // ⭐ NEW VALIDATION FOR EXPERTISE
+    if (field === "expertise") {
+      if (role === "mentor" && !value) {
+        newErrors.expertise = "Expertise is required for mentors";
+      } else {
+        newErrors.expertise = "";
+      }
     }
 
     setErrors(newErrors);
   };
 
-  /* ===============================
-     REGISTER FUNCTION
-  =============================== */
+  /* ================= REGISTER ================= */
 
   const register = async () => {
 
@@ -90,16 +86,19 @@ export default function Register() {
     validateField("email", email);
     validateField("password", password);
     validateField("confirmPassword", confirmPassword);
+    validateField("expertise", expertise); // ⭐ NEW
 
     if (
       !name ||
       !email ||
       !password ||
       !confirmPassword ||
+      (role === "mentor" && !expertise) || // ⭐ NEW
       errors.name ||
       errors.email ||
       errors.password ||
-      errors.confirmPassword
+      errors.confirmPassword ||
+      errors.expertise
     ) {
       return;
     }
@@ -114,19 +113,19 @@ export default function Register() {
         password
       );
 
-      /* ✅ Save user data with NAME */
+      /* ================= SAVE USER ================= */
+
       await setDoc(doc(db, "users", userCred.user.uid), {
-        name: name,          // ⭐ NEW FIELD
-        email: email,
-        role: role,
+        name,
+        email,
+        role,
+        expertise: role === "mentor" ? expertise : "", // ⭐ NEW
         createdAt: new Date(),
       });
 
-      /* 🔒 Logout immediately after register */
       await signOut(auth);
 
       toast.success("Account created successfully 🎉 Please login.");
-
       navigate("/login", { replace: true });
 
     } catch (authError) {
@@ -140,11 +139,8 @@ export default function Register() {
       }
 
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   const passwordRules = checkPasswordRules(password);
@@ -163,9 +159,7 @@ export default function Register() {
 
         {/* Name */}
         <div className="form-group">
-
           <label>Name</label>
-
           <input
             type="text"
             placeholder="Enter your name"
@@ -175,18 +169,12 @@ export default function Register() {
               validateField("name", e.target.value);
             }}
           />
-
-          {errors.name && (
-            <p className="input-error">{errors.name}</p>
-          )}
-
+          {errors.name && <p className="input-error">{errors.name}</p>}
         </div>
 
         {/* Email */}
         <div className="form-group">
-
           <label>Email</label>
-
           <input
             type="email"
             placeholder="you@example.com"
@@ -196,20 +184,14 @@ export default function Register() {
               validateField("email", e.target.value);
             }}
           />
-
-          {errors.email && (
-            <p className="input-error">{errors.email}</p>
-          )}
-
+          {errors.email && <p className="input-error">{errors.email}</p>}
         </div>
 
         {/* Password */}
         <div className="form-group">
-
           <label>Password</label>
 
           <div className="password-field">
-
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Create a strong password"
@@ -219,45 +201,34 @@ export default function Register() {
                 validateField("password", e.target.value);
               }}
             />
-
             <span
               className="password-toggle"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? "🙈" : "👁️"}
             </span>
-
           </div>
 
           <div className="password-hint">
-
             <p className={passwordRules.length ? "valid" : "invalid"}>
               • Minimum 8 characters
             </p>
-
             <p className={passwordRules.number ? "valid" : "invalid"}>
               • At least 1 number
             </p>
-
             <p className={passwordRules.special ? "valid" : "invalid"}>
               • At least 1 special character
             </p>
-
           </div>
 
-          {errors.password && (
-            <p className="input-error">{errors.password}</p>
-          )}
-
+          {errors.password && <p className="input-error">{errors.password}</p>}
         </div>
 
         {/* Confirm Password */}
         <div className="form-group">
-
           <label>Confirm Password</label>
 
           <div className="password-field">
-
             <input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Re-enter your password"
@@ -267,7 +238,6 @@ export default function Register() {
                 validateField("confirmPassword", e.target.value);
               }}
             />
-
             <span
               className="password-toggle"
               onClick={() =>
@@ -276,28 +246,46 @@ export default function Register() {
             >
               {showConfirmPassword ? "🙈" : "👁️"}
             </span>
-
           </div>
 
           {errors.confirmPassword && (
-            <p className="input-error">
-              {errors.confirmPassword}
-            </p>
+            <p className="input-error">{errors.confirmPassword}</p>
           )}
-
         </div>
 
         {/* Role */}
         <div className="form-group">
-
           <label>Role</label>
 
-          <select onChange={(e) => setRole(e.target.value)}>
+          <select
+            onChange={(e) => {
+              setRole(e.target.value);
+              setExpertise(""); // reset if switching
+            }}
+          >
             <option value="founder">Founder</option>
             <option value="mentor">Mentor</option>
           </select>
-
         </div>
+
+        {/* ⭐ NEW: EXPERTISE FIELD */}
+        {role === "mentor" && (
+          <div className="form-group">
+            <label>Domain Expertise</label>
+            <input
+              type="text"
+              placeholder="e.g., AI, FinTech, Healthcare"
+              value={expertise}
+              onChange={(e) => {
+                setExpertise(e.target.value);
+                validateField("expertise", e.target.value);
+              }}
+            />
+            {errors.expertise && (
+              <p className="input-error">{errors.expertise}</p>
+            )}
+          </div>
+        )}
 
         <p className="role-note">
           Choose <b>Founder</b> to submit ideas or <b>Mentor</b> to review startups.
@@ -321,5 +309,4 @@ export default function Register() {
     </div>
 
   );
-
 }

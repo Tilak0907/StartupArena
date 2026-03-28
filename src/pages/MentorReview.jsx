@@ -126,7 +126,7 @@ export default function MentorReview() {
 
       );
 
-      /* ✅ NEW CHANGE: REMOVE DUPLICATE MENTOR NAMES */
+      /* ✅ REMOVE DUPLICATE MENTOR NAMES */
 
       const uniqueMentors = [...new Set(mentorNames)];
 
@@ -269,6 +269,7 @@ export default function MentorReview() {
 
         <h2>Submit Pitch to Mentor</h2>
 
+        {/* ✅ UPDATED: Dropdown now shows name + expertise */}
         <select
           value={selectedMentor}
           onChange={(e) => setSelectedMentor(e.target.value)}
@@ -280,7 +281,7 @@ export default function MentorReview() {
             .filter(m => m.name && m.name.trim() !== "")
             .map(m => (
               <option key={m.id} value={m.id}>
-                {m.name}
+                {m.name} — {m.expertise ? m.expertise : "Not Specified"}
               </option>
             ))
           }
