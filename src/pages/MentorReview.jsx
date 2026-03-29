@@ -268,6 +268,7 @@ export default function MentorReview() {
       <div className="card">
 
         <h2>Submit Pitch to Mentor</h2>
+        <p>The mentor names are displayed with their field of expertise</p>
 
         {/* ✅ UPDATED: Dropdown now shows name + expertise */}
         <select
