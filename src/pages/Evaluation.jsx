@@ -63,7 +63,7 @@ export default function Evaluation() {
     return (
       <div className="container">
         <div className="card">
-          <p>Evaluating your startup idea...</p>
+          <p>Evaluating your startup idea. It may take some time...</p>
         </div>
       </div>
     );

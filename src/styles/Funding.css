@@ -335,3 +335,106 @@ form button[type="submit"]:active {
   .funding-card { padding: 1.5rem 1.1rem 2rem; border-radius: 14px; }
   .funding-card h2 { font-size: 1.35rem; }
 }
+/* ───────────────── LAYOUT ───────────────── */
+.funding-layout {
+  display: flex;
+  gap: 20px;                 /* 🔥 reduced from 30px */
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* ───────────────── CARD (LEFT) ───────────────── */
+.funding-card {
+  max-width: 680px;
+  width: 100%;
+  margin: 0;               /* 🔥 removed auto center */
+}
+
+/* ───────────────── RIGHT PANEL ───────────────── */
+.funding-agencies-panel {
+  width: 280px;            /* slightly tighter */
+  margin-left: 0;          /* remove extra spacing */
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 18px;
+  position: sticky;
+  top: 0px;
+  height: fit-content;
+  width: fit-content;
+  
+}
+
+.funding-agencies-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-cyan), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3.5s linear infinite;
+  z-index: 2;
+}
+
+.funding-heading{
+   background: linear-gradient(130deg, #ffffff 0%, #c4b5fd 55%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+   font-size: clamp(1.5rem, 0.5vw, 2rem);
+  font-weight: 800;
+}
+
+.funding-heading::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
+  margin-top: 0.6rem;
+  box-shadow: 0 0 10px rgba(108,71,255,0.5);
+}
+
+
+/* remove extra inner spacing */
+.agency-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* items tighter */
+.agency-item {
+  padding: 9px 11px;
+  font-size: 1rem;
+  border: 1px dotted;
+  border-radius: var(--radius-sm);
+  margin-top: 10px;
+  color: var(--text-muted);
+}
+
+.agency-item:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.3),
+    rgba(236, 72, 153, 0.25)
+  );
+  border-color: rgba(168, 85, 247, 0.7);
+  color: #fff;
+
+  transform: translateX(4px);
+}
+
+/* ───────────────── RESPONSIVE ───────────────── */
+@media (max-width: 900px) {
+  .funding-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* keep space in mobile */
+  }
+
+  .funding-agencies-panel {
+    width: 100%;
+  }
+}

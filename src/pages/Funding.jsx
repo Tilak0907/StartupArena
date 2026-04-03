@@ -10,7 +10,7 @@ import {
   updateDoc,
   doc
 } from "firebase/firestore";
-import "../styles/Funding.css"
+import "../styles/Funding.css";
 
 export default function Funding() {
 
@@ -25,14 +25,24 @@ export default function Funding() {
 
   const [docId, setDocId] = useState(null);
 
-  /* ======================================================
-     LOAD EXISTING DATA
-  ====================================================== */
+  /* ✅ FUNDING AGENCIES LIST */
+  const FUNDING_AGENCIES = [
+    { name: "Startup India", url: "https://www.startupindia.gov.in/" },
+    { name: "SIDBI", url: "https://www.sidbi.in/" },
+    { name: "DPIIT Seed Fund", url: "https://seedfund.startupindia.gov.in/" },
+    { name: "NABARD", url: "https://www.nabard.org/" },
+    { name: "Atal Innovation Mission", url: "https://aim.gov.in/" },
+    { name: "Sequoia Capital India", url: "https://www.sequoiacap.com/india/" },
+    { name: "Accel India", url: "https://www.accel.com/" },
+    { name: "Nexus Venture Partners", url: "https://nexusvp.com/" },
+    { name: "Indian Angel Network", url: "https://www.indianangelnetwork.com/" },
+    { name: "Mumbai Angels", url: "https://www.mumbaiangels.com/" },
+    { name: "T-Hub", url: "https://t-hub.co/" },
+    { name: "SINE IIT Bombay", url: "https://www.sineiitb.org/" }
+  ];
 
   useEffect(() => {
-
     const loadFunding = async () => {
-
       if (!auth.currentUser) return;
 
       const q = query(
@@ -43,35 +53,24 @@ export default function Funding() {
       const snapshot = await getDocs(q);
 
       if (!snapshot.empty) {
-
         const data = snapshot.docs[0].data();
         const id = snapshot.docs[0].id;
 
         setDocId(id);
-
         setAvailableFund(data.availableFund || "");
         setRequiredFund(data.requiredFund || "");
         setEquity(data.equityOffered || "");
         setFundUsage(data.fundUsage || "");
-
         setRoi(data.expectedROI || "");
         setInterestRate(data.interestRate || "");
         setValuationBasis(data.valuationBasis || "");
-
       }
-
     };
 
     loadFunding();
-
   }, []);
 
-  /* ======================================================
-     SAVE OR UPDATE
-  ====================================================== */
-
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     if (!auth.currentUser) {
@@ -80,174 +79,124 @@ export default function Funding() {
     }
 
     const fundingData = {
-
       userId: auth.currentUser.uid,
-
       availableFund: Number(availableFund),
-
       requiredFund: Number(requiredFund),
-
       equityOffered: Number(equity),
-
-      fundUsage: fundUsage,
-
+      fundUsage,
       expectedROI: roi,
-
-      interestRate: interestRate,
-
-      valuationBasis: valuationBasis,
-
+      interestRate,
+      valuationBasis,
       updatedAt: serverTimestamp()
-
     };
 
     try {
-
-      /* UPDATE EXISTING */
-
       if (docId) {
-
-        await updateDoc(
-          doc(db, "fundingDetails", docId),
-          fundingData
-        );
-
-        alert("Funding details updated successfully");
-
-      }
-
-      /* CREATE NEW */
-
-      else {
-
-        const newDoc = await addDoc(
-          collection(db, "fundingDetails"),
-          {
-            ...fundingData,
-            createdAt: serverTimestamp()
-          }
-        );
-
+        await updateDoc(doc(db, "fundingDetails", docId), fundingData);
+        alert("Updated successfully");
+      } else {
+        const newDoc = await addDoc(collection(db, "fundingDetails"), {
+          ...fundingData,
+          createdAt: serverTimestamp()
+        });
         setDocId(newDoc.id);
-
-        alert("Funding details saved successfully");
-
+        alert("Saved successfully");
       }
-
     } catch (error) {
-
-      console.error("Funding save error:", error);
-      alert("Error saving funding details");
-
+      console.error(error);
+      alert("Error saving");
     }
-
   };
 
   return (
-
     <div className="funding-page">
 
-      <div className="funding-card">
+      {/* NEW LAYOUT WRAPPER */}
+      <div className="funding-layout">
 
-        <h2>Startup Funding Details</h2>
+        {/* LEFT SIDE FORM */}
+        <div className="funding-card">
+          <h2>Startup Funding Details</h2>
+          <p className="subtitle">
+            Provide your funding information for investor evaluation
+          </p>
 
-        <p className="subtitle">
-          Provide your funding information for investor evaluation
-        </p>
+          <form onSubmit={handleSubmit}>
+            <label>Funds Available</label>
+            <input
+              type="number"
+              value={availableFund}
+              onChange={(e) => setAvailableFund(e.target.value)}
+              required
+            />
 
-        <form onSubmit={handleSubmit}>
+            <label>Funds Required</label>
+            <input
+              type="number"
+              value={requiredFund}
+              onChange={(e) => setRequiredFund(e.target.value)}
+              required
+            />
 
-          {/* AVAILABLE FUND */}
+            <label>Equity (%)</label>
+            <input
+              type="number"
+              value={equity}
+              onChange={(e) => setEquity(e.target.value)}
+              required
+            />
 
-          <label>Funds Currently Available</label>
+            <label>Fund Usage</label>
+            <textarea
+              value={fundUsage}
+              onChange={(e) => setFundUsage(e.target.value)}
+              required
+            />
 
-          <input
-            type="number"
-            placeholder="Enter amount in ₹"
-            value={availableFund}
-            onChange={(e) => setAvailableFund(e.target.value)}
-            required
-          />
+            <label>ROI</label>
+            <input
+              value={roi}
+              onChange={(e) => setRoi(e.target.value)}
+            />
 
-          {/* REQUIRED FUND */}
+            <label>Interest Rate</label>
+            <input
+              value={interestRate}
+              onChange={(e) => setInterestRate(e.target.value)}
+            />
 
-          <label>Funds Required</label>
+            <label>Valuation Basis</label>
+            <textarea
+              value={valuationBasis}
+              onChange={(e) => setValuationBasis(e.target.value)}
+            />
 
-          <input
-            type="number"
-            placeholder="Enter amount needed in ₹"
-            value={requiredFund}
-            onChange={(e) => setRequiredFund(e.target.value)}
-            required
-          />
+            <button type="submit">
+              {docId ? "Update" : "Save"}
+            </button>
+          </form>
+        </div>
 
-          {/* EQUITY */}
+        {/* RIGHT SIDE PANEL */}
+        <aside className="funding-agencies-panel">
+          <h3 className = "funding-heading">Funding Agencies In India</h3>
 
-          <label>Equity Offered to Investors (%)</label>
-
-          <input
-            type="number"
-            placeholder="Example: 10%"
-            value={equity}
-            onChange={(e) => setEquity(e.target.value)}
-            required
-          />
-
-          {/* FUND USAGE */}
-
-          <label>How will the funds be used?</label>
-
-          <textarea
-            placeholder="Example: product development, marketing, hiring..."
-            value={fundUsage}
-            onChange={(e) => setFundUsage(e.target.value)}
-            required
-          />
-
-          {/* ROI */}
-
-          <label>Expected Return on Investment (ROI)</label>
-
-          <input
-            type="text"
-            placeholder="Example: 3x return in 5 years"
-            value={roi}
-            onChange={(e) => setRoi(e.target.value)}
-          />
-
-          {/* INTEREST RATE */}
-
-          <label>Interest Rate (if debt funding)</label>
-
-          <input
-            type="text"
-            placeholder="Example: 8%"
-            value={interestRate}
-            onChange={(e) => setInterestRate(e.target.value)}
-          />
-
-          {/* VALUATION */}
-
-          <label>Valuation Basis</label>
-
-          <textarea
-            placeholder="Explain how your startup valuation is calculated"
-            value={valuationBasis}
-            onChange={(e) => setValuationBasis(e.target.value)}
-          />
-
-          <button type="submit">
-
-            {docId ? "Update Funding Details" : "Save Funding Details"}
-
-          </button>
-
-        </form>
+          <div className="agency-list">
+            {FUNDING_AGENCIES.map((a, i) => (
+              <a
+                key={i}
+                href={a.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="agency-item"
+              >
+                {a.name}
+              </a>
+            ))}
+          </div>
+        </aside>
 
       </div>
-
     </div>
-
   );
-
 }

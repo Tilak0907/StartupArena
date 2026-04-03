@@ -200,7 +200,7 @@ export default function Dashboard() {
           {/* ⭐ SMALL PROFILE MESSAGE */}
           <p className="profile-status">
             {profileStatus === "Submitted"
-              ? "Profile Submitted ✅"
+              ? "Profile Submitted"
               : "Profile Not Submitted — Please complete your profile"}
           </p>
 
@@ -208,7 +208,7 @@ export default function Dashboard() {
 
         <div className="dashboard-user">
           <p className="user-email">
-            <span>Logged In : </span>
+            <span className="login-text">LOGGED IN : </span>
             {user.email}
           </p>
         </div>

@@ -53,7 +53,7 @@ export default function Analytics() {
         }
 
         const evaluation = evalSnapshot.docs[0].data();
-        const score = evaluation.score || 0;
+        const overallScore = evaluation.score || 0;
 
         /* ===============================
            2️⃣ GET FEATURE VECTOR
@@ -76,29 +76,53 @@ export default function Analytics() {
         const features = featureData.features || [];
 
         /* ===============================
-           3️⃣ NEW LOGIC (STRUCTURED + TF-IDF)
+           3️⃣ CREATE WEIGHTS
+           (Structured + TF-IDF)
         =============================== */
 
         const normalizeTFIDF = (val, max = 30) =>
           Math.min(1, val / max);
 
-        const getScore = (structured, tfidf) => {
-          const structuredPercent = (structured / 3) * 70;
-          const tfidfPercent = normalizeTFIDF(tfidf) * 30;
-          return Math.round(structuredPercent + tfidfPercent);
+        const getWeight = (structured, tfidf) => {
+          const s = structured / 3;        // normalize 0–1
+          const t = normalizeTFIDF(tfidf); // normalize 0–1
+          return (s * 0.7) + (t * 0.3);    // weighted
         };
 
-        const problemScore = getScore(features[0] || 0, features[5] || 0);
-        const solutionScore = getScore(features[1] || 0, features[6] || 0);
-        const marketScore = getScore(features[2] || 0, features[7] || 0);
-        const revenueScore = getScore(features[3] || 0, features[8] || 0);
+        const weights = [
+          getWeight(features[0] || 0, features[5] || 0), // problem
+          getWeight(features[1] || 0, features[6] || 0), // solution
+          getWeight(features[2] || 0, features[7] || 0), // market
+          getWeight(features[3] || 0, features[8] || 0), // revenue
+        ];
+
+        /* ===============================
+           4️⃣ DISTRIBUTE OVERALL SCORE
+        =============================== */
+
+        const totalWeight = weights.reduce((a, b) => a + b, 0);
+
+        const distributedScores = weights.map(w =>
+          totalWeight === 0
+            ? 0
+            : Math.round((w / totalWeight) * overallScore)
+        );
+
+        /* Fix rounding mismatch */
+        const diff =
+          overallScore -
+          distributedScores.reduce((a, b) => a + b, 0);
+
+        if (diff !== 0) {
+          distributedScores[0] += diff; // adjust first
+        }
 
         setAnalyticsData({
-          overall: score,
-          problem: problemScore,
-          solution: solutionScore,
-          market: marketScore,
-          revenue: revenueScore,
+          overall: overallScore,
+          problem: distributedScores[0],
+          solution: distributedScores[1],
+          market: distributedScores[2],
+          revenue: distributedScores[3],
         });
 
       } catch (err) {
@@ -148,7 +172,7 @@ export default function Analytics() {
     ],
     datasets: [
       {
-        label: "Component Score (%)",
+        label: "Component Score",
         data: [
           analyticsData.problem,
           analyticsData.solution,
@@ -170,31 +194,14 @@ export default function Analytics() {
     scales: {
       y: {
         min: 0,
-        max: 100,
+        max: analyticsData.overall, // 🔥 important change
         ticks: {
-          stepSize: 20,
           color: "#ffffff",
-          font: {
-            family: "Figtree",
-            size: 13,
-            weight: "500",
-          },
-        },
-        grid: {
-          color: "rgba(255,255,255,0.07)",
         },
       },
       x: {
         ticks: {
           color: "#ffffff",
-          font: {
-            family: "Figtree",
-            size: 13,
-            weight: "500",
-          },
-        },
-        grid: {
-          color: "rgba(255,255,255,0.07)",
         },
       },
     },
@@ -213,13 +220,13 @@ export default function Analytics() {
         <h2>Startup Analytics</h2>
 
         <p className="subtitle">
-          Overall Readiness Score: <strong>{analyticsData.overall}%</strong>
+          Overall Readiness Score: <strong>{analyticsData.overall}</strong>
         </p>
 
         <Bar data={data} options={options} />
 
         <p className="hint">
-          📊 Component scores are derived from structured features and TF-IDF values.
+          Component scores are proportionally distributed from overall evaluation score.
         </p>
       </div>
     </div>
