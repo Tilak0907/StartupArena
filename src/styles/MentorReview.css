@@ -79,7 +79,7 @@
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* ✅ must be visible so dropdown panel isn't clipped */
   box-sizing: border-box;
 
   box-shadow:
@@ -89,12 +89,13 @@
   animation: fadeUp 0.6s var(--transition) both;
 }
 
-/* Shimmer top line */
+/* Shimmer top line — uses a separate wrapper div so overflow:visible on .card works */
 .card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
+  border-radius: var(--radius) var(--radius) 0 0; /* clips only the top corners */
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -104,6 +105,8 @@
   );
   background-size: 200% 100%;
   animation: shimmer 4s linear infinite;
+  pointer-events: none;
+  z-index: 2;
 }
 
 @keyframes shimmer {
@@ -138,82 +141,6 @@
   margin: 0.7rem auto 2rem;
 }
 
-/* ── Mentor Select ── */
-.mentor-select-wrapper {
-  position: relative;
-  margin-bottom: 1.25rem;
-  z-index: 1;
-  animation: fadeUp 0.5s 0.1s var(--transition) both;
-}
-
-.mentor-select-wrapper label {
-  display: block;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.55rem;
-}
-
-/* ── Select Dropdown ── */
-.card select,
-select {
-  width: 100% !important;
-  padding: 0.9rem 2.5rem 0.9rem 1.1rem !important;
-  margin-bottom: 0 !important;
-  background-color: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius-sm) !important;
-  color: var(--text-primary) !important;
-  font-family: 'Figtree', sans-serif !important;
-  font-size: 0.95rem !important;
-  outline: none !important;
-  cursor: pointer;
-  box-sizing: border-box !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(160,158,200,0.5)' d='M6 8L1 3h10z'/%3E%3C/svg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 1rem center !important;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease !important;
-
-  /* ✅ KEY FIX: removes the giant empty space in the native dropdown */
-  overflow-y: auto !important;
-}
-
-.card select:focus,
-select:focus {
-  border-color: rgba(108, 71, 255, 0.6) !important;
-  background-color: rgba(108, 71, 255, 0.06) !important;
-  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12) !important;
-}
-
-/* ✅ Option styles — compact, no extra padding or empty lines */
-.card select option,
-select option {
-  background-color: #0f0f1e !important;
-  color: var(--text-primary) !important;
-  font-family: 'Figtree', sans-serif !important;
-  font-size: 0.95rem !important;
-  padding: 8px 12px !important;
-  line-height: 1.4 !important;
-  /* Removes empty space between options in some browsers */
-  border: none !important;
-  margin: 0 !important;
-}
-
-/* Disabled/placeholder option */
-.card select option[value=""],
-select option[value=""],
-.card select option:disabled,
-select option:disabled {
-  color: var(--text-muted) !important;
-  font-style: italic !important;
-}
-
 /* ── Submit Button ── */
 .card > button,
 button:not(.secondary) {
@@ -246,6 +173,7 @@ button:not(.secondary) {
     opacity 0.2s ease;
 
   animation: fadeUp 0.5s 0.18s var(--transition) both;
+  margin-top: 1.25rem;
 }
 
 .card > button:hover:not(:disabled),
@@ -362,55 +290,6 @@ hr {
   transform: translateX(3px);
 }
 
-.card > div[style*="border"]:has(span[style*="green"]) {
-  border-left: 3px solid var(--green) !important;
-  background: var(--green-dim) !important;
-}
-
-.card > div[style*="border"]:has(span[style*="red"]) {
-  border-left: 3px solid var(--red) !important;
-  background: var(--red-dim) !important;
-}
-
-.card > div[style*="border"]:has(span[style*="orange"]) {
-  border-left: 3px solid var(--amber) !important;
-  background: var(--amber-dim) !important;
-}
-
-.card > div[style*="border"] p {
-  font-family: 'Figtree', sans-serif !important;
-  font-size: 0.92rem !important;
-  color: var(--text-secondary) !important;
-  margin: 0 0 0.55rem !important;
-  line-height: 1.65 !important;
-}
-
-.card > div[style*="border"] p:last-child {
-  margin-bottom: 0 !important;
-  font-size: 0.78rem !important;
-  color: var(--text-muted) !important;
-}
-
-.card > div[style*="border"] b {
-  color: var(--text-primary) !important;
-  font-family: 'Cabinet Grotesk', sans-serif !important;
-  font-weight: 700 !important;
-  font-size: 0.78rem !important;
-  letter-spacing: 0.06em !important;
-  text-transform: uppercase !important;
-}
-
-.card > div[style*="border"] span[style*="green"] { color: var(--green) !important; font-weight: 700 !important; }
-.card > div[style*="border"] span[style*="red"]   { color: var(--red) !important;   font-weight: 700 !important; }
-.card > div[style*="border"] span[style*="orange"]{ color: var(--amber) !important; font-weight: 700 !important; }
-
-/* Stagger review cards */
-.card > div[style*="border"]:nth-child(1) { animation: fadeUp 0.4s 0.10s var(--transition) both; }
-.card > div[style*="border"]:nth-child(2) { animation: fadeUp 0.4s 0.16s var(--transition) both; }
-.card > div[style*="border"]:nth-child(3) { animation: fadeUp 0.4s 0.22s var(--transition) both; }
-.card > div[style*="border"]:nth-child(4) { animation: fadeUp 0.4s 0.28s var(--transition) both; }
-.card > div[style*="border"]:nth-child(5) { animation: fadeUp 0.4s 0.34s var(--transition) both; }
-
 /* ── Animations ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -427,6 +306,298 @@ hr {
 @media (max-width: 420px) {
   .card    { padding: 1.5rem 1rem 1.75rem; }
   .card h2 { font-size: 1.45rem; }
+}
+
+/* ══════════════════════════════════════════════════════
+   CUSTOM SEARCHABLE MENTOR DROPDOWN
+══════════════════════════════════════════════════════ */
+
+.mentor-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 50;
+  margin-bottom: 0;
+}
+
+/* Trigger button */
+.mentor-dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+  font-family: 'Figtree', sans-serif;
+  box-sizing: border-box;
+  text-align: left;
+  /* override global button styles */
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  animation: none !important;
+  margin-top: 0 !important;
+  color: var(--text-primary);
+}
+
+.mentor-dropdown-trigger:hover {
+  border-color: rgba(108, 71, 255, 0.5);
+  background: rgba(108, 71, 255, 0.05);
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.mentor-dropdown-trigger.open {
+  border-color: rgba(108, 71, 255, 0.6);
+  background: rgba(108, 71, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.12) !important;
+  border-radius: var(--radius-sm) var(--radius-sm) 10px 10px;
+}
+
+.mentor-dropdown-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+}
+
+.dd-placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.dd-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dd-sep {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.dd-expertise {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Chevron icon */
+.dd-chevron {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-left: 8px;
+  transition: transform 0.22s ease;
+}
+
+.dd-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown Panel — portaled into document.body via createPortal ── */
+/* position/top/left/width/z-index set via inline style in JS */
+.mentor-dropdown-panel {
+  background: #0f0f1e;
+  border: 1px solid rgba(108, 71, 255, 0.35);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(108, 71, 255, 0.12);
+  animation: ddOpen 0.18s ease both;
+}
+
+@keyframes ddOpen {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Search Bar ── */
+.dd-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dd-search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.dd-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.9rem;
+  caret-color: var(--accent);
+}
+
+.dd-search-input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.dd-search-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  /* override global button styles */
+  width: auto !important;
+  display: inline !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transform: none !important;
+  margin-top: 0 !important;
+  background-image: none !important;
+  font-family: 'Figtree', sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.dd-search-clear:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.07) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ── List (5 items visible = 5 × 52px = 260px) ── */
+.dd-list {
+  max-height: 260px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(108, 71, 255, 0.3) transparent;
+}
+
+.dd-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dd-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dd-list::-webkit-scrollbar-thumb {
+  background: rgba(108, 71, 255, 0.35);
+  border-radius: 4px;
+}
+
+/* ── Each Item ── */
+.dd-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  height: 52px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s ease;
+  box-sizing: border-box;
+
+  /* override global button styles */
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transform: none !important;
+  margin-top: 0 !important;
+  background-image: none !important;
+  font-size: inherit !important;
+  letter-spacing: normal !important;
+  color: var(--text-primary) !important;
+  font-family: 'Figtree', sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.dd-item:last-child {
+  border-bottom: none;
+}
+
+.dd-item:hover {
+  background: rgba(108, 71, 255, 0.1) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.dd-item.selected {
+  background: rgba(108, 71, 255, 0.14) !important;
+}
+
+.dd-item-name {
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.dd-item-expertise {
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Insert the dash separator via pseudo-element on name */
+.dd-item-name::after {
+  content: ' —';
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-right: 4px;
+}
+
+.dd-item-check {
+  flex-shrink: 0;
+  color: var(--accent-2);
+  margin-left: auto;
+}
+
+/* ── Empty state in list ── */
+.dd-empty {
+  padding: 20px 14px;
+  text-align: center;
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Footer count ── */
+.dd-footer {
+  padding: 7px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+  letter-spacing: 0.03em;
 }
 
 /* ══════════════════════════════════════
@@ -447,14 +618,12 @@ hr {
     0 4px 32px rgba(0, 0, 0, 0.35);
   animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 
-  /* ✅ match width of sibling cards above */
   max-width: 800px;
   width: 100%;
-  margin: 2rem auto;          /* ✅ space above and below, auto centers it */
+  margin: 2rem auto;
   box-sizing: border-box;
 }
 
-/* animated shimmer top line */
 .submitted-mentors-card::before {
   content: '';
   position: absolute;
@@ -465,17 +634,6 @@ hr {
   animation: shimmer 3.5s linear infinite;
 }
 
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position:  200% 0; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Title ── */
 .submitted-mentors-title {
   font-family: 'Cabinet Grotesk', 'Sora', sans-serif;
   font-size: 0.78rem;
@@ -495,14 +653,12 @@ hr {
   font-size: 0.7rem;
 }
 
-/* ── List ── */
 .submitted-mentors-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* ── Individual mentor chip ── */
 .submitted-mentor-chip {
   display: flex;
   align-items: center;
@@ -517,7 +673,6 @@ hr {
   animation: chipIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* left accent stripe */
 .submitted-mentor-chip::before {
   content: '';
   position: absolute;
@@ -533,7 +688,6 @@ hr {
   transform: translateX(3px);
 }
 
-/* stagger entrance */
 .submitted-mentor-chip:nth-child(1) { animation-delay: 0.05s; }
 .submitted-mentor-chip:nth-child(2) { animation-delay: 0.10s; }
 .submitted-mentor-chip:nth-child(3) { animation-delay: 0.15s; }
@@ -545,7 +699,6 @@ hr {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* ── Avatar circle with initial ── */
 .submitted-mentor-avatar {
   width: 36px;
   height: 36px;
@@ -562,7 +715,6 @@ hr {
   font-family: 'Cabinet Grotesk', 'Sora', sans-serif;
 }
 
-/* ── Mentor name ── */
 .submitted-mentor-name {
   flex: 1;
   font-family: 'Sora', 'Figtree', sans-serif;
@@ -574,7 +726,6 @@ hr {
   text-overflow: ellipsis;
 }
 
-/* ── Submitted badge ── */
 .submitted-mentor-badge {
   flex-shrink: 0;
   font-size: 0.62rem;
@@ -588,7 +739,6 @@ hr {
   padding: 3px 10px;
 }
 
-/* ── Empty state ── */
 .submitted-mentors-empty {
   display: flex;
   flex-direction: column;
@@ -609,7 +759,6 @@ hr {
   margin: 0;
 }
 
-/* ── Responsive ── */
 @media (max-width: 860px) {
   .submitted-mentors-card {
     max-width: 100%;
@@ -623,14 +772,12 @@ hr {
     border-radius: 16px;
     margin: 1.25rem 0;
   }
-
   .submitted-mentor-badge { display: none; }
   .submitted-mentor-name  { font-size: 0.86rem; }
 }
 
 /* =========================================
-   MENTOR REVIEW - NEW STRUCTURE
-   Fully scoped (no conflicts)
+   MENTOR REVIEW SECTION
 ========================================= */
 
 .mentor-reviews {
@@ -639,7 +786,6 @@ hr {
   padding: 25px;
 }
 
-/* Title */
 .mentor-title {
   font-size: 22px;
   color: #fff;
@@ -655,20 +801,17 @@ hr {
   font-size: 12px;
 }
 
-/* Empty */
 .mentor-empty {
   text-align: center;
   color: #aaa;
 }
 
-/* List */
 .mentor-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Item Card */
 .mentor-item {
   padding: 16px;
   border-radius: 14px;
@@ -684,20 +827,17 @@ hr {
   background: rgba(108, 71, 255, 0.06);
 }
 
-/* Header */
 .mentor-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Name */
 .mentor-name {
   font-weight: 600;
   color: #fff;
 }
 
-/* Status */
 .mentor-status {
   font-size: 12px;
   padding: 4px 10px;
@@ -706,7 +846,6 @@ hr {
   font-weight: 600;
 }
 
-/* Status Colors */
 .mentor-status.approved {
   color: #22c55e;
   background: rgba(34, 197, 94, 0.15);
@@ -722,7 +861,6 @@ hr {
   background: rgba(245, 158, 11, 0.15);
 }
 
-/* Click text */
 .mentor-action-text {
   font-size: 13px;
   color: #aaa;
@@ -731,10 +869,6 @@ hr {
 
 /* =========================================
    MODAL
-========================================= */
-
-/* =========================================
-   IMPROVED MODAL UI
 ========================================= */
 
 .mentor-modal {
@@ -752,7 +886,6 @@ hr {
   padding: 16px;
 }
 
-/* Modal Box */
 .mentor-modal-box {
   width: 100%;
   max-width: 520px;
@@ -766,7 +899,6 @@ hr {
   animation: fadeIn 0.3s ease;
 }
 
-/* Title */
 .mentor-modal-title {
   color: #fff;
   margin-bottom: 18px;
@@ -774,7 +906,6 @@ hr {
   font-weight: 700;
 }
 
-/* Content spacing */
 .mentor-modal-box p {
   margin: 8px 0;
   line-height: 1.6;
@@ -787,7 +918,6 @@ hr {
   font-weight: 600;
 }
 
-/* Section spacing */
 .feedback-label {
   margin-top: 16px;
   margin-bottom: 6px;
@@ -796,7 +926,6 @@ hr {
   font-size: 15px;
 }
 
-/* Feedback box (NEW ✨) */
 .feedback-text {
   background: rgba(255, 255, 255, 0.04);
   padding: 12px 14px;
@@ -807,28 +936,24 @@ hr {
   margin-top: 6px;
 }
 
-/* Date */
 .review-date {
   font-size: 12px;
   color: #888;
   margin-top: 12px;
 }
 
-/* Divider (optional visual polish) */
 .mentor-modal-box hr {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   margin: 16px 0;
 }
 
-/* Buttons */
 .mentor-modal-actions {
   margin-top: 22px;
   display: flex;
   gap: 12px;
 }
 
-/* Primary */
 .btn-primary {
   flex: 1;
   padding: 11px;
@@ -839,14 +964,21 @@ hr {
   font-weight: 600;
   cursor: pointer;
   transition: 0.25s;
+  /* override global */
+  width: auto !important;
+  display: flex !important;
+  box-shadow: none !important;
+  animation: none !important;
+  margin-top: 0 !important;
+  background-image: none !important;
+  font-size: 0.9rem !important;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(108, 71, 255, 0.4);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(108, 71, 255, 0.4) !important;
 }
 
-/* Secondary */
 .btn-secondary {
   flex: 1;
   padding: 11px;
@@ -856,13 +988,25 @@ hr {
   color: #ccc;
   cursor: pointer;
   transition: 0.2s;
+  /* override global */
+  width: auto !important;
+  display: flex !important;
+  box-shadow: none !important;
+  animation: none !important;
+  margin-top: 0 !important;
+  background-image: none !important;
+  font-size: 0.9rem !important;
+  font-family: 'Figtree', sans-serif !important;
+  font-weight: 400 !important;
+  justify-content: center;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.06) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
-/* Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -874,31 +1018,17 @@ hr {
   }
 }
 
-/* =========================================
-   MOBILE IMPROVEMENTS
-========================================= */
-
 @media (max-width: 600px) {
   .mentor-modal-box {
     padding: 20px;
     border-radius: 14px;
   }
+  .mentor-modal-title { font-size: 18px; }
+  .mentor-modal-box p { font-size: 13px; }
+  .feedback-text { font-size: 13px; padding: 10px; }
+  .mentor-modal-actions { flex-direction: column; gap: 10px; }
 
-  .mentor-modal-title {
-    font-size: 18px;
-  }
-
-  .mentor-modal-box p {
-    font-size: 13px;
-  }
-
-  .feedback-text {
-    font-size: 13px;
-    padding: 10px;
-  }
-
-  .mentor-modal-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
+  /* mobile dropdown adjustments */
+  
+  .dd-item-name::after { content: ''; }
 }

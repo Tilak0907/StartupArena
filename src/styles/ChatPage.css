@@ -110,7 +110,7 @@
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   box-sizing: border-box;
 
   box-shadow:
@@ -534,4 +534,222 @@
 
 .chat-close-btn:hover{
   background:rgba(239,68,68,0.25);
+}
+
+/* ===============================
+   NEW DROPDOWN (MATCH IMAGE)
+=============================== */
+/* ===============================
+   MODERN MENTOR DROPDOWN (PRO UI)
+=============================== */
+
+.mentor-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+  font-family: 'Figtree', sans-serif;
+}
+
+/* ===== HEADER ===== */
+.mentor-dropdown-header {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  background: linear-gradient(145deg, rgba(108,71,255,0.18), rgba(10,10,25,0.6));
+  backdrop-filter: blur(10px);
+
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.mentor-dropdown-header:hover {
+  border-color: rgba(108,71,255,0.4);
+  box-shadow: 0 0 0 2px rgba(108,71,255,0.15);
+}
+
+/* Arrow */
+.arrow {
+  font-size: 12px;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* ===== DROPDOWN BOX ===== */
+.mentor-dropdown-box {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 0;
+  width: 100%;
+
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  background: linear-gradient(180deg, #0b0b1a, #050510);
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+
+  overflow: hidden;
+  z-index: 9999;
+
+  animation: dropdownFade 0.25s ease;
+}
+
+/* Smooth open animation */
+@keyframes dropdownFade {
+  from {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== SEARCH BAR ===== */
+.mentor-search-box {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  padding: 14px;
+
+  background: linear-gradient(180deg, #0b0b1a, #0b0b1a);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.mentor-search-box input {
+  width: 100%;
+  padding: 11px 12px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+
+  outline: none;
+  font-size: 0.9rem;
+
+  transition: all 0.2s ease;
+}
+
+.mentor-search-box input::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+.mentor-search-box input:focus {
+  border-color: rgba(108,71,255,0.6);
+  background: rgba(108,71,255,0.08);
+  box-shadow: 0 0 0 3px rgba(108,71,255,0.15);
+}
+
+/* ===== LIST ===== */
+.mentor-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Scrollbar */
+.mentor-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mentor-list::-webkit-scrollbar-thumb {
+  background: rgba(108,71,255,0.4);
+  border-radius: 10px;
+}
+
+/* ===== ITEM ===== */
+.mentor-item {
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: rgba(255,255,255,0.02);
+  border: 1px solid transparent;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.mentor-item:hover {
+  background: rgba(108,71,255,0.12);
+  border: 1px solid rgba(108,71,255,0.35);
+  transform: translateX(4px);
+}
+
+/* Active */
+.mentor-item.active {
+  background: rgba(108,71,255,0.2);
+  border: 1px solid rgba(108,71,255,0.6);
+}
+
+/* Name */
+.mentor-name {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Separator */
+.mentor-sep {
+  color: rgba(255,255,255,0.4);
+}
+
+/* Expertise */
+.mentor-expertise {
+  font-size: 0.85rem;
+  color: rgba(200,198,230,0.7);
+}
+
+/* ===== FOOTER ===== */
+.mentor-footer {
+  position: sticky;
+  bottom: 0;
+
+  padding: 10px 14px;
+
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  text-align: right;
+
+  background: linear-gradient(180deg, #0b0b1a, #070712);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ===== FIX OVERFLOW ISSUES ===== */
+.chat-panel,
+.chat-sidebar {
+  overflow: visible;
+}
+
+.chat-new-section {
+  position: relative;
+  z-index: 10;
+}
+
+.no-mentor {
+  padding: 16px;
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
 }

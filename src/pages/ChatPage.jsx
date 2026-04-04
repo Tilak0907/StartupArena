@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import {
   collection,
   getDocs,
@@ -22,6 +22,37 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [user, setUser] = useState(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
+const [visibleCount, setVisibleCount] = useState(5);
+const [dropdownOpen, setDropdownOpen] = useState(false);
+const dropdownRef = useRef(null);
+
+const handleScroll = (e) => {
+  const bottom =
+    e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight + 5;
+
+  if (bottom) {
+    setVisibleCount((prev) => prev + 5);
+  }
+};
+
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setDropdownOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
   /* ===============================
      CLOSE CHAT (NEW FEATURE)
@@ -307,27 +338,83 @@ export default function ChatPage() {
                 Start New Chat
               </label>
 
-              <select
-                className="chat-select"
-                value={selectedMentor}
-                onChange={(e) => setSelectedMentor(e.target.value)}
-              >
+              <div className="mentor-dropdown-wrapper" ref={dropdownRef}>
 
-                <option value="" disabled>
-                  Select Mentor
-                </option>
+  {/* Header (Select Mentor) */}
+  <div
+    className="mentor-dropdown-header"
+    onClick={() => setDropdownOpen(!dropdownOpen)}
+  >
+    <span>
+      {selectedMentor
+        ? mentors.find(m => m.id === selectedMentor)?.name
+        : "Select Mentor"}
+    </span>
+    <span className={`arrow ${dropdownOpen ? "open" : ""}`}>⌃</span>
+  </div>
 
-                {mentors
-                  .filter(m => m.name && m.name.trim() !== "")
-                  .map((mentor) => (
+  {/* Dropdown */}
+  {dropdownOpen && (
+    <div className="mentor-dropdown-box">
 
-                    <option key={mentor.id} value={mentor.id}>
-                      {mentor.name}
-                    </option>
+      {/* Search */}
+      <div className="mentor-search-box">
+        <input
+          type="text"
+          placeholder="Search by name or expertise..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
-                  ))}
+      {/* List */}
+    <div className="mentor-list" onScroll={handleScroll}>
+  {(() => {
+    const filteredMentors = mentors
+      .filter(m => m.name && m.name.trim() !== "")
+      .filter(m =>
+        m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (m.expertise || "").toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => a.name.localeCompare(b.name)); // 🔥 alphabetical
 
-              </select>
+    if (filteredMentors.length === 0) {
+      return (
+        <div className="no-mentor">
+          No mentors found
+        </div>
+      );
+    }
+
+    return filteredMentors
+      .slice(0, visibleCount)
+      .map((mentor) => (
+        <div
+          key={mentor.id}
+          className={`mentor-item ${
+            selectedMentor === mentor.id ? "active" : ""
+          }`}
+          onClick={() => {
+            setSelectedMentor(mentor.id);
+            setDropdownOpen(false);
+          }}
+        >
+          <span className="mentor-name">{mentor.name}</span>
+          <span className="mentor-sep">—</span>
+          <span className="mentor-expertise">
+            {mentor.expertise || "Not Specified"}
+          </span>
+        </div>
+      ));
+  })()}
+</div>
+
+     
+
+    </div>
+  )}
+
+</div>
 
               <button
                 className="chat-start-btn"
