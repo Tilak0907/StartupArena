@@ -6,6 +6,7 @@ import "../styles/TRL.css";
 export default function TRL() {
   const [level, setLevel] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState({ show: false, message: "", type: "" }); // Toast state
   const navigate = useNavigate();
 
   const trlDescriptions = {
@@ -20,6 +21,12 @@ export default function TRL() {
     9: "Actual system proven in real-world operational environment."
   };
 
+  /* ── Toast Helper ── */
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
+  };
+
   useEffect(() => {
     const fetchTRL = async () => {
       if (!auth.currentUser) {
@@ -27,44 +34,71 @@ export default function TRL() {
         return;
       }
 
-      const response = await fetch("https://startuparena.onrender.com/getTrl", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: auth.currentUser.uid
-        })
-      });
+      try {
+        const response = await fetch("https://startuparena.onrender.com/getTrl", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: auth.currentUser.uid
+          })
+        });
 
-      const data = await response.json();
-      setLevel(data.level || 1);
-      setLoading(false);
+        const data = await response.json();
+        setLevel(data.level || 1);
+      } catch (error) {
+        console.error("Fetch error:", error);
+        showToast("Failed to load TRL level", "error");
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchTRL();
   }, [navigate]);
 
   const saveTRL = async () => {
-    await fetch("https://startuparena.onrender.com/saveTrl", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: auth.currentUser.uid,
-        level,
-        updatedBy: "founder"
-      })
-    });
+    try {
+      const response = await fetch("https://startuparena.onrender.com/saveTrl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: auth.currentUser.uid,
+          level,
+          updatedBy: "founder"
+        })
+      });
 
-    alert("TRL updated successfully!");
+      if (response.ok) {
+        showToast("TRL updated successfully!");
+      } else {
+        throw new Error("Update failed");
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      showToast("Error updating TRL. Please try again.", "error");
+    }
   };
 
   if (loading) {
-    return <p>Loading TRL...</p>;
+    return (
+      <div className="container">
+        <div className="card">
+          <p>Loading TRL...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="container trl-page">
-      <div className="card">
+      {/* ── Toast UI Overlay ── */}
+      {toast.show && (
+        <div className={`toast-container ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
 
+      <div className="card">
         <h2>Technology Readiness Level (TRL)</h2>
 
         {/* Current Level Display */}
@@ -76,22 +110,21 @@ export default function TRL() {
         {/* TRL Levels Grid */}
         <div className="trl-grid">
           {Object.entries(trlDescriptions).map(([num, description]) => (
-  <div
-    key={num}
-    data-level={num}                          // ✅ add this
-    className={`trl-item ${parseInt(num) === level ? "selected" : ""}`}
-    onClick={() => setLevel(parseInt(num))}
-  >
-    <div className="trl-number">TRL {num}</div>
-    <div className="trl-text">{description}</div>
-  </div>
-))}
+            <div
+              key={num}
+              data-level={num}
+              className={`trl-item ${parseInt(num) === level ? "selected" : ""}`}
+              onClick={() => setLevel(parseInt(num))}
+            >
+              <div className="trl-number">TRL {num}</div>
+              <div className="trl-text">{description}</div>
+            </div>
+          ))}
         </div>
 
-        <button onClick={saveTRL}>
+        <button className="save-btn" onClick={saveTRL}>
           Update TRL Level
         </button>
-
       </div>
     </div>
   );

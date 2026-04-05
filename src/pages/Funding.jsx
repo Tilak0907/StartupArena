@@ -13,19 +13,19 @@ import {
 import "../styles/Funding.css";
 
 export default function Funding() {
-
   const [availableFund, setAvailableFund] = useState("");
   const [requiredFund, setRequiredFund] = useState("");
   const [equity, setEquity] = useState("");
   const [fundUsage, setFundUsage] = useState("");
-
   const [roi, setRoi] = useState("");
   const [interestRate, setInterestRate] = useState("");
   const [valuationBasis, setValuationBasis] = useState("");
 
   const [docId, setDocId] = useState(null);
+  
+  // Toast State
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-  /* ✅ FUNDING AGENCIES LIST */
   const FUNDING_AGENCIES = [
     { name: "Startup India", url: "https://www.startupindia.gov.in/" },
     { name: "SIDBI", url: "https://www.sidbi.in/" },
@@ -41,22 +41,22 @@ export default function Funding() {
     { name: "SINE IIT Bombay", url: "https://www.sineiitb.org/" }
   ];
 
+  const showToast = (message, type = "error") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
+  };
+
   useEffect(() => {
     const loadFunding = async () => {
       if (!auth.currentUser) return;
-
       const q = query(
         collection(db, "fundingDetails"),
         where("userId", "==", auth.currentUser.uid)
       );
-
       const snapshot = await getDocs(q);
-
       if (!snapshot.empty) {
         const data = snapshot.docs[0].data();
-        const id = snapshot.docs[0].id;
-
-        setDocId(id);
+        setDocId(snapshot.docs[0].id);
         setAvailableFund(data.availableFund || "");
         setRequiredFund(data.requiredFund || "");
         setEquity(data.equityOffered || "");
@@ -66,7 +66,6 @@ export default function Funding() {
         setValuationBasis(data.valuationBasis || "");
       }
     };
-
     loadFunding();
   }, []);
 
@@ -74,7 +73,13 @@ export default function Funding() {
     e.preventDefault();
 
     if (!auth.currentUser) {
-      alert("Please login first");
+      showToast("Please login first");
+      return;
+    }
+
+    // ✅ MANDATORY FIELDS VALIDATION
+    if (!availableFund || !requiredFund || !equity || !fundUsage || !roi) {
+      showToast("Please fill all mandatory fields: Available Funds, Required Funds, Equity, Fund Usage, and ROI.");
       return;
     }
 
@@ -85,90 +90,94 @@ export default function Funding() {
       equityOffered: Number(equity),
       fundUsage,
       expectedROI: roi,
-      interestRate,
-      valuationBasis,
+      interestRate: interestRate || "", // Optional
+      valuationBasis: valuationBasis || "", // Optional
       updatedAt: serverTimestamp()
     };
 
     try {
       if (docId) {
         await updateDoc(doc(db, "fundingDetails", docId), fundingData);
-        alert("Updated successfully");
+        showToast("Updated successfully", "success");
       } else {
         const newDoc = await addDoc(collection(db, "fundingDetails"), {
           ...fundingData,
           createdAt: serverTimestamp()
         });
         setDocId(newDoc.id);
-        alert("Saved successfully");
+        showToast("Saved successfully", "success");
       }
     } catch (error) {
       console.error(error);
-      alert("Error saving");
+      showToast("Error saving data");
     }
   };
 
   return (
     <div className="funding-page">
+      {/* TOAST NOTIFICATION UI */}
+      {toast.show && (
+        <div className={`toast-container ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
 
-      {/* NEW LAYOUT WRAPPER */}
       <div className="funding-layout">
-
-        {/* LEFT SIDE FORM */}
         <div className="funding-card">
           <h2>Startup Funding Details</h2>
-          <p className="subtitle">
-            Provide your funding information for investor evaluation
-          </p>
+          <p className="subtitle">Provide your funding information for investor evaluation</p>
 
           <form onSubmit={handleSubmit}>
-            <label>Funds Available</label>
+            <label>Funds Available *</label>
             <input
               type="number"
               value={availableFund}
               onChange={(e) => setAvailableFund(e.target.value)}
-              required
+              placeholder="Enter amount"
             />
 
-            <label>Funds Required</label>
+            <label>Funds Required *</label>
             <input
               type="number"
               value={requiredFund}
               onChange={(e) => setRequiredFund(e.target.value)}
-              required
+              placeholder="Enter amount"
             />
 
-            <label>Equity (%)</label>
+            <label>Equity (%) *</label>
             <input
               type="number"
               value={equity}
               onChange={(e) => setEquity(e.target.value)}
-              required
+              placeholder="e.g. 10"
             />
 
-            <label>Fund Usage</label>
+            <label>Fund Usage *</label>
             <textarea
               value={fundUsage}
               onChange={(e) => setFundUsage(e.target.value)}
-              required
+              placeholder="Describe how funds will be used"
             />
 
-            <label>ROI</label>
+            <label>ROI (Expected) *</label>
             <input
               value={roi}
               onChange={(e) => setRoi(e.target.value)}
+              placeholder="e.g. 20% in 2 years"
             />
 
-            <label>Interest Rate</label>
+            <label>Interest Rate (Optional)</label>
             <input
               value={interestRate}
               onChange={(e) => setInterestRate(e.target.value)}
+              placeholder="If applicable"
             />
 
-            <label>Valuation Basis</label>
+            <label>Valuation Basis (Optional)</label>
             <textarea
               value={valuationBasis}
               onChange={(e) => setValuationBasis(e.target.value)}
+              placeholder="How did you calculate your valuation?"
             />
 
             <button type="submit">
@@ -177,10 +186,8 @@ export default function Funding() {
           </form>
         </div>
 
-        {/* RIGHT SIDE PANEL */}
         <aside className="funding-agencies-panel">
-          <h3 className = "funding-heading">Funding Agencies In India</h3>
-
+          <h3 className="funding-heading">Funding Agencies In India</h3>
           <div className="agency-list">
             {FUNDING_AGENCIES.map((a, i) => (
               <a
@@ -195,7 +202,6 @@ export default function Funding() {
             ))}
           </div>
         </aside>
-
       </div>
     </div>
   );

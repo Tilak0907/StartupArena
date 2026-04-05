@@ -270,10 +270,10 @@ useEffect(() => {
 
         <div className="md-card-body">
           <p className="md-card-vision">
-            {profile.vision || "No vision statement provided."}
+            Vision : {profile.vision || "No vision statement provided."}
           </p>
           <div className="md-card-tags">
-            {profile.industry && (
+            Industry : {profile.industry && (
               <span className="md-tag">{profile.industry}</span>
             )}
           </div>

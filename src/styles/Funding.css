@@ -438,3 +438,29 @@ form button[type="submit"]:active {
     width: 100%;
   }
 }
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-container.error {
+  background-color: #ff4d4f;
+  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.3);
+}
+
+.toast-container.success {
+  background-color: #52c41a;
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

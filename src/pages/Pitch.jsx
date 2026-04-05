@@ -21,9 +21,15 @@ export default function Pitch() {
   });
 
   const [pitchId, setPitchId] = useState(null);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
   const navigate = useNavigate();
+
+  /* ── Toast Helper ── */
+  const showToast = (message, type = "error") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
+  };
 
   /* ---------------- FETCH EXISTING PITCH ---------------- */
   useEffect(() => {
@@ -57,20 +63,19 @@ export default function Pitch() {
 
   /* ---------------- SUBMIT / UPDATE PITCH ---------------- */
   const submitPitch = async () => {
-    setError("");
-
     if (!auth.currentUser) {
-      setError("Please login to submit your pitch.");
+      showToast("Please login to submit your pitch.", "error");
       return;
     }
 
+    // STRICT MANDATORY CHECK
     if (
       !data.problem.trim() ||
       !data.solution.trim() ||
       !data.market.trim() ||
       !data.revenue.trim()
     ) {
-      setError("Please fill in all fields before submitting.");
+      showToast("All fields are mandatory! Please fill in every section.", "error");
       return;
     }
 
@@ -78,10 +83,10 @@ export default function Pitch() {
       setLoading(true);
 
       const payload = {
-        problem: data.problem,
-        solution: data.solution,
-        market: data.market,
-        revenue: data.revenue,
+        problem: data.problem.trim(),
+        solution: data.solution.trim(),
+        market: data.market.trim(),
+        revenue: data.revenue.trim(),
         userId: auth.currentUser.uid,
         status: "submitted",
         updatedAt: new Date(),
@@ -89,37 +94,40 @@ export default function Pitch() {
 
       if (pitchId) {
         await updateDoc(doc(db, "pitches", pitchId), payload);
-        alert("Pitch updated successfully!");
+        showToast("Pitch updated successfully!", "success");
       } else {
         await addDoc(collection(db, "pitches"), {
           ...payload,
           createdAt: new Date(),
         });
-        alert("Pitch submitted successfully!");
+        showToast("Pitch submitted successfully!", "success");
       }
 
-      navigate("/evaluation");
+      // Delay navigation slightly so user can see the success toast
+      setTimeout(() => navigate("/evaluation"), 1500);
 
     } catch (err) {
       console.error("Pitch submission failed:", err);
-      setError("Failed to submit pitch. Please try again.");
+      showToast("Failed to submit pitch. Please try again.", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  /* ---------------- UI ---------------- */
   return (
     <div className="container pitch-page">
+      {/* ── Toast UI ── */}
+      {toast.show && (
+        <div className={`toast-message ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
+
       <h2>{pitchId ? "Update Your Pitch" : "Pitch Simulation"}</h2>
 
       <div className="pitch-layout">
-
         <div className="card">
-          {error && <p className="error">{error}</p>}
-
-          {/* ── Problem Statement ── */}
-          <label>Problem Statement</label>
+          <label>Problem Statement *</label>
           <textarea
             className="field-lg"
             value={data.problem}
@@ -127,8 +135,7 @@ export default function Pitch() {
             onChange={(e) => setData({ ...data, problem: e.target.value })}
           />
 
-          {/* ── Solution ── */}
-          <label>Solution</label>
+          <label>Solution *</label>
           <textarea
             className="field-lg"
             value={data.solution}
@@ -136,8 +143,7 @@ export default function Pitch() {
             onChange={(e) => setData({ ...data, solution: e.target.value })}
           />
 
-          {/* ── Target Market — now textarea, taller ── */}
-          <label>Target Market</label>
+          <label>Target Market *</label>
           <textarea
             className="field-md"
             value={data.market}
@@ -145,8 +151,7 @@ export default function Pitch() {
             onChange={(e) => setData({ ...data, market: e.target.value })}
           />
 
-          {/* ── Revenue Model — now textarea, taller ── */}
-          <label>Revenue Model</label>
+          <label>Revenue Model *</label>
           <textarea
             className="field-md"
             value={data.revenue}
@@ -159,7 +164,6 @@ export default function Pitch() {
           </button>
         </div>
 
-        {/* TIPS PANEL */}
         <div className="card tips">
           <h3>Pitching Tips</h3>
           <p><strong>Problem:</strong> Identify a clear, real-world pain point.</p>
@@ -171,7 +175,6 @@ export default function Pitch() {
             💡 Submit your pitch to receive AI-powered evaluation.
           </p>
         </div>
-
       </div>
     </div>
   );

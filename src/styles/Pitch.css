@@ -411,3 +411,29 @@
   .card { padding: 1.5rem 1.1rem 1.75rem; }
   .card textarea { font-size: 0.95rem; padding: 0.85rem 1rem; }
 }
+
+.toast-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-message.error {
+  background-color: #ff4d4f; /* Red */
+}
+
+.toast-message.success {
+  background-color: #52c41a; /* Green */
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

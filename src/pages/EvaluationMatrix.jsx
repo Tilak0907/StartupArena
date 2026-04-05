@@ -6,6 +6,7 @@ import "../styles/EvaluationMatrix.css";
 export default function EvaluationMatrix() {
   const [matrix, setMatrix] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState({ show: false, message: "", type: "" }); // Toast state
   const navigate = useNavigate();
 
   const criteriaList = [
@@ -46,7 +47,15 @@ export default function EvaluationMatrix() {
   ];
 
   /* ================================
-     FETCH SAVED MATRIX
+      TOAST HELPER
+  ================================= */
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
+  };
+
+  /* ================================
+      FETCH SAVED MATRIX
   ================================= */
   useEffect(() => {
     const fetchMatrix = async () => {
@@ -75,6 +84,7 @@ export default function EvaluationMatrix() {
       } catch (error) {
         console.error("Matrix fetch error:", error);
         initializeEmptyMatrix();
+        showToast("Failed to load existing data.", "error");
       } finally {
         setLoading(false);
       }
@@ -83,9 +93,6 @@ export default function EvaluationMatrix() {
     fetchMatrix();
   }, [navigate]);
 
-  /* ================================
-     INITIALIZE EMPTY MATRIX
-  ================================= */
   const initializeEmptyMatrix = () => {
     const emptyMatrix = {};
     criteriaList.forEach(item => {
@@ -94,9 +101,6 @@ export default function EvaluationMatrix() {
     setMatrix(emptyMatrix);
   };
 
-  /* ================================
-     HANDLE CHECKBOX CHANGE
-  ================================= */
   const handleChange = (criterion) => {
     setMatrix(prev => ({
       ...prev,
@@ -105,32 +109,38 @@ export default function EvaluationMatrix() {
   };
 
   /* ================================
-     SAVE MATRIX
+      SAVE MATRIX
   ================================= */
   const handleSubmit = async () => {
+    if (!auth.currentUser) {
+      showToast("You must be logged in to save.", "error");
+      return;
+    }
+
     try {
-      await fetch("https://startuparena.onrender.com/saveMatrix", {
+      const response = await fetch("https://startuparena.onrender.com/saveMatrix", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: auth.currentUser.uid, matrix })
       });
-      alert("Evaluation Matrix Saved Successfully!");
+
+      if (response.ok) {
+        showToast("Evaluation Matrix Saved Successfully!");
+      } else {
+        throw new Error("Failed to save");
+      }
     } catch (error) {
       console.error("Save error:", error);
-      alert("Error saving matrix.");
+      showToast("Error saving matrix. Please try again.", "error");
     }
   };
 
-  // Completion score
   const completedCount = matrix
     ? Object.values(matrix).filter(Boolean).length
     : 0;
   const totalCount = criteriaList.length;
   const completionPct = Math.round((completedCount / totalCount) * 100);
 
-  /* ================================
-     LOADING STATE
-  ================================= */
   if (loading) {
     return (
       <div className="container">
@@ -143,13 +153,18 @@ export default function EvaluationMatrix() {
 
   return (
     <div className="container matrix-page">
-      <div className="matrix-layout">
+      {/* Toast UI Overlay */}
+      {toast.show && (
+        <div className={`toast-container ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
 
+      <div className="matrix-layout">
         {/* LEFT — Main Matrix Card */}
         <div className="card matrix-card">
           <h2>Startup Evaluation Matrix</h2>
 
-          {/* Progress bar */}
           <div className="progress-wrapper">
             <div className="progress-label">
               <span>Completion</span>
@@ -232,7 +247,6 @@ export default function EvaluationMatrix() {
             </p>
           </div>
         </aside>
-
       </div>
     </div>
   );

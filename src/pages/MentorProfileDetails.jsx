@@ -35,7 +35,7 @@ export default function MentorProfileDetails() {
   const [message, setMessage] = useState("");
 
   /* ===============================
-     NEW STATES FOR FUNDING
+      NEW STATES FOR FUNDING
   ================================ */
   const [funding, setFunding] = useState(null);
   const [showFundingModal, setShowFundingModal] = useState(false);
@@ -193,6 +193,8 @@ export default function MentorProfileDetails() {
         <h3>Profile Information</h3>
         <p><b>Startup Name:</b> {profile.name}</p>
         <p><b>Industry:</b> {profile.industry}</p>
+        <p><b>USP:</b> {displayValue(profile.usp)}</p>
+        <p><b>Mission:</b> {displayValue(profile.mission)}</p>
         <p><b>Vision:</b> {profile.vision}</p>
       </div>
 
