@@ -19,6 +19,17 @@ export default function Footer() {
             <p className="footer-tagline">
               A Platform to Transform Ideas into Reality.
             </p>
+
+            {/* Support Email */}
+            <div className="footer-support">
+              <span className="footer-support-label">Need help? Send an email to : </span>
+              <a
+                href="mailto:startuparenaplatform@gmail.com"
+                className="footer-support-email"
+              >
+                startuparenaplatform@gmail.com
+              </a>
+            </div>
           </div>
         </div>
 

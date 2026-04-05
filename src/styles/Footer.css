@@ -308,3 +308,28 @@ footer, .footer {
   z-index: 5;
   width: 100%;
 }
+
+/* ── Append these styles to your existing Footer.css ── */
+
+.footer-support {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0rem;
+  flex-wrap: wrap;
+}
+
+.footer-support-label {
+  font-size: 0.8rem;
+  color: white;
+  font-style: italic;
+}
+
+.footer-support-email {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #00d4ff;
+  text-decoration: none;
+  
+}
+
