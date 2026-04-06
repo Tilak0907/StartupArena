@@ -10,7 +10,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  /* ─── CHECK EMAIL EXISTS ─── */
+  /* ─── CHECK EMAIL EXISTS (In Firestore) ─── */
   const checkEmailExists = async (enteredEmail) => {
     try {
       const usersRef = collection(db, "users");
@@ -29,12 +29,11 @@ export default function ForgotPassword() {
       return found;
     } catch (error) {
       console.error("Firestore Check Error:", error);
-      // If this fails, check if your Firestore rules allow 'read' for the 'users' collection
       return false;
     }
   };
 
-  /* ─── RESET PASSWORD ─── */
+  /* ─── RESET PASSWORD (Default Flow) ─── */
   const resetPassword = async () => {
     const rawEmail = email.trim();
     
@@ -43,17 +42,11 @@ export default function ForgotPassword() {
       return;
     }
 
-    // ✅ CRITICAL: This must match your HashRouter setup
-    // Use "http://localhost:5173/#/reset-password" for local testing
-    // Use "https://startuparena-platform.onrender.com/#/reset-password" for production
-    const actionCodeSettings = {
-      url: "https://startuparena-platform.onrender.com/#/reset-password",
-      handleCodeInApp: true,
-    };
-
     try {
       setLoading(true);
 
+      // Step 1: Optional Firestore check 
+      // (Kept this so users get a clear message if they aren't registered)
       const emailExists = await checkEmailExists(rawEmail);
 
       if (!emailExists) {
@@ -62,16 +55,23 @@ export default function ForgotPassword() {
         return;
       }
 
-      // ✅ Pass actionCodeSettings as the second argument
-      await sendPasswordResetEmail(auth, rawEmail, actionCodeSettings);
+      // Step 2: Send Default Reset Email
+      // Note: We removed 'actionCodeSettings'. Firebase will now use its default page.
+      await sendPasswordResetEmail(auth, rawEmail);
 
-      toast.success("Password reset link sent! Please check your inbox.");
+      toast.success("Reset link sent! Please check your email inbox.");
       setEmail("");
 
     } catch (err) {
       console.error("Reset Error:", err);
-      // If it reaches here, Firebase Auth itself rejected the request
-      toast.error("Failed to send reset link. Ensure this email is also in Firebase Auth.");
+      
+      if (err.code === "auth/too-many-requests") {
+        toast.error("Too many attempts. Please try again in 15-30 minutes.");
+      } else if (err.code === "auth/user-not-found") {
+        toast.error("No account found with this email in our system.");
+      } else {
+        toast.error("Failed to send reset link. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -82,7 +82,7 @@ export default function ForgotPassword() {
       <div className="auth-card">
         <h2>Forgot Password</h2>
         <p className="subtitle">
-          Enter your registered email to receive a reset link
+          Enter your email to receive a secure password reset link
         </p>
 
         <div className="input-group">
@@ -101,7 +101,7 @@ export default function ForgotPassword() {
           onClick={resetPassword}
           disabled={loading}
         >
-          {loading ? "Verifying..." : "Send Reset Link"}
+          {loading ? "Sending..." : "Send Reset Link"}
         </button>
 
         <div className="auth-footer">
