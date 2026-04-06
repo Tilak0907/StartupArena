@@ -39,26 +39,25 @@ import SplashScreen from "./components/SplashScreen";
 /* ===============================
    Layout Component
 =============================== */
-function Layout() {
+/* ... (Keep all your imports exactly as they are) ... */
 
+function Layout() {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
     });
-
     return () => unsubscribe();
-
   }, []);
 
   if (loading) return null;
 
-  const authRoutes = ["/login", "/register", "/forgot-password"];
+  // Added /reset-password to authRoutes to hide Navbar/Footer there
+  const authRoutes = ["/login", "/register", "/forgot-password", "/reset-password", "/intro"];
   const isAuthPage = authRoutes.includes(location.pathname);
 
   return (
@@ -66,112 +65,56 @@ function Layout() {
       {user && !isAuthPage && <Navbar />}
 
       <Routes>
-
         {/* INTRO PAGE */}
         <Route path="/intro" element={<IntroPage />} />
 
         {/* ================= Auth Routes ================= */}
-
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}
         />
-
         <Route
           path="/register"
           element={!user ? <Register /> : <Navigate to="/" />}
         />
-
         <Route
           path="/forgot-password"
           element={!user ? <ForgotPassword /> : <Navigate to="/" />}
         />
 
-        {/* ✅ New Reset Password Route */}
-      <Route
-        path="/reset-password"
-        element={!user ? <ResetPassword /> : <Navigate to="/" />}
-      />
+        {/* ✅ FIXED: Reset Password is now an open route */}
+        {/* We allow it to load regardless of 'user' status so it can parse the URL code */}
+        <Route
+          path="/reset-password"
+          element={<ResetPassword />}
+        />
 
         {/* ================= Protected Routes ================= */}
-
         <Route
           path="/"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
+        
+        {/* ... (Keep all other protected routes the same) ... */}
+        <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+        <Route path="/pitch" element={user ? <Pitch /> : <Navigate to="/login" />} />
+        <Route path="/evaluation" element={user ? <Evaluation /> : <Navigate to="/login" />} />
+        <Route path="/feedback" element={user ? <Feedback /> : <Navigate to="/login" />} />
+        <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/login" />} />
+        <Route path="/matrix" element={user ? <Matrix /> : <Navigate to="/login" />} />
+        <Route path="/funding" element={user ? <Funding /> : <Navigate to="/login" />} />
+        <Route path="/trl" element={user ? <TRL /> : <Navigate to="/login" />} />
+        <Route path="/mentor" element={user ? <MentorReview /> : <Navigate to="/login" />} />
+        <Route path="/chat" element={user ? <Chat /> : <Navigate to="/login" />} />
 
-        <Route
-          path="/profile"
-          element={user ? <Profile /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/pitch"
-          element={user ? <Pitch /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/evaluation"
-          element={user ? <Evaluation /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/feedback"
-          element={user ? <Feedback /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/analytics"
-          element={user ? <Analytics /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/matrix"
-          element={user ? <Matrix /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/funding"
-          element={user ? <Funding /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/trl"
-          element={user ? <TRL /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor"
-          element={user ? <MentorReview /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/chat"
-          element={user ? <Chat /> : <Navigate to="/login" />}
-        />
-
-        {/* ================= Mentor Routes ================= */}
-
-        <Route
-          path="/mentor-dashboard"
-          element={user ? <MentorDashboard /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor/profile/:id"
-          element={user ? <MentorProfileDetails /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor/chats"
-          element={user ? <MentorChatList /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor/chat/:chatId"
-          element={user ? <MentorChatPage /> : <Navigate to="/login" />}
-        />
-
+        {/* Mentor Routes */}
+        <Route path="/mentor-dashboard" element={user ? <MentorDashboard /> : <Navigate to="/login" />} />
+        <Route path="/mentor/profile/:id" element={user ? <MentorProfileDetails /> : <Navigate to="/login" />} />
+        <Route path="/mentor/chats" element={user ? <MentorChatList /> : <Navigate to="/login" />} />
+        <Route path="/mentor/chat/:chatId" element={user ? <MentorChatPage /> : <Navigate to="/login" />} />
+        
+        {/* Redirect unknown routes */}
+        <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
       </Routes>
 
       {user && !isAuthPage && <Footer />}
@@ -179,45 +122,24 @@ function Layout() {
   );
 }
 
-/* ===============================
-   App Root with Splash Screen
-=============================== */
 export default function App() {
-
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-
-    /* Save current route before splash */
-    const currentRoute = window.location.hash;
-    sessionStorage.setItem("lastRoute", currentRoute);
-
     const timer = setTimeout(() => {
-
       setShowSplash(false);
-
+      
       const introSeen = localStorage.getItem("introSeen");
-      const lastRoute = sessionStorage.getItem("lastRoute");
-
       if (!introSeen) {
-
         localStorage.setItem("introSeen", "true");
-        window.location.hash = "#/intro";
-
-      } else if (lastRoute && lastRoute !== "#") {
-
-        window.location.hash = lastRoute;
-
-      } else {
-
-        window.location.hash = "#/login";
-
+        // Using HashRouter requires the #/ prefix if using window.location
+        if (!window.location.hash.includes("reset-password")) {
+           window.location.hash = "#/intro";
+        }
       }
-
     }, 2500);
 
     return () => clearTimeout(timer);
-
   }, []);
 
   if (showSplash) {
