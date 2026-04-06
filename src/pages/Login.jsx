@@ -79,10 +79,10 @@ export default function Login() {
 
       localStorage.setItem("role", userData.role);
 
-      toast.success("Login successful 🎉");
+      toast.success("Login successful");
 
       if (userData.role === "mentor") {
-        navigate("/mentor-dashboard");
+        navigate("/mentor-dashboard",{replace:true});
       } else {
         navigate("/");
       }

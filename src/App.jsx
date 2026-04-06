@@ -1,13 +1,12 @@
 import { HashRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase"; // Ensure db is imported
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-/* ===============================
-   Pages
-=============================== */
+/* Pages & Components Imports... (Keep your current imports exactly as they are) */
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -28,25 +27,33 @@ import MentorChatPage from "./pages/MentorChatPage";
 import Funding from "./pages/Funding";
 import IntroPage from "./pages/IntroPage";
 import ResetPassword from "./pages/ResetPassword";
-
-/* ===============================
-   Components
-=============================== */
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SplashScreen from "./components/SplashScreen";
 
-/* ===============================
-   Layout Component
-=============================== */
 function Layout() {
   const location = useLocation();
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null); // ✅ Track user role
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setUser(u);
+    const unsubscribe = onAuthStateChanged(auth, async (u) => {
+      if (u) {
+        setUser(u);
+        // ✅ Fetch the role from Firestore
+        try {
+          const userDoc = await getDoc(doc(db, "users", u.uid));
+          if (userDoc.exists()) {
+            setRole(userDoc.data().role); // Assumes your field is named 'role'
+          }
+        } catch (error) {
+          console.error("Error fetching role:", error);
+        }
+      } else {
+        setUser(null);
+        setRole(null);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -54,13 +61,18 @@ function Layout() {
 
   if (loading) return null;
 
-  // Added /reset-password here to ensure Navbar/Footer stay hidden
   const authRoutes = ["/login", "/register", "/forgot-password", "/reset-password", "/intro"];
   const isAuthPage = authRoutes.includes(location.pathname);
 
+  // Helper to determine the "Home" based on role
+  const getHomeRedirect = () => {
+    if (role === "mentor") return "/mentor-dashboard";
+    return "/";
+  };
+
   return (
     <>
-      {user && !isAuthPage && <Navbar />}
+      {user && !isAuthPage && <Navbar userRole={role} />}
 
       <Routes>
         <Route path="/intro" element={<IntroPage />} />
@@ -68,49 +80,54 @@ function Layout() {
         {/* ================= Auth Routes ================= */}
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/" />}
+          element={!user ? <Login /> : <Navigate to={getHomeRedirect()} replace />}
         />
         <Route
           path="/register"
-          element={!user ? <Register /> : <Navigate to="/" />}
+          element={!user ? <Register /> : <Navigate to={getHomeRedirect()} replace />}
         />
         <Route
           path="/forgot-password"
-          element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+          element={!user ? <ForgotPassword /> : <Navigate to={getHomeRedirect()} replace />}
         />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* ✅ OPEN ROUTE: Allows Firebase to parse oobCode from the URL */}
-        <Route
-          path="/reset-password"
-          element={<ResetPassword />}
-        />
-
-        {/* ================= Protected Routes ================= */}
+        {/* ================= Founder Protected Routes ================= */}
+        {/* Only allow access if user is founder. If mentor, redirect to mentor dashboard. */}
         <Route
           path="/"
-          element={user ? <Dashboard /> : <Navigate to="/login" />}
+          element={
+            user ? (role === "founder" ? <Dashboard /> : <Navigate to="/mentor-dashboard" replace />) : <Navigate to="/login" />
+          }
         />
-        <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
-        <Route path="/pitch" element={user ? <Pitch /> : <Navigate to="/login" />} />
-        <Route path="/evaluation" element={user ? <Evaluation /> : <Navigate to="/login" />} />
-        <Route path="/feedback" element={user ? <Feedback /> : <Navigate to="/login" />} />
-        <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/login" />} />
-        <Route path="/matrix" element={user ? <Matrix /> : <Navigate to="/login" />} />
-        <Route path="/funding" element={user ? <Funding /> : <Navigate to="/login" />} />
-        <Route path="/trl" element={user ? <TRL /> : <Navigate to="/login" />} />
-        <Route path="/mentor" element={user ? <MentorReview /> : <Navigate to="/login" />} />
-        <Route path="/chat" element={user ? <Chat /> : <Navigate to="/login" />} />
+        
+        {/* Apply the same logic to other founder pages */}
+        <Route path="/profile" element={user && role === "founder" ? <Profile /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/pitch" element={user && role === "founder" ? <Pitch /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/evaluation" element={user && role === "founder" ? <Evaluation /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/feedback" element={user && role === "founder" ? <Feedback /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/analytics" element={user && role === "founder" ? <Analytics /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/matrix" element={user && role === "founder" ? <Matrix /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/funding" element={user && role === "founder" ? <Funding /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/trl" element={user && role === "founder" ? <TRL /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/mentor" element={user && role === "founder" ? <MentorReview /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
+        <Route path="/chat" element={user && role === "founder" ? <Chat /> : <Navigate to={user ? "/mentor-dashboard" : "/login"} replace />} />
 
-        {/* Mentor Routes */}
-        <Route path="/mentor-dashboard" element={user ? <MentorDashboard /> : <Navigate to="/login" />} />
-        <Route path="/mentor/profile/:id" element={user ? <MentorProfileDetails /> : <Navigate to="/login" />} />
-        <Route path="/mentor/chats" element={user ? <MentorChatList /> : <Navigate to="/login" />} />
-        <Route path="/mentor/chat/:chatId" element={user ? <MentorChatPage /> : <Navigate to="/login" />} />
+        {/* ================= Mentor Protected Routes ================= */}
+        <Route
+          path="/mentor-dashboard"
+          element={
+            user ? (role === "mentor" ? <MentorDashboard /> : <Navigate to="/" replace />) : <Navigate to="/login" />
+          }
+        />
+        <Route path="/mentor/profile/:id" element={user && role === "mentor" ? <MentorProfileDetails /> : <Navigate to={user ? "/" : "/login"} replace />} />
+        <Route path="/mentor/chats" element={user && role === "mentor" ? <MentorChatList /> : <Navigate to={user ? "/" : "/login"} replace />} />
+        <Route path="/mentor/chat/:chatId" element={user && role === "mentor" ? <MentorChatPage /> : <Navigate to={user ? "/" : "/login"} replace />} />
 
         {/* CATCH-ALL */}
         <Route 
           path="*" 
-          element={<Navigate to={user ? "/" : "/login"} />} 
+          element={<Navigate to={user ? getHomeRedirect() : "/login"} replace />} 
         />
       </Routes>
 
@@ -119,29 +136,21 @@ function Layout() {
   );
 }
 
-/* ===============================
-   App Root with Splash Screen
-=============================== */
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // 1. Check if we are currently on a reset-password link IMMEDIATELY
     const isResetLink = window.location.hash.includes("reset-password");
 
     const timer = setTimeout(() => {
       setShowSplash(false);
-
-      // ✅ 2. GUARD: If it's a reset link, DO NOT redirect to login/intro
       if (isResetLink) return;
 
       const introSeen = localStorage.getItem("introSeen");
-
       if (!introSeen) {
         localStorage.setItem("introSeen", "true");
         window.location.hash = "#/intro";
       } else {
-        // 3. Only set default hash if user is at the very root base
         if (!window.location.hash || window.location.hash === "#/" || window.location.hash === "") {
           window.location.hash = "#/login";
         }
