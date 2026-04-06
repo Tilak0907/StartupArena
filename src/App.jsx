@@ -27,6 +27,7 @@ import MentorChatList from "./pages/MentorChatList";
 import MentorChatPage from "./pages/MentorChatPage";
 import Funding from "./pages/Funding";
 import IntroPage from "./pages/IntroPage";
+import ResetPassword from "./pages/ResetPassword";
 
 /* ===============================
    Components
@@ -85,6 +86,12 @@ function Layout() {
           path="/forgot-password"
           element={!user ? <ForgotPassword /> : <Navigate to="/" />}
         />
+
+        {/* ✅ New Reset Password Route */}
+      <Route
+        path="/reset-password"
+        element={!user ? <ResetPassword /> : <Navigate to="/" />}
+      />
 
         {/* ================= Protected Routes ================= */}
 
