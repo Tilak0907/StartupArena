@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from "react-toastify";
-import "../styles/ForgotPassword.css"; // Reusing styles or create ResetPassword.css
+import "../styles/ForgotPassword.css"; 
 
 export default function ResetPassword() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   
   const [newPassword, setNewPassword] = useState("");
@@ -15,9 +14,16 @@ export default function ResetPassword() {
   const [isValidCode, setIsValidCode] = useState(false);
   const [verifying, setVerifying] = useState(true);
 
-  const oobCode = searchParams.get("oobCode");
+  // ✅ MANUAL PARAMETER PARSING (Required for HashRouter)
+  // This extracts oobCode regardless of whether it's in the main URL or the hash
+  const getOobCode = () => {
+    const fullUrl = window.location.href;
+    const urlObj = new URL(fullUrl.replace('#/', '')); // Temporary fix to parse hash as standard URL
+    return urlObj.searchParams.get("oobCode");
+  };
 
-  // 1. Verify the code from the URL is valid on mount
+  const oobCode = getOobCode();
+
   useEffect(() => {
     if (!oobCode) {
       toast.error("Invalid or missing reset code.");
@@ -25,19 +31,19 @@ export default function ResetPassword() {
       return;
     }
 
+    // Verify the code with Firebase
     verifyPasswordResetCode(auth, oobCode)
       .then(() => {
         setIsValidCode(true);
         setVerifying(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Verification error:", err);
         toast.error("The reset link has expired or already been used.");
         setVerifying(false);
       });
   }, [oobCode]);
 
-  // 2. Custom Password Validation Logic
   const validatePassword = (password) => {
     const minLength = 8;
     const hasNumber = /\d/;
@@ -66,22 +72,34 @@ export default function ResetPassword() {
     try {
       setLoading(true);
       await confirmPasswordReset(auth, oobCode, newPassword);
-      toast.success("Password updated successfully! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 3000);
+      toast.success("Password updated successfully!");
+      
+      // Give the user a moment to read the success message before redirecting
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      console.error(err);
+      console.error("Reset error:", err);
       toast.error("Failed to update password. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (verifying) return <div className="auth-container"><p>Verifying link...</p></div>;
+  if (verifying) return (
+    <div className="auth-container">
+      <div className="auth-card">
+        <p>Verifying reset link...</p>
+      </div>
+    </div>
+  );
+
   if (!isValidCode) return (
     <div className="auth-container">
       <div className="auth-card">
-        <p>Invalid Link</p>
-        <Link to="/forgot-password">Request a new link</Link>
+        <h2>Invalid Link</h2>
+        <p>This password reset link is invalid or has expired.</p>
+        <Link to="/forgot-password" style={{ color: "var(--primary-color)", marginTop: "1rem", display: "block" }}>
+          Request a new link
+        </Link>
       </div>
     </div>
   );
