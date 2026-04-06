@@ -14,36 +14,41 @@ export default function ResetPassword() {
   const [isValidCode, setIsValidCode] = useState(false);
   const [verifying, setVerifying] = useState(true);
 
-  // ✅ MANUAL PARAMETER PARSING (Required for HashRouter)
-  // This extracts oobCode regardless of whether it's in the main URL or the hash
+  /* ─── OPTIMIZED PARAMETER PARSING FOR HASHROUTER ─── */
   const getOobCode = () => {
-    const fullUrl = window.location.href;
-    const urlObj = new URL(fullUrl.replace('#/', '')); // Temporary fix to parse hash as standard URL
-    return urlObj.searchParams.get("oobCode");
+    // HashRouter URLs look like: domain.com/#/reset-password?oobCode=XYZ
+    const fullHash = window.location.hash; 
+    if (!fullHash.includes("?")) return null;
+
+    // Split by '?' and parse the second half
+    const queryString = fullHash.split("?")[1];
+    const params = new URLSearchParams(queryString);
+    return params.get("oobCode");
   };
 
   const oobCode = getOobCode();
 
   useEffect(() => {
+    // 1. If no code is found, stop verifying immediately
     if (!oobCode) {
-      toast.error("Invalid or missing reset code.");
+      console.error("No oobCode found in the HashRouter URL.");
       setVerifying(false);
       return;
     }
 
-    // Verify the code with Firebase
+    // 2. Verify the code with Firebase Authentication
     verifyPasswordResetCode(auth, oobCode)
       .then(() => {
         setIsValidCode(true);
         setVerifying(false);
       })
       .catch((err) => {
-        console.error("Verification error:", err);
-        toast.error("The reset link has expired or already been used.");
+        console.error("Firebase Verification Error:", err);
         setVerifying(false);
       });
   }, [oobCode]);
 
+  /* ─── PASSWORD VALIDATION ─── */
   const validatePassword = (password) => {
     const minLength = 8;
     const hasNumber = /\d/;
@@ -55,6 +60,7 @@ export default function ResetPassword() {
     return null;
   };
 
+  /* ─── FORM SUBMISSION ─── */
   const handleReset = async (e) => {
     e.preventDefault();
 
@@ -74,74 +80,85 @@ export default function ResetPassword() {
       await confirmPasswordReset(auth, oobCode, newPassword);
       toast.success("Password updated successfully!");
       
-      // Give the user a moment to read the success message before redirecting
+      // Navigate to login after a short delay
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      console.error("Reset error:", err);
-      toast.error("Failed to update password. Please try again.");
+      console.error("Reset Submission Error:", err);
+      toast.error("Failed to update password. Link may have expired.");
     } finally {
       setLoading(false);
     }
   };
 
+  /* ─── RENDER STATES ─── */
+
+  // State 1: Verifying the link
   if (verifying) return (
     <div className="auth-container">
       <div className="auth-card">
-        <p>Verifying reset link...</p>
+        <div className="loader-inline"></div>
+        <p>Verifying your security link...</p>
       </div>
     </div>
   );
 
+  // State 2: Link is invalid or expired
   if (!isValidCode) return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Invalid Link</h2>
-        <p>This password reset link is invalid or has expired.</p>
-        <Link to="/forgot-password" style={{ color: "var(--primary-color)", marginTop: "1rem", display: "block" }}>
-          Request a new link
+        <h2 style={{ color: "#ff4d4d" }}>Invalid Link</h2>
+        <p>This password reset link is invalid, expired, or has already been used.</p>
+        <Link to="/forgot-password" title="Request new link" className="auth-link-btn">
+          Request a New Link
         </Link>
       </div>
     </div>
   );
 
+  // State 3: Link is valid, show form
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h2>Set New Password</h2>
-        <p className="subtitle">Please follow our security requirements</p>
+        <p className="subtitle">Enter a strong password to secure your account.</p>
 
         <form onSubmit={handleReset}>
           <div className="input-group">
             <label>New Password</label>
             <input
               type="password"
-              placeholder="Minimum 8 characters"
+              placeholder="Min. 8 characters"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
+              autoComplete="new-password"
             />
           </div>
 
           <div className="input-group">
-            <label>Confirm New Password</label>
+            <label>Confirm Password</label>
             <input
               type="password"
-              placeholder="Repeat password"
+              placeholder="Repeat your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              autoComplete="new-password"
             />
           </div>
 
           <button className="primary-btn" type="submit" disabled={loading}>
-            {loading ? "Updating..." : "Reset Password"}
+            {loading ? "Updating..." : "Update Password"}
           </button>
         </form>
 
         <div className="password-requirements">
-          <small>• At least 8 characters</small><br />
-          <small>• At least 1 number</small><br />
-          <small>• At least 1 special character</small>
+          <p>Password requirements:</p>
+          <ul>
+            <li>At least 8 characters long</li>
+            <li>Contains at least one number</li>
+            <li>Contains a special character (!@#$)</li>
+          </ul>
         </div>
       </div>
     </div>

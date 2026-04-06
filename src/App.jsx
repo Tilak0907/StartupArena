@@ -54,7 +54,7 @@ function Layout() {
 
   if (loading) return null;
 
-  // Pages where Navbar and Footer should be hidden
+  // Added /reset-password here to ensure Navbar/Footer stay hidden
   const authRoutes = ["/login", "/register", "/forgot-password", "/reset-password", "/intro"];
   const isAuthPage = authRoutes.includes(location.pathname);
 
@@ -63,7 +63,6 @@ function Layout() {
       {user && !isAuthPage && <Navbar />}
 
       <Routes>
-        {/* INTRO PAGE */}
         <Route path="/intro" element={<IntroPage />} />
 
         {/* ================= Auth Routes ================= */}
@@ -71,18 +70,16 @@ function Layout() {
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}
         />
-
         <Route
           path="/register"
           element={!user ? <Register /> : <Navigate to="/" />}
         />
-
         <Route
           path="/forgot-password"
           element={!user ? <ForgotPassword /> : <Navigate to="/" />}
         />
 
-        {/* ✅ FIXED: Reset Password is an open route to allow oobCode parsing */}
+        {/* ✅ OPEN ROUTE: Allows Firebase to parse oobCode from the URL */}
         <Route
           path="/reset-password"
           element={<ResetPassword />}
@@ -93,79 +90,24 @@ function Layout() {
           path="/"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
+        <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+        <Route path="/pitch" element={user ? <Pitch /> : <Navigate to="/login" />} />
+        <Route path="/evaluation" element={user ? <Evaluation /> : <Navigate to="/login" />} />
+        <Route path="/feedback" element={user ? <Feedback /> : <Navigate to="/login" />} />
+        <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/login" />} />
+        <Route path="/matrix" element={user ? <Matrix /> : <Navigate to="/login" />} />
+        <Route path="/funding" element={user ? <Funding /> : <Navigate to="/login" />} />
+        <Route path="/trl" element={user ? <TRL /> : <Navigate to="/login" />} />
+        <Route path="/mentor" element={user ? <MentorReview /> : <Navigate to="/login" />} />
+        <Route path="/chat" element={user ? <Chat /> : <Navigate to="/login" />} />
 
-        <Route
-          path="/profile"
-          element={user ? <Profile /> : <Navigate to="/login" />}
-        />
+        {/* Mentor Routes */}
+        <Route path="/mentor-dashboard" element={user ? <MentorDashboard /> : <Navigate to="/login" />} />
+        <Route path="/mentor/profile/:id" element={user ? <MentorProfileDetails /> : <Navigate to="/login" />} />
+        <Route path="/mentor/chats" element={user ? <MentorChatList /> : <Navigate to="/login" />} />
+        <Route path="/mentor/chat/:chatId" element={user ? <MentorChatPage /> : <Navigate to="/login" />} />
 
-        <Route
-          path="/pitch"
-          element={user ? <Pitch /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/evaluation"
-          element={user ? <Evaluation /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/feedback"
-          element={user ? <Feedback /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/analytics"
-          element={user ? <Analytics /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/matrix"
-          element={user ? <Matrix /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/funding"
-          element={user ? <Funding /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/trl"
-          element={user ? <TRL /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor"
-          element={user ? <MentorReview /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/chat"
-          element={user ? <Chat /> : <Navigate to="/login" />}
-        />
-
-        {/* ================= Mentor Routes ================= */}
-        <Route
-          path="/mentor-dashboard"
-          element={user ? <MentorDashboard /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor/profile/:id"
-          element={user ? <MentorProfileDetails /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor/chats"
-          element={user ? <MentorChatList /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/mentor/chat/:chatId"
-          element={user ? <MentorChatPage /> : <Navigate to="/login" />}
-        />
-
-        {/* CATCH-ALL REDIRECT */}
+        {/* CATCH-ALL */}
         <Route 
           path="*" 
           element={<Navigate to={user ? "/" : "/login"} />} 
@@ -184,15 +126,14 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
+    // 1. Check if we are currently on a reset-password link IMMEDIATELY
+    const isResetLink = window.location.hash.includes("reset-password");
+
     const timer = setTimeout(() => {
       setShowSplash(false);
 
-      // ✅ RESET PASSWORD GUARD
-      // If the user lands on the reset password link, stop the splash screen
-      // from forcing a redirect to #/login or #/intro.
-      if (window.location.hash.includes("reset-password")) {
-        return; 
-      }
+      // ✅ 2. GUARD: If it's a reset link, DO NOT redirect to login/intro
+      if (isResetLink) return;
 
       const introSeen = localStorage.getItem("introSeen");
 
@@ -200,8 +141,8 @@ export default function App() {
         localStorage.setItem("introSeen", "true");
         window.location.hash = "#/intro";
       } else {
-        // Only redirect if there is no current hash or we are at the root
-        if (!window.location.hash || window.location.hash === "#/") {
+        // 3. Only set default hash if user is at the very root base
+        if (!window.location.hash || window.location.hash === "#/" || window.location.hash === "") {
           window.location.hash = "#/login";
         }
       }
