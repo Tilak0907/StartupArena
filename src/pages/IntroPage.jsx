@@ -13,7 +13,7 @@ export default function IntroPage() {
 
       <p>
         StartupArena is a platform where founders can submit startup ideas
-        and can receive algorithm based evaluation. Mentors can review the startup
+        and can receive machine learning algorithm based evaluation. Mentors can review the startup
         proposals and provide guidance to help founders improve their ideas.
       </p>
 

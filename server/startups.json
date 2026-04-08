@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Airbnb",
+    "painPoints": "Expensive hotel stays, lack of authentic local travel experiences, underutilized extra space in residential homes.",
+    "problem": "Short-term lodging is overpriced and impersonal, while homeowners have no secure way to monetize their vacant space.",
+    "solution": "A peer-to-peer marketplace that allows individuals to list their homes for travelers seeking unique, affordable accommodations.",
+    "market": "Global travelers (budget and luxury) and homeowners with available space in urban and tourist destinations.",
+    "revenue": "Service fees charged to both hosts (typically 3%) and guests (around 14%) per successful booking."
+  },
+  {
+    "name": "Stripe",
+    "painPoints": "Complex payment gateway setups, high technical barriers for online payments, legacy banking systems slowing down internet commerce.",
+    "problem": "Integrating online payments used to take weeks of legal work and complex coding, hindering the growth of the internet economy.",
+    "solution": "Developer-first payment infrastructure and APIs that allow any business to accept payments instantly with just a few lines of code.",
+    "market": "E-commerce startups, SaaS companies, and global internet platforms like Amazon and Shopify.",
+    "revenue": "Transaction-based fee (typically 2.9% + 30¢) on every successful payment processed."
+  },
+  {
+    "name": "Slack",
+    "painPoints": "Information silos, excessive internal emails, difficulty tracking team communications and file sharing.",
+    "problem": "Modern team communication is fragmented across emails and multiple apps, leading to lost context and decreased productivity.",
+    "solution": "A centralized, channel-based communication platform that integrates with thousands of third-party business tools.",
+    "market": "Remote teams, tech startups, and large enterprises requiring real-time collaboration and transparency.",
+    "revenue": "Freemium model with per-user monthly/yearly subscription tiers for message history and advanced features."
+  },
+  {
+    "name": "Duolingo",
+    "painPoints": "Expensive language tutors, boring textbooks, lack of motivation for consistent daily practice.",
+    "problem": "Learning a new language is often costly and time-consuming, with high dropout rates due to lack of engagement.",
+    "solution": "A gamified language learning app that uses bite-sized lessons, streaks, and rewards to make learning addictive and free.",
+    "market": "Global students, hobbyists, and professionals seeking to learn a new language on mobile devices.",
+    "revenue": "Subscription-based 'Super Duolingo' (ad-free), display advertising for free users, and English proficiency test fees."
+  },
+  {
+    "name": "Peloton",
+    "painPoints": "Inconvenience of commuting to gyms, lack of motivation in solo home workouts, expensive boutique fitness classes.",
+    "problem": "People struggle to find time for the gym but find home workouts uninspiring without the energy of a live group class.",
+    "solution": "High-end connected fitness hardware (bikes/treads) paired with a live-streamed and on-demand boutique class subscription.",
+    "market": "Affluent fitness enthusiasts and busy professionals seeking a premium gym experience at home.",
+    "revenue": "High-margin hardware sales (Bikes/Treads) plus a recurring monthly digital membership fee."
+  }
+]

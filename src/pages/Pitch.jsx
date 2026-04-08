@@ -14,6 +14,7 @@ import "../styles/Pitch.css";
 
 export default function Pitch() {
   const [data, setData] = useState({
+    painPoints: "", // ✅ Moved to top of state
     problem: "",
     solution: "",
     market: "",
@@ -50,6 +51,7 @@ export default function Pitch() {
         const pitchData = existing.data();
 
         setData({
+          painPoints: pitchData.painPoints || "",
           problem: pitchData.problem || "",
           solution: pitchData.solution || "",
           market: pitchData.market || "",
@@ -70,6 +72,7 @@ export default function Pitch() {
 
     // STRICT MANDATORY CHECK
     if (
+      !data.painPoints.trim() ||
       !data.problem.trim() ||
       !data.solution.trim() ||
       !data.market.trim() ||
@@ -83,6 +86,7 @@ export default function Pitch() {
       setLoading(true);
 
       const payload = {
+        painPoints: data.painPoints.trim(),
         problem: data.problem.trim(),
         solution: data.solution.trim(),
         market: data.market.trim(),
@@ -103,7 +107,6 @@ export default function Pitch() {
         showToast("Pitch submitted successfully!", "success");
       }
 
-      // Delay navigation slightly so user can see the success toast
       setTimeout(() => navigate("/evaluation"), 1500);
 
     } catch (err) {
@@ -116,7 +119,6 @@ export default function Pitch() {
 
   return (
     <div className="container pitch-page">
-      {/* ── Toast UI ── */}
       {toast.show && (
         <div className={`toast-message ${toast.type}`}>
           {toast.message}
@@ -127,6 +129,15 @@ export default function Pitch() {
 
       <div className="pitch-layout">
         <div className="card">
+          {/* ✅ Placed before Problem Statement with Disclaimer */}
+          <label>Customer Pain Points * <small>(Mandatory but not considered for evaluation)</small></label>
+          <textarea
+            className="field-lg"
+            value={data.painPoints}
+            placeholder="What specific issues do your customers face?"
+            onChange={(e) => setData({ ...data, painPoints: e.target.value })}
+          />
+
           <label>Problem Statement *</label>
           <textarea
             className="field-lg"
@@ -166,7 +177,8 @@ export default function Pitch() {
 
         <div className="card tips">
           <h3>Pitching Tips</h3>
-          <p><strong>Problem:</strong> Identify a clear, real-world pain point.</p>
+          <p><strong>Pain Points:</strong> Be specific about how the problem hurts the customer (Required for context).</p>
+          <p><strong>Problem:</strong> Identify a clear, real-world pain point that your business addresses.</p>
           <p><strong>Solution:</strong> Explain what makes it unique.</p>
           <p><strong>Market:</strong> Define who will pay and why.</p>
           <p><strong>Revenue:</strong> Mention pricing or monetization strategy.</p>
